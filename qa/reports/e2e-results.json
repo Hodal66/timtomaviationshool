@@ -107,12 +107,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3124,
+                      "duration": 2881,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:45.255Z",
+                      "startTime": "2026-11-12T22:51:47.776Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -141,12 +141,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1710,
+                      "duration": 1545,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:48.489Z",
+                      "startTime": "2026-11-12T22:51:50.757Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -175,12 +175,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 776,
+                      "duration": 739,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:50.208Z",
+                      "startTime": "2026-11-12T22:51:52.314Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -209,12 +209,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1125,
+                      "duration": 1112,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:51.817Z",
+                      "startTime": "2026-11-12T22:51:53.767Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -251,12 +251,12 @@
                           "workerIndex": 0,
                           "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 817,
+                          "duration": 698,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2026-11-12T22:25:50.992Z",
+                          "startTime": "2026-11-12T22:51:53.061Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -295,12 +295,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 945,
+                      "duration": 833,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:52.951Z",
+                      "startTime": "2026-11-12T22:51:54.886Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -329,12 +329,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1490,
+                      "duration": 1393,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:53.910Z",
+                      "startTime": "2026-11-12T22:51:55.729Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -363,12 +363,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 626,
+                      "duration": 623,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:55.412Z",
+                      "startTime": "2026-11-12T22:51:57.130Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -397,12 +397,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 682,
+                      "duration": 631,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:56.046Z",
+                      "startTime": "2026-11-12T22:51:57.763Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -439,7 +439,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 977,
+                      "duration": 682,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m38\u001b[39m\nReceived:   \u001b[31m37\u001b[39m",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m38\u001b[39m\nReceived:   \u001b[31m37\u001b[39m\n    at /home/user/timtomaviationshool/tests/e2e/01-public.spec.ts:82:25",
@@ -463,7 +463,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:56.737Z",
+                      "startTime": "2026-11-12T22:51:58.402Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -503,12 +503,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 121,
+                      "duration": 117,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:58.187Z",
+                      "startTime": "2026-11-12T22:51:59.486Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -537,12 +537,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 70,
+                      "duration": 64,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:58.345Z",
+                      "startTime": "2026-11-12T22:51:59.635Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -571,12 +571,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1816,
+                      "duration": 1103,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:25:58.427Z",
+                      "startTime": "2026-11-12T22:51:59.709Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -605,12 +605,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 33,
+                      "duration": 20,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:00.308Z",
+                      "startTime": "2026-11-12T22:52:00.874Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -656,12 +656,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 925,
+                      "duration": 960,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:00.352Z",
+                      "startTime": "2026-11-12T22:52:00.904Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -690,12 +690,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1588,
+                      "duration": 1503,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:01.285Z",
+                      "startTime": "2026-11-12T22:52:01.872Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -724,12 +724,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 428,
+                      "duration": 438,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:02.882Z",
+                      "startTime": "2026-11-12T22:52:03.385Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -781,7 +781,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:03.320Z",
+                      "startTime": "2026-11-12T22:52:03.832Z",
                       "annotations": [
                         {
                           "type": "status",
@@ -828,12 +828,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1741,
+                      "duration": 1670,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:03.330Z",
+                      "startTime": "2026-11-12T22:52:03.842Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -862,12 +862,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4247,
+                      "duration": 3245,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:05.080Z",
+                      "startTime": "2026-11-12T22:52:05.519Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -896,12 +896,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3691,
+                      "duration": 3617,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:09.336Z",
+                      "startTime": "2026-11-12T22:52:08.773Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -930,12 +930,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 988,
+                      "duration": 1012,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:13.034Z",
+                      "startTime": "2026-11-12T22:52:12.397Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -964,12 +964,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3079,
+                      "duration": 3036,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:14.030Z",
+                      "startTime": "2026-11-12T22:52:13.417Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1021,7 +1021,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:17.116Z",
+                      "startTime": "2026-11-12T22:52:16.466Z",
                       "annotations": [
                         {
                           "type": "status",
@@ -1068,12 +1068,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1051,
+                      "duration": 954,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:17.122Z",
+                      "startTime": "2026-11-12T22:52:16.473Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1119,12 +1119,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 415,
+                      "duration": 427,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:18.191Z",
+                      "startTime": "2026-11-12T22:52:17.444Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1153,12 +1153,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 613,
+                      "duration": 599,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:18.616Z",
+                      "startTime": "2026-11-12T22:52:17.880Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1187,12 +1187,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2033,
+                      "duration": 3467,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:19.240Z",
+                      "startTime": "2026-11-12T22:52:18.489Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1221,12 +1221,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10434,
+                      "duration": 9259,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:21.281Z",
+                      "startTime": "2026-11-12T22:52:21.964Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1255,12 +1255,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4217,
+                      "duration": 3711,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:31.725Z",
+                      "startTime": "2026-11-12T22:52:31.231Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1289,12 +1289,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 223,
+                      "duration": 219,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:35.954Z",
+                      "startTime": "2026-11-12T22:52:34.951Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1323,12 +1323,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 126,
+                      "duration": 107,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:36.184Z",
+                      "startTime": "2026-11-12T22:52:35.176Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1357,12 +1357,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 467,
+                      "duration": 397,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:36.316Z",
+                      "startTime": "2026-11-12T22:52:35.289Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1391,12 +1391,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1348,
+                      "duration": 1127,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:36.791Z",
+                      "startTime": "2026-11-12T22:52:35.693Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1425,12 +1425,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1940,
+                      "duration": 1884,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:38.146Z",
+                      "startTime": "2026-11-12T22:52:36.831Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1459,12 +1459,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 566,
+                      "duration": 510,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:40.095Z",
+                      "startTime": "2026-11-12T22:52:38.726Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1510,12 +1510,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1846,
+                      "duration": 1731,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:40.675Z",
+                      "startTime": "2026-11-12T22:52:39.247Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1544,12 +1544,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1079,
+                      "duration": 784,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:42.528Z",
+                      "startTime": "2026-11-12T22:52:40.985Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1578,12 +1578,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3117,
+                      "duration": 2985,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:43.616Z",
+                      "startTime": "2026-11-12T22:52:41.778Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1612,12 +1612,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1198,
+                      "duration": 1079,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:46.740Z",
+                      "startTime": "2026-11-12T22:52:44.774Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1646,12 +1646,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3967,
+                      "duration": 5850,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:47.947Z",
+                      "startTime": "2026-11-12T22:52:45.860Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1680,12 +1680,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1626,
+                      "duration": 1484,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:51.922Z",
+                      "startTime": "2026-11-12T22:52:51.717Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1714,12 +1714,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 748,
+                      "duration": 750,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:53.558Z",
+                      "startTime": "2026-11-12T22:52:53.213Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1748,12 +1748,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 979,
+                      "duration": 832,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:54.315Z",
+                      "startTime": "2026-11-12T22:52:53.971Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1799,12 +1799,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1248,
+                      "duration": 1182,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:55.316Z",
+                      "startTime": "2026-11-12T22:52:54.816Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1833,12 +1833,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4218,
+                      "duration": 4139,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:26:56.571Z",
+                      "startTime": "2026-11-12T22:52:56.007Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1867,12 +1867,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1061,
+                      "duration": 1010,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:00.798Z",
+                      "startTime": "2026-11-12T22:53:00.155Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1901,12 +1901,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3560,
+                      "duration": 3515,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:01.868Z",
+                      "startTime": "2026-11-12T22:53:01.172Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1935,12 +1935,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4448,
+                      "duration": 4229,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:05.441Z",
+                      "startTime": "2026-11-12T22:53:04.695Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1969,12 +1969,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 615,
+                      "duration": 501,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:09.899Z",
+                      "startTime": "2026-11-12T22:53:08.935Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2003,12 +2003,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1817,
+                      "duration": 2307,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:10.521Z",
+                      "startTime": "2026-11-12T22:53:09.442Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2060,7 +2060,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:12.345Z",
+                      "startTime": "2026-11-12T22:53:11.758Z",
                       "annotations": [
                         {
                           "type": "status",
@@ -2107,12 +2107,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2246,
+                      "duration": 2160,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:12.352Z",
+                      "startTime": "2026-11-12T22:53:11.764Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2141,12 +2141,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 12236,
+                      "duration": 11911,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:14.607Z",
+                      "startTime": "2026-11-12T22:53:13.935Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2192,12 +2192,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 52,
+                      "duration": 49,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:26.878Z",
+                      "startTime": "2026-11-12T22:53:25.882Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2226,12 +2226,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 61,
+                      "duration": 57,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:26.940Z",
+                      "startTime": "2026-11-12T22:53:25.938Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2254,7 +2254,7 @@
                   "annotations": [
                     {
                       "type": "note",
-                      "description": "Secure flag=true (false on http://localhost; must be verified on HTTPS production), expires=1794551247.75915"
+                      "description": "Secure flag=true (false on http://localhost; must be verified on HTTPS production), expires=1794552807.001189"
                     }
                   ],
                   "expectedStatus": "passed",
@@ -2265,16 +2265,16 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 927,
+                      "duration": 1191,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:27.010Z",
+                      "startTime": "2026-11-12T22:53:26.002Z",
                       "annotations": [
                         {
                           "type": "note",
-                          "description": "Secure flag=true (false on http://localhost; must be verified on HTTPS production), expires=1794551247.75915"
+                          "description": "Secure flag=true (false on http://localhost; must be verified on HTTPS production), expires=1794552807.001189"
                         }
                       ],
                       "attachments": []
@@ -2309,12 +2309,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3640,
+                      "duration": 3427,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:27.945Z",
+                      "startTime": "2026-11-12T22:53:27.202Z",
                       "annotations": [
                         {
                           "type": "matrix",
@@ -2348,12 +2348,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 22,
+                      "duration": 23,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:31.593Z",
+                      "startTime": "2026-11-12T22:53:30.637Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2376,7 +2376,7 @@
                   "annotations": [
                     {
                       "type": "note",
-                      "description": "submit status 200 {\"ok\":true,\"reference\":\"TAS-2611-GKDGV\"}"
+                      "description": "submit status 200 {\"ok\":true,\"reference\":\"TAS-2611-BRAEY\"}"
                     }
                   ],
                   "expectedStatus": "passed",
@@ -2387,16 +2387,16 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2559,
+                      "duration": 2442,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:31.621Z",
+                      "startTime": "2026-11-12T22:53:30.667Z",
                       "annotations": [
                         {
                           "type": "note",
-                          "description": "submit status 200 {\"ok\":true,\"reference\":\"TAS-2611-GKDGV\"}"
+                          "description": "submit status 200 {\"ok\":true,\"reference\":\"TAS-2611-BRAEY\"}"
                         }
                       ],
                       "attachments": []
@@ -2426,12 +2426,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 42,
+                      "duration": 43,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:34.188Z",
+                      "startTime": "2026-11-12T22:53:33.119Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2465,12 +2465,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 96,
+                      "duration": 69,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:34.239Z",
+                      "startTime": "2026-11-12T22:53:33.173Z",
                       "annotations": [
                         {
                           "type": "note",
@@ -2504,12 +2504,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2397,
+                      "duration": 2309,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:34.343Z",
+                      "startTime": "2026-11-12T22:53:33.248Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2538,12 +2538,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 55,
+                      "duration": 50,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T22:27:36.750Z",
+                      "startTime": "2026-11-12T22:53:35.566Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2559,13 +2559,1478 @@
           ]
         }
       ]
+    },
+    {
+      "title": "07-a11y-responsive.spec.ts",
+      "file": "07-a11y-responsive.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Accessibility (NFT-05, WCAG 2.2 AA) and responsive layout (NFT-04)",
+          "file": "07-a11y-responsive.spec.ts",
+          "line": 12,
+          "column": 6,
+          "specs": [
+            {
+              "title": "A11Y axe desktop /",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1736,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:35.665Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-f822affba266515b4d0b",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /courses",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2184,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:37.409Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-13cc85b79e3bd697099c",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /how-to-apply",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1450,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:39.604Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-a5a5bcfa544e764c1557",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /apply?course=personnel-licensing",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1530,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:41.063Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-05c8efa7dabfd89664bd",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /contact",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1501,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:42.601Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-40d7cbf6eb10598b15ff",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /about",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1478,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:44.112Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-6b5b227c2ef297ae3f87",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /track",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1417,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:45.599Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-d1cc22fa82547757960f",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /verify",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1270,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:47.023Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-b9b3fdbcec42c4e49f32",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /login",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1304,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:48.302Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-92e464e6d9a02631bd86",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1541,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:49.613Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-d133a0122c44ba8f98a5",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /courses",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2101,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:51.165Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-89a054250d336ab462ce",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /how-to-apply",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1465,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:53.274Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-e39c61a7ff817d981ed7",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /apply?course=personnel-licensing",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1491,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:54.747Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-e68b9cd829b21159ed0d",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /contact",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1539,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:56.245Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-dbca6e375b48ceee1e31",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /about",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1414,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:57.792Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-c649666e93d78b15a227",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /track",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1471,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:53:59.215Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-12181411ed6637a0c44d",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /verify",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1244,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:00.693Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-1d8a9836e5cbb85d78e9",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /login",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1255,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:01.944Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-fa5167f18fc0f13f0a23",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y staff dashboard pages (axe, desktop)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7407,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:03.206Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-f1eb7f0757c5f05adc12",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 21,
+              "column": 7
+            },
+            {
+              "title": "A11Y keyboard: skip link or logical tab order reaches nav, main content and the form; focus is visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "A|Skip to content|true ; A|Timtom Aviation School, |true ; A|Home|true ; A|About|true ; A|Courses|true ; A|Admissions|true ; A|Gallery|true ; A|Contact|true ; A|Apply Now|true ; SELECT|Select a programmeAdvanc|true ; INPUT||true ; INPUT||true ; SELECT|January 2027 (next intak|true ; BUTTON|Continue|true"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 497,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:10.622Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "A|Skip to content|true ; A|Timtom Aviation School, |true ; A|Home|true ; A|About|true ; A|Courses|true ; A|Admissions|true ; A|Gallery|true ; A|Contact|true ; A|Apply Now|true ; SELECT|Select a programmeAdvanc|true ; INPUT||true ; INPUT||true ; SELECT|January 2027 (next intak|true ; BUTTON|Continue|true"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-af776eb4cbabb459f7bc",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 27,
+              "column": 7
+            },
+            {
+              "title": "A11Y reduced motion: animations are suppressed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "infinite animations running: 0; unrevealed: 0"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1044,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:11.126Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "infinite animations running: 0; unrevealed: 0"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-492f45a882d85597dead",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 33,
+              "column": 7
+            },
+            {
+              "title": "RESP 360px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1053,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:12.178Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-1319c85138737ed5691f",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 360px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 954,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:13.240Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-0a3a6acd1efa03cb19eb",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 360px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 882,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:14.204Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-2dc1a64c4d4bf5ad0d36",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 390px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1020,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:15.094Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-25c778fbeec74c6034a2",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 390px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 946,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:16.121Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-86befa535a4b2bba8843",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 390px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 924,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:17.075Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-96dfa5c0f9bc5f570996",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 430px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1081,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:18.007Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-8b7b6a3c5aa094118503",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 430px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 967,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:19.095Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-189388a0e4bd0e77964e",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 430px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 932,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:20.069Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-702bebaa541f06e9e73e",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 768px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1254,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:21.008Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-0e3ffd61985b0b16f0c7",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 768px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 965,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:22.270Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-5baa6569536f4dd35b40",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 768px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 899,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:23.243Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-1739c66e3b3ca14f8964",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1024px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1157,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:24.148Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-89ebff72221a4645442b",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1024px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 924,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:25.314Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-54ffdea2eb4104abf03d",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1024px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 982,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:26.246Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-ba5d3ae2e7a87a8a10fc",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1366px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1287,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:27.235Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-454a634f827750d38860",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1366px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 917,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:28.530Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-1fbdb794c727d07d367f",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1366px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 959,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:29.455Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-b96df7700addc89c4f5c",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1920px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1311,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:30.422Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-9acd522f5c44518e9f84",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1920px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1088,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:31.747Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-a8c82c1638e432e5ee7c",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1920px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 984,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T22:54:32.852Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-7cbd9d7c04c756388eab",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            }
+          ]
+        }
+      ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-12T22:25:44.618Z",
-    "duration": 112276.972,
-    "expected": 60,
+    "startTime": "2026-11-12T22:51:47.248Z",
+    "duration": 166684.21099999998,
+    "expected": 102,
     "skipped": 3,
     "unexpected": 1,
     "flaky": 0

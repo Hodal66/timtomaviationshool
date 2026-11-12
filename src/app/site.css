@@ -1,7 +1,7 @@
 /* TAS-One public website. White-dominant, aviation-inspired. Tokens first. */
 .site{
   --blue:#0B4DA2; --navy:#0A2240; --orange:#F7893B; --white:#fff; --bg:#F7F9FC; --sky:#EAF2FC;
-  --ink:#172B45; --mute:#68778C; --line:#E3EAF3; --ok:#157F4B; --bad:#B3261E; --warn:#9A5B00;
+  --ink:#172B45; --mute:#566579; --line:#E3EAF3; --ok:#0F6B3E; --bad:#B3261E; --warn:#9A5B00;
   --r-sm:10px; --r:16px; --r-lg:28px;
   --sh1:0 1px 2px rgba(10,34,64,.05),0 4px 16px rgba(10,34,64,.06); --sh2:0 2px 4px rgba(10,34,64,.06),0 18px 44px rgba(10,34,64,.14);
   --font-h:Poppins,system-ui,sans-serif; --font-b:Inter,system-ui,sans-serif;
@@ -150,6 +150,7 @@ html{scroll-padding-top:92px}
 .ft2 img.fl{height:50px;width:auto;background:#fff;padding:6px 10px;border-radius:10px;margin-bottom:18px}
 .ft2 h4{color:#fff;font-size:1rem;margin-bottom:16px;letter-spacing:.02em}.ft2 ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .ft2 a{color:#B7C5DA;text-decoration:none;transition:color .2s}.ft2 a:hover{color:#fff}
+.ft2 ul a,.ft2 .legal a{display:inline-flex;align-items:center;min-height:32px}
 .ft2 address{font-style:normal;display:grid;gap:10px}
 .ft2 .soc{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.ft2 .soc a{padding:8px 14px;border:1px solid rgba(255,255,255,.22);border-radius:99px;font-size:.9rem}.ft2 .soc a:hover{border-color:#fff}
 .ft2 .legal{border-top:1px solid rgba(255,255,255,.1);padding-block:22px;font-size:.9rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -239,3 +240,4 @@ html{scroll-padding-top:92px}
 .gx{position:absolute;top:-14px;right:-6px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:var(--navy);font-size:1.6rem;cursor:pointer;z-index:2}
 .gal-more{margin-top:22px}
 @media (prefers-reduced-motion:reduce){.ggrid li{transition:none}.ggrid li:hover{transform:none}}
+.wz[aria-busy="true"]{min-height:min(980px,120vh)}

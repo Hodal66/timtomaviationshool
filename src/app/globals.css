@@ -1,5 +1,5 @@
 :root{--bg:#F4F7FB;--surface:#fff;--fg:#0A2240;--muted:#5B6B82;--line:#DDE5F0;--blue:#0B4DA2;--blue-soft:#E4EEFB;--navy:#0A2240;--orange:#F7893B;
---ok:#157F4B;--ok-soft:#DDF3E6;--warn:#9A5B00;--warn-soft:#FFF0CC;--bad:#B3261E;--bad-soft:#FBE3E1;--btn-fg:#fff}
+--ok:#0F6B3E;--ok-soft:#DDF3E6;--warn:#9A5B00;--warn-soft:#FFF0CC;--bad:#B3261E;--bad-soft:#FBE3E1;--btn-fg:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#0A1424;--surface:#101D33;--fg:#E8EEF8;--muted:#97A7C0;--line:#223656;--blue:#5B9BEF;--blue-soft:#162E52;--orange:#F7993F;
 --ok:#5CD08F;--ok-soft:#10301F;--warn:#F2C25C;--warn-soft:#3A2E0E;--bad:#FF8A80;--bad-soft:#3E1714;--btn-fg:#06152B;color-scheme:dark}}
 *{box-sizing:border-box}

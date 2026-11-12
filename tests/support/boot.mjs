@@ -8,7 +8,7 @@ const env = { ...process.env, RATE_LIMIT_SCALE: "50", AUTH_SECRET: process.env.A
 execSync(`psql "${url.split("?")[0]}" -q -c "DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;"`, { stdio: "inherit", env });
 execSync("npx prisma migrate deploy", { stdio: "ignore", env });
 execSync("npx prisma db seed", { stdio: "ignore", env });
-import("node:fs").then((f) => f.rmSync("tests/.tmp/state.json", { force: true }));
+import("node:fs").then((f) => { f.rmSync("tests/.tmp/state.json", { force: true }); f.rmSync("qa/evidence/axe-results.jsonl", { force: true }); });
 startSmtpSink(2526, "tests/.tmp/mail.jsonl");
 execSync("npx next build", { stdio: "ignore", env });
 const srv = spawn("npx", ["next", "start", "-p", String(process.env.QA_PORT ?? 3100)], { stdio: "inherit", env });
