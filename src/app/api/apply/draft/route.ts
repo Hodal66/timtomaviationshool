@@ -1,3 +1,4 @@
+import { limited, clientIp } from "@/lib/ratelimit";
 import { randomBytes } from "node:crypto";
 import { db } from "@/lib/db";
 import type { ApplyData } from "@/lib/apply";
@@ -12,6 +13,7 @@ const json = (b: unknown, status = 200) => Response.json(b, { status, headers: {
 
 /** Create or update a draft. The random token is the only key, so applicants can continue on any device from their link. */
 export async function POST(req: Request) {
+  if (limited(`apply-draft:${clientIp(req.headers)}`, 120, 60e3)) return Response.json({ ok: false, error: "Too many requests. Wait a minute and try again." }, { status: 429, headers: { "retry-after": "60" } });
   const b = await req.json().catch(() => null);
   if (!b) return json({ error: "Invalid request" }, 400);
   const data = clean(b.data), step = Number.isInteger(b.step) ? Math.max(0, Math.min(6, b.step)) : 0;

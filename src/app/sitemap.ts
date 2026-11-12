@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { db } from "@/lib/db";
 import { SITE } from "@/lib/site";
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const courses = await db.programme.findMany({ where: { status: "PUBLISHED", slug: { not: null } }, select: { slug: true, updatedAt: true } }).catch(() => []);

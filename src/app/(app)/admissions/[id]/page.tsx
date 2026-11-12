@@ -75,6 +75,7 @@ async function decide(fd: FormData) {
 
 export default async function Detail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  { const me = await getSession(); if (!me || !can.viewApplicants(me.role)) redirect("/dashboard"); }
   const a = await db.applicant.findUnique({ where: { id }, include: { programme: true, intake: true, branch: true, documents: true, invoices: true, events: { orderBy: { createdAt: "desc" } }, assignedTo: true, uploads: { select: { id: true, kind: true, filename: true, size: true, mime: true } }, notifications: { orderBy: { createdAt: "desc" }, take: 20 } } });
   if (!a) notFound();
   const [branches, intakes] = await Promise.all([db.branch.findMany({ orderBy: { code: "asc" } }), db.intake.findMany({ orderBy: { startsOn: "asc" } })]);

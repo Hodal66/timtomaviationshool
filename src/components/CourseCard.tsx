@@ -9,8 +9,8 @@ export type CardCourse = { id: string; slug: string; code: string; name: string;
 export function CourseImage({ c, sizes, priority }: { c: Pick<CardCourse, "heroImage" | "visualTheme" | "code" | "name">; sizes: string; priority?: boolean }) {
   const photo = photoFor(c);
   if (photo) {
-    return photo.src.startsWith("/api/") ? <img src={photo.src} alt="" loading={priority ? "eager" : "lazy"} decoding="async" />
-      : <Image src={photo.src} alt="" fill sizes={sizes} priority={priority} style={{ objectFit: "cover" }} />;
+    return photo.src.startsWith("/api/") ? <img src={photo.src} alt={c.name} loading={priority ? "eager" : "lazy"} decoding="async" />
+      : <Image src={photo.src} alt={c.name} fill sizes={sizes} priority={priority} style={{ objectFit: "cover" }} />;
   }
   const t = themeOf(c.visualTheme);
   return <span className="art-fill" style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", background: `radial-gradient(120% 90% at 20% 0%, ${t.line} 0%, ${t.dark} 72%)` }}><span style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 1px,transparent 1px 22px)" }} /><span style={{ position: "relative", width: "58%" }}><Motif theme={c.visualTheme} /></span></span>;

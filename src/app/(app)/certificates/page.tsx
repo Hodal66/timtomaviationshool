@@ -1,6 +1,10 @@
+import { redirect } from "next/navigation";
+import { getSession } from "@/lib/session";
+import { can } from "@/lib/perm";
 import { db } from "@/lib/db";
 export const dynamic = "force-dynamic";
 export default async function Certificates() {
+  const me = await getSession(); if (!me || !can.reports(me.role)) redirect("/dashboard");
   const rows = await db.certificate.findMany({ include: { holder: true, programme: true }, orderBy: { issuedOn: "desc" } });
   return (<><div className="top"><h1>Certificates</h1><p>Public verification at <a href="/verify">/verify</a></p></div>
     <div className="panel tbl"><table><thead><tr><th>Number</th><th>Holder</th><th>Programme</th><th>Issuer</th><th>Status</th></tr></thead><tbody>

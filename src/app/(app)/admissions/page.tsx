@@ -17,6 +17,7 @@ async function advance(fd: FormData) {
 }
 
 export default async function Admissions({ searchParams }: { searchParams: Promise<{ q?: string; branch?: string; course?: string; intake?: string; e?: string }> }) {
+  const me = await getSession(); if (!me || !can.viewApplicants(me.role)) redirect("/dashboard");
   const sp = await searchParams;
   const q = sp.q?.trim();
   const [apps, branches, courses, intakes] = await Promise.all([

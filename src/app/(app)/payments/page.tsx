@@ -31,7 +31,7 @@ async function verify(fd: FormData) {
 }
 
 export default async function Payments({ searchParams }: { searchParams: Promise<{ e?: string }> }) {
-  const { e } = await searchParams; const me = await getSession();
+  const { e } = await searchParams; const me = await getSession(); if (!me || !can.viewApplicants(me.role)) redirect("/dashboard");
   const [rows, pending] = await Promise.all([
     db.payment.findMany({ include: { applicant: true }, orderBy: { paidAt: "desc" }, take: 100 }),
     db.invoice.findMany({ where: { status: "PENDING" }, include: { applicant: true }, orderBy: { createdAt: "asc" } }),

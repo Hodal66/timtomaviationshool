@@ -1,0 +1,139 @@
+{
+  "executedAt": "2026-11-12T22:27:26.737Z",
+  "steps": [
+    {
+      "step": 1,
+      "what": "Administrator creates a test course",
+      "expected": "Draft record exists",
+      "actual": {
+        "programmeId": "cmwe4bp5l007o7drnn28ep6au",
+        "status": "DRAFT"
+      },
+      "ok": true,
+      "at": "2026-11-12T22:27:15.800Z"
+    },
+    {
+      "step": 2,
+      "what": "Course saved in the central database",
+      "expected": "name, fee stored",
+      "actual": {
+        "name": "QA E2E Programme 1794522434647",
+        "feeRwf": 250000
+      },
+      "ok": true,
+      "at": "2026-11-12T22:27:15.801Z"
+    },
+    {
+      "step": 3,
+      "what": "Authorised user approves",
+      "expected": "Status APPROVED",
+      "actual": "APPROVED",
+      "ok": true,
+      "at": "2026-11-12T22:27:18.205Z"
+    },
+    {
+      "step": 4,
+      "what": "Course published",
+      "expected": "Status PUBLISHED",
+      "actual": "PUBLISHED",
+      "ok": true,
+      "at": "2026-11-12T22:27:19.196Z"
+    },
+    {
+      "step": 5,
+      "what": "Public catalogue displays it",
+      "expected": "1 card",
+      "actual": 1,
+      "ok": true,
+      "at": "2026-11-12T22:27:20.103Z"
+    },
+    {
+      "step": 6,
+      "what": "Course page shows correct information",
+      "expected": "title and fee",
+      "actual": {
+        "h1": "QA E2E Programme 1794522434647",
+        "url": "http://localhost:3100/courses/qa-e2e-programme-1794522434647"
+      },
+      "ok": true,
+      "at": "2026-11-12T22:27:20.268Z"
+    },
+    {
+      "step": 7,
+      "what": "Apply Now selects the correct programme",
+      "expected": "qa-e2e-programme-1794522434647",
+      "actual": "qa-e2e-programme-1794522434647",
+      "ok": true,
+      "at": "2026-11-12T22:27:20.408Z"
+    },
+    {
+      "step": 8,
+      "what": "Visitor submits an application",
+      "expected": "API ok, reference",
+      "actual": {
+        "api": "POST /api/apply/submit",
+        "status": 200,
+        "response": {
+          "ok": true,
+          "reference": "TAS-2611-942GT"
+        },
+        "applicationId": "cmwe4bvks00877drnu3siok4d"
+      },
+      "ok": true,
+      "at": "2026-11-12T22:27:24.065Z",
+      "programmeId": "cmwe4bp5l007o7drnn28ep6au",
+      "applicationId": "cmwe4bvks00877drnu3siok4d"
+    },
+    {
+      "step": 9,
+      "what": "Application appears in the admissions dashboard",
+      "expected": "card visible",
+      "actual": 1,
+      "ok": true,
+      "at": "2026-11-12T22:27:24.132Z"
+    },
+    {
+      "step": 10,
+      "what": "Officer verifies documents",
+      "expected": "3 VERIFIED",
+      "actual": 3,
+      "ok": true,
+      "at": "2026-11-12T22:27:25.800Z"
+    },
+    {
+      "step": 11,
+      "what": "Status changes through the workflow",
+      "expected": "DOCUMENTS_VERIFIED",
+      "actual": "DOCUMENTS_VERIFIED",
+      "ok": true,
+      "at": "2026-11-12T22:27:26.583Z"
+    },
+    {
+      "step": 12,
+      "what": "Applicant sees the updated status",
+      "expected": "Documents verified",
+      "actual": "QA E2E Programme 1794522434647\n\nStart January 2027 · Goma · Weekday · Ref TAS-2611-942GT\n\nNext: Your documents are verif",
+      "ok": true,
+      "at": "2026-11-12T22:27:26.654Z"
+    },
+    {
+      "step": 13,
+      "what": "Original campaign attribution retained",
+      "expected": "qa-source / e2e-01",
+      "actual": {
+        "utmSource": "qa-source",
+        "utmCampaign": "e2e-01"
+      },
+      "ok": true,
+      "at": "2026-11-12T22:27:26.654Z"
+    },
+    {
+      "step": 14,
+      "what": "Marketing dashboard shows the campaign source",
+      "expected": "qa-source listed",
+      "actual": "visible",
+      "ok": true,
+      "at": "2026-11-12T22:27:26.737Z"
+    }
+  ]
+}

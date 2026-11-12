@@ -1,9 +1,11 @@
+import { limited, clientIp } from "@/lib/ratelimit";
 import { cookies, headers } from "next/headers";
 import { db } from "@/lib/db";
 import { createApplication } from "@/lib/application";
 import type { ApplyData } from "@/lib/apply";
 
 export async function POST(req: Request) {
+  if (limited(`apply-submit:${clientIp(req.headers)}`, 10, 60e3)) return Response.json({ ok: false, error: "Too many requests. Wait a minute and try again." }, { status: 429, headers: { "retry-after": "60" } });
   const b = await req.json().catch(() => null);
   const token = typeof b?.token === "string" ? b.token : "";
   const draft = token ? await db.applicationDraft.findUnique({ where: { token } }) : null;

@@ -1,3 +1,4 @@
+import { limited, clientIp } from "@/lib/ratelimit";
 import { db } from "@/lib/db";
 import { DOC_KINDS, MAX_UPLOAD, UPLOAD_MIME } from "@/lib/apply";
 
@@ -9,6 +10,7 @@ const SIGS: Record<string, (b: Uint8Array) => boolean> = {
 
 /** Upload one document, either for a draft (token) or later for a submitted application (reference + phone or email). */
 export async function POST(req: Request) {
+  if (limited(`apply-upload:${clientIp(req.headers)}`, 40, 60e3)) return Response.json({ ok: false, error: "Too many requests. Wait a minute and try again." }, { status: 429, headers: { "retry-after": "60" } });
   const f = await req.formData().catch(() => null);
   if (!f) return json({ error: "Invalid upload" }, 400);
   const kind = String(f.get("kind") ?? ""), file = f.get("file");

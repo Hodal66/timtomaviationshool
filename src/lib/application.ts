@@ -37,6 +37,11 @@ export async function createApplication(d: ApplyData, o: { draftId?: string; coo
   const regFee = programme.registrationFeeRwf;
 
   const created = await db.$transaction(async (tx) => {
+    // Serialise submissions for the same person and programme, then re-check inside the lock, so
+    // simultaneous double submissions cannot both pass the check made above.
+    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${programme.id + "|" + (email || phone)}))`;
+    const again = await tx.applicant.findFirst({ where: { programmeId: programme.id, status: { not: "REJECTED" }, OR: [...(email ? [{ email }] : []), ...(phone ? [{ phone }] : [])] }, select: { id: true } });
+    if (again) return null;
     const a = await tx.applicant.create({ data: {
       fullName: d.fullName!.trim().slice(0, 120), email: email || null, phone: phone || null, dateOfBirth: dob,
       source: utm?.utmSource ?? "Web", leadSource: utm?.utmSource ?? "Direct website", utmSource: utm?.utmSource ?? null, utmMedium: utm?.utmMedium ?? null, utmCampaign: utm?.utmCampaign ?? null,
@@ -52,6 +57,7 @@ export async function createApplication(d: ApplyData, o: { draftId?: string; coo
     if (o.draftId) await tx.applicationDraft.delete({ where: { id: o.draftId } });
     return a;
   });
+  if (!created) return { ok: false, error: "An application with these contact details already exists for this programme. Use Track application, or contact admissions." };
 
   await db.lead.create({ data: { name: d.fullName!.trim(), email: email || null, phone: phone || null, programmeId: programme.id, source: utm?.utmSource ?? "Website application", utmSource: utm?.utmSource ?? null, utmMedium: utm?.utmMedium ?? null, utmCampaign: utm?.utmCampaign ?? null, message: `Application ${reference}` } });
   await record({ type: "APPLICATION", path: "/apply", programmeId: programme.id, utmSource: utm?.utmSource, utmMedium: utm?.utmMedium, utmCampaign: utm?.utmCampaign });
