@@ -5,7 +5,7 @@ import fs from "node:fs";
 export const db = new PrismaClient();
 export const ADMIN = { email: "admin@test.local", password: "localtest-123" };
 let n = 0;
-export const uniquePhone = () => `+25079${String(Date.now()).slice(-6)}${n++ % 10}`;
+export const uniquePhone = () => `+25079${String(Date.now()).slice(-5)}${String(n++ % 1000).padStart(3, "0")}`;
 export const FIX = (f: string) => `tests/fixtures/${f}`;
 
 export async function loginStaff(page: Page, who = ADMIN) {

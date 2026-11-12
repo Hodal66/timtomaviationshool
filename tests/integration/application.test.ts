@@ -73,8 +73,8 @@ describe("createApplication (ADM-02, ADM-04, ADM-10, FIN)", () => {
     const a = await db.applicant.findUniqueOrThrow({ where: { reference: r.reference } }); expect(a.guardianName).toBe("Parent");
   });
   it("is safe when 25 applicants submit at the same moment (no lost or duplicated rows)", async () => {
-    const phones = Array.from({ length: 25 }, () => uniquePhone()); const res = await Promise.all(phones.map((phone) => createApplication(data({ phone }), {})));
-    expect(res.every((x) => x.ok)).toBe(true); expect(new Set(res.map((x) => x.ok && x.reference)).size).toBe(25);
+    const phones = Array.from({ length: 25 }, () => uniquePhone()); const res = await Promise.all(phones.map((phone) => createApplication(data({ phone, email: `p${phone.replace(/\D/g, "")}@example.com` }), {})));
+    expect(res.filter((x) => !x.ok)).toEqual([]); expect(new Set(res.map((x) => x.ok && x.reference)).size).toBe(25);
     expect(await db.applicant.count({ where: { phone: { in: phones } } })).toBe(25);
   });
   it("stores source attribution from the UTM cookie (CMS-03)", async () => {

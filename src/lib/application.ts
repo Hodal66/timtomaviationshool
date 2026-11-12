@@ -39,7 +39,7 @@ export async function createApplication(d: ApplyData, o: { draftId?: string; coo
   const created = await db.$transaction(async (tx) => {
     // Serialise submissions for the same person and programme, then re-check inside the lock, so
     // simultaneous double submissions cannot both pass the check made above.
-    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${programme.id + "|" + (email || phone)}))`;
+    for (const k of [email, phone].filter(Boolean).sort()) await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${programme.id + "|" + k}))`;
     const again = await tx.applicant.findFirst({ where: { programmeId: programme.id, status: { not: "REJECTED" }, OR: [...(email ? [{ email }] : []), ...(phone ? [{ phone }] : [])] }, select: { id: true } });
     if (again) return null;
     const a = await tx.applicant.create({ data: {
