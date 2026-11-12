@@ -39,6 +39,26 @@ async function main() {
     ] });
   }
 
+  // Timetable demo data (idempotent).
+  const kgl = branches[0];
+  const unusable = await bcrypt.hash(Math.random().toString(36) + Date.now(), 4);
+  const lect = [];
+  for (const [email, name] of [["kamali@lecturers.tas.invalid", "Mr. Kamali"], ["mukeshimana@lecturers.tas.invalid", "Ms. Mukeshimana"]])
+    lect.push(await db.user.upsert({ where: { email }, update: {}, create: { email, name, role: "LECTURER", passwordHash: unusable, branchId: kgl.id } }));
+  const rooms = [];
+  for (const name of ["Room 2", "Room 3", "Lab 1"])
+    rooms.push(await db.room.upsert({ where: { branchId_name: { branchId: kgl.id, name } }, update: {}, create: { name, branchId: kgl.id, capacity: 30 } }));
+  const grp = await db.classGroup.upsert({ where: { name: "IATA Ground Ops · Kigali · Jul 2027 · Weekday" }, update: {},
+    create: { name: "IATA Ground Ops · Kigali · Jul 2027 · Weekday", programmeId: progs[0].id, branchId: kgl.id, intakeId: intake.id, session: "WEEKDAY" } });
+  await db.applicant.updateMany({ where: { programmeId: progs[0].id, branchId: kgl.id, status: "ENROLLED", classGroupId: null }, data: { classGroupId: grp.id } });
+  if ((await db.timetableSlot.count({ where: { groupId: grp.id } })) === 0) {
+    await db.timetableSlot.createMany({ data: [
+      { groupId: grp.id, roomId: rooms[0].id, lecturerId: lect[0].id, dayOfWeek: 1, startMin: 480, endMin: 600, subject: "Airport Ground Operations" },
+      { groupId: grp.id, roomId: rooms[2].id, lecturerId: lect[1].id, dayOfWeek: 3, startMin: 480, endMin: 600, subject: "Passenger Handling" },
+      { groupId: grp.id, roomId: rooms[0].id, lecturerId: lect[0].id, dayOfWeek: 4, startMin: 840, endMin: 960, subject: "Cargo Basics" },
+    ] });
+  }
+
   const email = process.env.ADMIN_EMAIL?.toLowerCase(), pw = process.env.ADMIN_PASSWORD;
   if (email && pw) {
     const passwordHash = await bcrypt.hash(pw, 12);

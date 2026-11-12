@@ -12,7 +12,11 @@ async function advance(fd: FormData) {
   if (!a) return;
   const i = STAGES.indexOf(a.status as (typeof STAGES)[number]);
   if (i < 0 || i >= STAGES.length - 1) return;
-  await db.applicant.update({ where: { id: a.id }, data: { status: STAGES[i + 1] } });
+  const next = STAGES[i + 1];
+  const group = next === "ENROLLED"
+    ? await db.classGroup.findFirst({ where: { programmeId: a.programmeId, branchId: a.branchId, intakeId: a.intakeId, session: a.session } })
+    : null;
+  await db.applicant.update({ where: { id: a.id }, data: { status: next, ...(group ? { classGroupId: group.id } : {}) } });
   revalidatePath("/admissions");
 }
 

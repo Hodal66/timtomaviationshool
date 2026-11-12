@@ -72,23 +72,26 @@ enum CertificateStatus {
 }
 
 model Branch {
-  id         String      @id @default(cuid())
-  code       String      @unique
+  id         String       @id @default(cuid())
+  code       String       @unique
   name       String
   country    String
   users      User[]
   applicants Applicant[]
+  rooms      Room[]
+  groups     ClassGroup[]
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
+  id           String          @id @default(cuid())
+  email        String          @unique
   name         String
   passwordHash String
   role         Role
   branchId     String?
-  branch       Branch?  @relation(fields: [branchId], references: [id])
-  createdAt    DateTime @default(now())
+  branch       Branch?         @relation(fields: [branchId], references: [id])
+  createdAt    DateTime        @default(now())
+  slots        TimetableSlot[]
 }
 
 model Programme {
@@ -101,35 +104,39 @@ model Programme {
   feeUsd         Int
   applicants     Applicant[]
   certificates   Certificate[]
+  groups         ClassGroup[]
 }
 
 model Intake {
-  id         String      @id @default(cuid())
-  label      String      @unique
+  id         String       @id @default(cuid())
+  label      String       @unique
   startsOn   DateTime
   endsOn     DateTime
   applicants Applicant[]
+  groups     ClassGroup[]
 }
 
 model Applicant {
-  id          String            @id @default(cuid())
-  fullName    String
-  email       String?
-  phone       String?
-  dateOfBirth DateTime?
-  source      String            @default("Web")
-  status      ApplicationStatus @default(SUBMITTED)
-  session     Session           @default(WEEKDAY)
-  branchId    String
-  branch      Branch            @relation(fields: [branchId], references: [id])
-  programmeId String
-  programme   Programme         @relation(fields: [programmeId], references: [id])
-  intakeId    String
-  intake      Intake            @relation(fields: [intakeId], references: [id])
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-  payments    Payment[]
-  attendance  Attendance[]
+  id           String            @id @default(cuid())
+  fullName     String
+  email        String?
+  phone        String?
+  dateOfBirth  DateTime?
+  source       String            @default("Web")
+  status       ApplicationStatus @default(SUBMITTED)
+  session      Session           @default(WEEKDAY)
+  branchId     String
+  branch       Branch            @relation(fields: [branchId], references: [id])
+  programmeId  String
+  programme    Programme         @relation(fields: [programmeId], references: [id])
+  intakeId     String
+  intake       Intake            @relation(fields: [intakeId], references: [id])
+  classGroupId String?
+  classGroup   ClassGroup?       @relation(fields: [classGroupId], references: [id])
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  payments     Payment[]
+  attendance   Attendance[]
   certificates Certificate[]
 
   @@index([status])
@@ -154,10 +161,63 @@ model Attendance {
   id          String           @id @default(cuid())
   applicantId String
   applicant   Applicant        @relation(fields: [applicantId], references: [id])
-  classDate   DateTime
+  sessionId   String
+  session     ClassSession     @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   status      AttendanceStatus
 
-  @@unique([applicantId, classDate])
+  @@unique([applicantId, sessionId])
+}
+
+model Room {
+  id       String          @id @default(cuid())
+  name     String
+  capacity Int             @default(30)
+  branchId String
+  branch   Branch          @relation(fields: [branchId], references: [id])
+  slots    TimetableSlot[]
+
+  @@unique([branchId, name])
+}
+
+model ClassGroup {
+  id          String          @id @default(cuid())
+  name        String          @unique
+  programmeId String
+  programme   Programme       @relation(fields: [programmeId], references: [id])
+  branchId    String
+  branch      Branch          @relation(fields: [branchId], references: [id])
+  intakeId    String
+  intake      Intake          @relation(fields: [intakeId], references: [id])
+  session     Session         @default(WEEKDAY)
+  students    Applicant[]
+  slots       TimetableSlot[]
+}
+
+model TimetableSlot {
+  id         String         @id @default(cuid())
+  groupId    String
+  group      ClassGroup     @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  roomId     String
+  room       Room           @relation(fields: [roomId], references: [id])
+  lecturerId String
+  lecturer   User           @relation(fields: [lecturerId], references: [id])
+  dayOfWeek  Int
+  startMin   Int
+  endMin     Int
+  subject    String
+  sessions   ClassSession[]
+
+  @@index([dayOfWeek])
+}
+
+model ClassSession {
+  id      String        @id @default(cuid())
+  slotId  String
+  slot    TimetableSlot @relation(fields: [slotId], references: [id], onDelete: Cascade)
+  date    DateTime      @db.Date
+  records Attendance[]
+
+  @@unique([slotId, date])
 }
 
 model Certificate {
