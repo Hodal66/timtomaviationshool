@@ -7,6 +7,8 @@ import { JsonLd } from "@/components/Json";
 import { Track } from "@/components/Track";
 import { featured, getCatalogue } from "@/lib/catalogue-data";
 import { SITE } from "@/lib/site";
+import { Gallery } from "@/components/Gallery";
+import { listMedia, cloudinaryReady } from "@/lib/cloudinary";
 export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Timtom Aviation School | Aviation, Airport, Travel and Tourism Training in Rwanda",
@@ -24,6 +26,7 @@ const STEPS = [
 ];
 
 export default async function Home() {
+  const media = cloudinaryReady() ? await listMedia().catch(() => []) : [];
   const { courses } = await getCatalogue();
   const picks = featured(courses, 6);
   return (<>
@@ -56,6 +59,10 @@ export default async function Home() {
       <Reveal className="fade" delay={120}><p style={{ marginTop: 44, textAlign: "center" }}><a className="btn ghost" href="/courses">Explore All Courses</a></p></Reveal>
     </div></section>
 
+    {media.length > 0 && <section className="sx" aria-labelledby="gal-h"><div className="wrap">
+      <Reveal><span className="eyebrow">Gallery</span><h2 id="gal-h" style={{ margin: "14px 0 24px" }}>Life at Timtom Aviation School</h2></Reveal>
+      <Gallery items={media} limit={8} /><p className="gal-more"><a className="btn pri" href="/gallery">View full gallery</a></p>
+    </div></section>}
     <section className="sx soft" aria-labelledby="why-h"><div className="wrap split">
       <Reveal className="pic"><div className="im"><Image src="/images/site/hero-b.jpg" alt="Trainers and students in a Timtom classroom" fill sizes="(max-width:860px) 100vw, 560px" loading="lazy" /></div></Reveal>
       <div>

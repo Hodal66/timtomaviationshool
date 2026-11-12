@@ -222,3 +222,20 @@ html{scroll-padding-top:92px}
   .site *,.site *:before,.site *:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
   .js .rv{opacity:1;transform:none}.js .reveal-img{clip-path:none}.hero2 .path .line{stroke-dashoffset:0}
 }
+
+/* Gallery */
+.gal .gtabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}
+.gtabs button{display:inline-flex;gap:8px;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--line);background:#fff;border-radius:999px;font:600 .95rem var(--font-b);color:var(--navy);cursor:pointer;transition:.2s}
+.gtabs button span{font-size:.75rem;background:var(--sky);color:var(--blue);border-radius:99px;padding:2px 8px}
+.gtabs button:hover{border-color:var(--blue)}.gtabs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}.gtabs button.on span{background:var(--orange);color:#fff}
+.ggrid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.ggrid li{border-radius:var(--r);overflow:hidden;background:#fff;box-shadow:var(--sh1);transition:transform .25s,box-shadow .25s}.ggrid li:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.gthumb{position:relative;display:block;width:100%;aspect-ratio:3/2;padding:0;border:0;background:var(--sky);cursor:zoom-in}.gthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.gplay{position:absolute;inset:0;margin:auto;width:54px;height:54px;border-radius:50%;background:rgba(10,34,64,.72);color:#fff;display:grid;place-items:center;font-style:normal;font-size:1.1rem}
+.gcard{display:flex;flex-direction:column;gap:8px;justify-content:center;min-height:150px;padding:18px;text-decoration:none;color:var(--navy)}.gcard b{font-size:1.8rem;color:var(--orange)}.gcard span{font-weight:600;word-break:break-word}.gcard small{color:var(--mute)}.gcard audio{width:100%}
+.gempty{color:var(--mute)}
+.glight{border:0;padding:0;background:transparent;max-width:min(94vw,1200px);max-height:92vh;overflow:visible}.glight::backdrop{background:rgba(5,15,30,.86)}
+.glight img,.glight video{max-width:94vw;max-height:88vh;border-radius:var(--r);display:block;margin:auto}
+.gx{position:absolute;top:-14px;right:-6px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:var(--navy);font-size:1.6rem;cursor:pointer;z-index:2}
+.gal-more{margin-top:22px}
+@media (prefers-reduced-motion:reduce){.ggrid li{transition:none}.ggrid li:hover{transform:none}}
