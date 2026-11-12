@@ -1,20 +1,20 @@
+import type { Metadata } from "next";
 import { db } from "@/lib/db";
-import { listOfferings } from "@/lib/offerings";
-import { REQUIRED_DOCS, SESSION_TEXT } from "@/lib/catalogue";
+import { openOfferingsByProgramme } from "@/lib/offerings";
 import { Track } from "@/components/Track";
+import { Reveal } from "@/components/Reveal";
 import { Wizard } from "./Wizard";
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Apply · Timtom Aviation School" };
+export const metadata: Metadata = { title: "Apply | Timtom Aviation School", description: "Apply to Timtom Aviation School online. Your progress is saved automatically.", robots: { index: false } };
 
-export default async function Apply({ searchParams }: { searchParams: Promise<{ course?: string; offering?: string; err?: string }> }) {
+export default async function Apply({ searchParams }: { searchParams: Promise<{ course?: string; offering?: string; draft?: string }> }) {
   const sp = await searchParams;
-  const courses = await db.programme.findMany({ where: { status: "PUBLISHED" }, orderBy: { name: "asc" }, select: { slug: true, name: true } });
-  const course = courses.find((c) => c.slug === sp.course);
-  if (!course) return (<div className="wrap sec"><Track /><h1>Apply</h1><p>Choose the course you want to apply for.</p>
-    {courses.length === 0 ? <p className="notice">No courses are open for applications yet.</p> : <div className="grid3">{courses.map((c) => <a key={c.slug} className="tile link" href={`/apply?course=${c.slug}`}><h3>{c.name}</h3></a>)}</div>}</div>);
-  const p = (await db.programme.findUnique({ where: { slug: course.slug! } }))!;
-  const offs = (await listOfferings(p.id, { onlyOpen: true })).map((o) => ({ id: o.id, label: `${o.intake.label} · ${o.branch.name} · ${SESSION_TEXT[o.session]}`, seatsLeft: o.seatsLeft, accepting: o.accepting }));
-  return (<div className="wrap sec"><Track programmeId={p.id} /><h1>Apply</h1>
-    {offs.length === 0 ? <p className="notice">No intake is open for {course.name} right now.</p> :
-      <Wizard course={course.slug!} courseName={course.name} offerings={offs} offering={offs.some((o) => o.id === sp.offering) ? sp.offering! : ""} docs={REQUIRED_DOCS} err={sp.err} />}</div>);
+  const [courses, offs] = await Promise.all([db.programme.findMany({ where: { status: "PUBLISHED", slug: { not: null } }, orderBy: { name: "asc" }, select: { id: true, slug: true, name: true } }), openOfferingsByProgramme()]);
+  const programmes = courses.map((c) => ({ slug: c.slug!, name: c.name, offerings: (offs.get(c.id) ?? []).map((o) => ({ id: o.id, intake: o.intake, branch: o.branch, session: o.session, seatsLeft: o.seatsLeft, deadline: o.deadline, accepting: o.accepting })) }));
+  const known = programmes.find((p) => p.slug === sp.course);
+  return (<><Track programmeId={known ? courses.find((c) => c.slug === known.slug)?.id : undefined} />
+    <section className="pagehead"><div className="wrap"><Reveal className="shead" ><span className="eyebrow">Apply online</span><h1 style={{ fontSize: "clamp(2rem,1rem + 3vw,3.4rem)" }}>Start your application</h1>
+      <p className="lead">Five short steps. Your progress is saved automatically, so you can stop and continue any time.</p></Reveal></div></section>
+    <section className="sx" style={{ paddingTop: 24 }}><div className="wrap wzwrap">
+      <Wizard programmes={programmes} initial={{ course: known?.slug, offering: sp.offering, draft: sp.draft }} /></div></section></>);
 }

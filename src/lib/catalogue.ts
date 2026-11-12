@@ -42,23 +42,23 @@ export function slugify(s: string) {
   return s.toLowerCase().normalize("NFKD").replace(/[^\w\s-]/g, "").trim().replace(/[\s_]+/g, "-").replace(/-+/g, "-").slice(0, 80);
 }
 
-/** Rules a course must pass before it can be submitted for review. Prevents empty or mislabelled public pages. */
+/**
+ * Essentials a course must have before it can be submitted or published.
+ * Outcomes, modules, entry requirements, duration and delivery are optional: the public page hides any section with no approved content.
+ * A School-issued certificate must never be labelled as IATA or ICAO.
+ */
 export function readinessProblems(p: {
   name: string; slug: string | null; type: ProgrammeType; qualificationType: string | null; awardingBody: string | null;
-  summary: string | null; description: string | null; objectives: string[]; entryRequirements: string[]; durationMonths: number | null; deliveryModes: string[];
+  summary: string | null; description: string | null; objectives?: string[]; entryRequirements?: string[]; durationMonths?: number | null; deliveryModes?: string[];
 }) {
   const out: string[] = [];
   if (!p.slug) out.push("Add a web address (slug).");
-  if (!p.durationMonths) out.push("State the duration in months.");
   if (!p.summary?.trim()) out.push("Add a short summary.");
   if (!p.description?.trim()) out.push("Add the approved course description.");
-  if (p.objectives.length === 0) out.push("Add at least one learning outcome.");
-  if (p.entryRequirements.length === 0) out.push("Add the entry requirements.");
   if (!p.qualificationType?.trim()) out.push("State the qualification type.");
-  if (p.deliveryModes.length === 0) out.push("Choose at least one delivery mode.");
   const body = (p.awardingBody ?? "").toUpperCase();
   const external = /\b(IATA|ICAO)\b/.test(body);
-  if ((p.type === "IATA" || p.type === "ICAO") && !body.trim()) out.push("IATA and ICAO programmes must name the certifying body.");
+  if (p.awardingBody && (p.type === "IATA" || p.type === "ICAO") && !body.trim()) out.push("IATA and ICAO programmes must name the certifying body.");
   if (external && p.type !== "IATA" && p.type !== "ICAO") out.push("The certifying body mentions IATA or ICAO but the category is not IATA or ICAO. School-issued certificates must not be labelled as IATA or ICAO qualifications.");
   return out;
 }

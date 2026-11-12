@@ -1,22 +1,26 @@
-# TAS-One — Timtom Aviation School Management Platform
+# TAS-One — Timtom Aviation School
 
-Next.js 15 + Prisma + Neon Postgres, deployed on Vercel.
+Next.js 15 + Prisma + Neon Postgres, deployed on Vercel. One database serves the public website, the admin console and the applicant tracking page.
 
-- `src/app` staff console: dashboard, admissions board, programmes, payments, certificates, public `/verify`.
-- `prisma/schema.prisma` data model; `prisma/migrations` SQL; `prisma/seed.ts` idempotent seed.
-- `public/prototype.html` the original clickable prototype (served at `/prototype.html`).
-- `/api/health` checks the database connection.
+## Public website (`src/app/(site)`)
+Home, About, Courses (catalogue with search and filters), course pages, Admissions (`/how-to-apply`), Contact, the application wizard (`/apply`) and application tracking (`/track`).
+Styles live in `src/app/site.css` (tokens at the top). Staff screens use `src/app/globals.css`.
 
-## Environment variables (Vercel)
+## How content reaches the site
+Admin > Courses (draft, review, approve, publish) writes the `Programme` records. Only `PUBLISHED` rows are read by the public pages (`src/lib/catalogue-data.ts`). Publishing, unpublishing and seat changes call `revalidatePath`, so the public pages update immediately.
+
+## Course images
+1. Upload one in Admin > Courses > the course (stored in the database, served from `/api/assets/…`), or set a path under `/images`.
+2. Otherwise `src/lib/images.ts` maps a subject area to a photo, if one is configured.
+3. Otherwise the page shows aviation artwork. Add licensed photos in `public/images/areas` and list them in `images.ts`; no component changes are needed.
+
+## Applications
+`/apply` saves a draft as the applicant types (`/api/apply/draft`), accepts document uploads (`/api/apply/upload`, stored in Postgres, never public) and creates the application in one place (`src/lib/application.ts`): applicant, document checklist, registration invoice, lead and campaign attribution. Staff open documents from the admissions record.
+
+## Environment variables
 Provided by the Neon integration: `DATABASE_URL`, `DATABASE_URL_UNPOOLED`.
-Set by you: `AUTH_SECRET` (done), `ADMIN_EMAIL`, `ADMIN_PASSWORD` (creates the first admin on the next deploy).
+Set in Vercel: `AUTH_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD` (creates the first admin on the next deploy).
+Optional: `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_WHATSAPP_NUMBER`, `NEXT_PUBLIC_FACEBOOK_URL`, `NEXT_PUBLIC_INSTAGRAM_URL`, `NEXT_PUBLIC_LINKEDIN_URL`, `NEXT_PUBLIC_X_URL`, `NEXT_PUBLIC_YOUTUBE_URL`. Social links appear in the footer only when set.
 
 The build runs `prisma migrate deploy` and `prisma db seed` before `next build`.
-
-## Local
-```bash
-vercel env pull .env.local   # needs the Vercel CLI
-npm install
-npm run dev
-```
-See [docs/database-setup.md](docs/database-setup.md).
+Data residency: Vercel and Neon are outside Rwanda. Use sample data until production hosting is decided (SRS section 6).

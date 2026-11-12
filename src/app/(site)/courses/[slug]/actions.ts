@@ -1,18 +1,21 @@
 "use server";
-import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { db } from "@/lib/db";
-import { record, readUtm } from "@/lib/track";
+import { readUtm, record } from "@/lib/track";
 
-export async function enquire(fd: FormData) {
+export type EnquiryState = { ok: boolean; error?: string } | null;
+
+/** Enquiry from a course page or the contact page. Becomes a lead (ADM-01) with its campaign source. */
+export async function enquire(_prev: EnquiryState, fd: FormData): Promise<EnquiryState> {
   const name = String(fd.get("name") ?? "").trim().slice(0, 120), contact = String(fd.get("contact") ?? "").trim().slice(0, 120);
-  const slug = String(fd.get("slug") ?? ""), programmeId = String(fd.get("programmeId") ?? "");
-  if (!name || !contact) redirect(`/courses/${slug}`);
-  const utm = readUtm((await cookies()).get("tas_utm")?.value);
+  if (!name) return { ok: false, error: "Enter your name." };
   const isEmail = contact.includes("@");
+  if (!contact || (isEmail ? !/^\S+@\S+\.\S+$/.test(contact) : contact.replace(/\D/g, "").length < 9)) return { ok: false, error: "Enter a valid phone number or email address." };
+  const utm = readUtm((await cookies()).get("tas_utm")?.value);
+  const pid = String(fd.get("programmeId") ?? "");
+  const programme = pid ? await db.programme.findUnique({ where: { id: pid }, select: { id: true, slug: true } }) : null;
   await db.lead.create({ data: { name, email: isEmail ? contact : null, phone: isEmail ? null : contact, message: String(fd.get("message") ?? "").slice(0, 1000) || null,
-    programmeId: (await db.programme.findUnique({ where: { id: programmeId }, select: { id: true } }))?.id ?? null, source: utm?.utmSource ?? "Website course page",
-    utmSource: utm?.utmSource ?? null, utmMedium: utm?.utmMedium ?? null, utmCampaign: utm?.utmCampaign ?? null } });
-  await record({ type: "ENQUIRY", path: `/courses/${slug}`, programmeId, utmSource: utm?.utmSource });
-  redirect(`/courses/${slug}?sent=1`);
+    programmeId: programme?.id ?? null, source: utm?.utmSource ?? (programme ? "Website course page" : "Website contact page"), utmSource: utm?.utmSource ?? null, utmMedium: utm?.utmMedium ?? null, utmCampaign: utm?.utmCampaign ?? null } });
+  await record({ type: "ENQUIRY", path: programme ? `/courses/${programme.slug}` : "/contact", programmeId: programme?.id, utmSource: utm?.utmSource });
+  return { ok: true };
 }

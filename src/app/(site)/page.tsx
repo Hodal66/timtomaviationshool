@@ -1,48 +1,84 @@
-import { db } from "@/lib/db";
-import { GROUPS } from "@/lib/groups";
-import { themeOf } from "@/lib/catalogue";
-import { HeroSlider } from "@/components/HeroSlider";
-import { Motif } from "@/components/Motif";
+import Image from "next/image";
+import type { Metadata } from "next";
+import { Particles } from "@/components/Particles";
+import { Reveal } from "@/components/Reveal";
+import { CourseCard } from "@/components/CourseCard";
+import { JsonLd } from "@/components/Json";
 import { Track } from "@/components/Track";
+import { featured, getCatalogue } from "@/lib/catalogue-data";
+import { SITE } from "@/lib/site";
 export const revalidate = 60;
+export const metadata: Metadata = {
+  title: "Timtom Aviation School | Aviation, Airport, Travel and Tourism Training in Rwanda",
+  description: "Professional aviation, airport operations, travel, tourism and ICT training at Timtom Aviation School. Browse programmes and apply online.",
+  alternates: { canonical: "/" },
+};
+
+const I = (d: string) => <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={d} /></svg>;
+const STEPS = [
+  { t: "Explore courses", p: "Browse programmes and compare.", i: I("M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3") },
+  { t: "Select your programme", p: "Pick a course and an open intake.", i: I("M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11") },
+  { t: "Complete the application", p: "Short form, saved as you go.", i: I("M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z") },
+  { t: "Submit your documents", p: "Upload from your phone.", i: I("M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12") },
+  { t: "Track your application", p: "Follow every status update.", i: I("M22 11.1V12a10 10 0 1 1-5.9-9.1M22 4L12 14l-3-3") },
+];
 
 export default async function Home() {
-  const courses = await db.programme.findMany({ where: { status: "PUBLISHED" }, orderBy: { code: "asc" },
-    select: { id: true, code: true, slug: true, name: true, summary: true, type: true, qualificationType: true, feeRwf: true, heroImage: true, visualTheme: true } });
-  courses.sort((a, b) => (Number(a.code.replace(/\D/g, "")) || 999) - (Number(b.code.replace(/\D/g, "")) || 999));
-  const featured = [...courses].sort((a, b) => Number(!!b.heroImage) - Number(!!a.heroImage)).slice(0, 9);
+  const { courses } = await getCatalogue();
+  const picks = featured(courses, 6);
   return (<>
     <Track />
-    <HeroSlider enrollHref="/apply" />
-    <section className="welcome"><svg viewBox="0 0 1440 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g stroke="#7C8BE0" strokeWidth="1" fill="none"><path d="M60 120 L90 125 L60 190 L200 210 L220 150 L90 125" /><path d="M400 180 L455 75 L410 210 L390 280" /><path d="M770 220 L940 235 L965 205 L775 225" /><path d="M1150 75 L1250 58 L1200 88 Z" /><path d="M1345 165 L1428 250 L1365 338 L1342 277 Z" /><path d="M540 340 L635 366 L680 300 L545 342" /></g>
-      <g fill="#fff"><circle cx="60" cy="120" r="3" /><circle cx="90" cy="125" r="3" /><circle cx="200" cy="210" r="3" /><circle cx="455" cy="75" r="3" /><circle cx="390" cy="280" r="3" /><circle cx="940" cy="235" r="3" /><circle cx="965" cy="205" r="3" /><circle cx="1250" cy="58" r="3" /><circle cx="1428" cy="250" r="3" /><circle cx="1342" cy="277" r="3" /><circle cx="635" cy="366" r="3" /><circle cx="680" cy="300" r="3" /></g></svg>
-      <div className="wrap"><h2>Welcome to<b>Timtom Aviation School</b></h2><p>Empowering future aviation professionals with world-class training and practical experience.</p>
-        <a className="btn lg" href="/courses">Explore Courses</a></div></section>
+    <JsonLd data={{ "@context": "https://schema.org", "@type": "EducationalOrganization", name: SITE.name, url: SITE.url, telephone: SITE.phone, email: SITE.email,
+      address: { "@type": "PostalAddress", streetAddress: SITE.address, addressCountry: "RW" }, description: SITE.about, sameAs: SITE.socials.map((s) => s[1]) }} />
 
-    <section className="dots-bg"><div className="wrap about">
-      <div className="pic"><img src="/images/site/hero-b.jpg" alt="Students and trainers in a Timtom classroom" loading="lazy" /><div className="badge"><i>Excellence in</i>Aviation</div></div>
-      <div><span className="eyebrow">About Timtom Aviation</span><h2>Aviation training in Rwanda</h2><span className="rule" />
-        <p>TIMTOM AVIATION is a private company which offers consultancy services in the field of management and also offers training in the field of aviation management, hospitality, tourism and ICT.</p>
-        <p style={{ marginTop: 28 }}><a className="btn" href="/about">Learn More About Us</a></p></div>
+    <section className="hero2" aria-labelledby="hero-h">
+      <Particles />
+      <div className="wrap grid">
+        <div className="copy">
+          <Reveal className="fade"><span className="eyebrow">Timtom Aviation School</span></Reveal>
+          <Reveal delay={80}><h1 id="hero-h">Your Journey Into the <span className="hl">World of Aviation</span> Starts Here.</h1></Reveal>
+          <Reveal delay={160}><p className="lead">Build your future through professional aviation, airport operations, travel, tourism, and industry-focused training at Timtom Aviation School.</p></Reveal>
+          <Reveal delay={240} className="acts"><a className="btn pri" href="/courses">Explore Courses</a><a className="btn cta" href="/apply">Apply Now</a></Reveal>
+        </div>
+        <Reveal delay={200} className="vis">
+          <div className="ring" aria-hidden="true" />
+          <div className="frame"><div className="reveal-img" style={{ position: "absolute", inset: 0 }}>
+            <Image src="/images/site/hero-a.jpg" alt="Students training together at Timtom Aviation School" fill priority sizes="(max-width:900px) 100vw, 560px" /></div></div>
+          <svg className="path" viewBox="0 0 400 140" aria-hidden="true"><path className="line" d="M0 120 C90 120 120 20 220 40 S340 90 400 10" /></svg>
+        </Reveal>
+      </div>
+    </section>
+
+    <section className="sx" aria-labelledby="prog-h"><div className="wrap">
+      <Reveal className="shead"><span className="eyebrow">Programmes</span><h2 id="prog-h">Discover our programmes</h2><p className="lead">Industry-focused training across aviation, airports, travel, tourism and ICT.</p></Reveal>
+      {picks.length === 0 ? <p className="empty">Programmes will appear here as soon as the School publishes them.</p> :
+        <div className="cgrid2">{picks.map((c, i) => <Reveal key={c.id} delay={(i % 3) * 90}><CourseCard c={c} /></Reveal>)}</div>}
+      <Reveal className="fade" delay={120}><p style={{ marginTop: 44, textAlign: "center" }}><a className="btn ghost" href="/courses">Explore All Courses</a></p></Reveal>
     </div></section>
 
-    <section className="dots-bg summary"><div className="wrap">
-      <div className="ctr"><span className="eyebrow">Timtom Aviation School Courses Summary</span><h2>We Offer The Following Courses:</h2><span className="rule" />
-        <p style={{ maxWidth: "60ch", margin: "0 auto", fontSize: 17 }}>Explore our diverse range of aviation, hospitality, and computer skills training programs designed to jumpstart your career.</p></div>
-      <div className="sumgrid">{GROUPS.map((g) => { const list = courses.filter(g.test); if (list.length === 0) return null;
-        return (<div className="sumcard" id={g.id} key={g.id}><h3><i>{g.n}</i>{g.title}</h3><ul>{list.map((c) => <li key={c.id}><a href={`/courses/${c.slug}`}>{c.name}</a></li>)}</ul></div>); })}</div>
-      {courses.length === 0 && <p className="notice" style={{ marginTop: 24 }}>Approved courses will appear here as soon as the School publishes them.</p>}
+    <section className="sx soft" aria-labelledby="why-h"><div className="wrap split">
+      <Reveal className="pic"><div className="im"><Image src="/images/site/hero-b.jpg" alt="Trainers and students in a Timtom classroom" fill sizes="(max-width:860px) 100vw, 560px" loading="lazy" /></div></Reveal>
+      <div>
+        <Reveal className="shead" ><span className="eyebrow">Why Timtom Aviation School</span><h2 id="why-h">Practical training, close to where you live</h2><p className="lead">{SITE.about}</p></Reveal>
+        <Reveal delay={120}><ul className="ticks">
+          <li><i aria-hidden="true">{I("M12 22s8-6.5 8-12a8 8 0 0 0-16 0c0 5.5 8 12 8 12zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z")}</i><div><b>Three branches</b><span>{SITE.branches.join(", ")}.</span></div></li>
+          <li><i aria-hidden="true">{I("M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z")}</i><div><b>A new intake every three months</b><span>January, April, July and October.</span></div></li>
+          <li><i aria-hidden="true">{I("M12 6v6l4 2M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z")}</i><div><b>Weekday and weekend sessions</b><span>Choose the schedule that fits your life.</span></div></li>
+        </ul></Reveal>
+        <Reveal delay={200}><p style={{ marginTop: 32 }}><a className="more" href="/about">About the School <span aria-hidden="true">→</span></a></p></Reveal>
+      </div>
     </div></section>
 
-    <section style={{ padding: "72px 0", background: "#fff" }}><div className="wrap">
-      <div className="ctr"><span className="eyebrow">Timtom Aviation School Courses</span><h2>Which Course do you want to cover?</h2>
-        <p style={{ maxWidth: "62ch", margin: "12px auto 0", fontSize: 17 }}>We also offer other courses related to hospitality, tourism, and computer skills.</p></div>
-      <div className="cgrid">{featured.map((c) => { const t = themeOf(c.visualTheme);
-        return (<a key={c.id} href={`/courses/${c.slug}`} className="ccard" style={{ textDecoration: "none", color: "inherit" }}>
-          {c.heroImage ? <div className="img"><img src={c.heroImage} alt="" loading="lazy" /></div> : <div className="img art" style={{ ["--d" as string]: t.dark, ["--l" as string]: t.line }}><Motif theme={c.visualTheme} /></div>}
-          <div className="body"><h3>{c.name}</h3><p>{c.summary}</p>{c.feeRwf != null && <span className="fee">{c.feeRwf.toLocaleString("en-US")} Rwf</span>}<span className="more">Read More →</span></div></a>); })}</div>
-      <p className="ctr" style={{ marginTop: 36 }}><a className="btn" href="/courses">View all {courses.length} courses</a></p>
+    <section className="sx" aria-labelledby="how-h"><div className="wrap">
+      <Reveal className="shead mid"><span className="eyebrow">How to apply</span><h2 id="how-h">Five simple steps to your place</h2></Reveal>
+      <ol className="journey">{STEPS.map((s, i) => <Reveal as="li" key={s.t} delay={i * 90}><span className="ic">{s.i}</span><div><h3>{s.t}</h3><p>{s.p}</p></div></Reveal>)}</ol>
+      <Reveal className="fade" delay={200}><p style={{ marginTop: 48, textAlign: "center" }}><a className="btn cta" href="/apply">Apply Now</a></p></Reveal>
     </div></section>
+
+    <section className="wrap" style={{ paddingBottom: "clamp(48px,7vw,96px)" }} aria-labelledby="cta-h">
+      <Reveal className="band"><Particles color="255,255,255" density={9000} />
+        <h2 id="cta-h">Ready to Begin Your Aviation Career?</h2><p>Choose a programme and apply in a few minutes, from any device.</p>
+        <div className="acts"><a className="btn cta" href="/apply">Apply Now</a><a className="btn onnavy" href="/courses">Explore Courses</a></div></Reveal>
+    </section>
   </>);
 }

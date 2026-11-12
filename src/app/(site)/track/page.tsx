@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { label, money, STAGES } from "@/lib/format";
+import { TrackUpload } from "@/components/TrackUpload";
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = { title: "Track your application | Timtom Aviation School", robots: { index: false } };
 
 export default async function TrackPage({ searchParams }: { searchParams: Promise<{ ref?: string; who?: string }> }) {
   const { ref, who } = await searchParams;
@@ -10,19 +13,24 @@ export default async function TrackPage({ searchParams }: { searchParams: Promis
     const row = await db.applicant.findUnique({ where: { reference: ref.trim().toUpperCase() }, include: { programme: true, intake: true, branch: true, invoices: true, documents: true } });
     if (row && ((row.email && row.email === w) || (row.phone && digits && row.phone === digits))) a = row;
   }
-  return (<div className="wrap sec"><h1>Track your application</h1>
-    <form className="form" style={{ marginBottom: 24 }}>
-      <label htmlFor="ref">Application reference</label><input id="ref" name="ref" defaultValue={ref ?? ""} placeholder="TAS-2611-ABCDE" />
-      <label htmlFor="who">Phone or email used to apply</label><input id="who" name="who" defaultValue={who ?? ""} />
-      <button className="btn" type="submit">Check status</button></form>
-    {ref && who && !a && <p className="err" role="alert">No application matches those details.</p>}
-    {a && (<div className="panel"><h2>{a.programme.name}</h2>
-      <p>{a.intake.label} · {a.branch.name} · {a.session === "WEEKDAY" ? "Weekday" : "Weekend"}</p>
-      <p><b>Status:</b> {a.status === "REJECTED" ? <span className="pill bad">Not admitted</span> : <span className="pill ok">{label(a.status)}</span>}</p>
-      {a.status !== "REJECTED" && <p style={{ color: "var(--muted)" }}>Steps: {STAGES.map((s) => label(s)).join(" → ")}</p>}
-      <h2 style={{ marginTop: 16 }}>Documents</h2><ul className="ol">{a.documents.map((d) => <li key={d.id}>{d.kind}: <span className={`pill ${d.status === "VERIFIED" ? "ok" : d.status === "MISSING" ? "bad" : "warn"}`}>{label(d.status)}</span>{d.note ? ` (${d.note})` : ""}</li>)}</ul>
-      {a.invoices.length > 0 && <><h2 style={{ marginTop: 16 }}>Payment</h2><ul className="ol">{a.invoices.map((i) => <li key={i.id}>{i.description}: {money(i.amountMinor, i.currency)} · reference <b>{i.reference}</b> · <span className={`pill ${i.status === "PAID" ? "ok" : "warn"}`}>{i.status === "PAID" ? "Paid" : "Awaiting payment"}</span></li>)}</ul>
-        <p style={{ color: "var(--muted)" }}>Use the invoice reference when you pay. Your status changes only after the School confirms the payment.</p></>}
-    </div>)}
-  </div>);
+  const idx = a ? STAGES.indexOf(a.status as (typeof STAGES)[number]) : -1;
+  return (<><section className="pagehead"><div className="wrap"><div className="shead"><span className="eyebrow">Admissions</span><h1 style={{ fontSize: "clamp(2rem,1rem + 3vw,3.4rem)" }}>Track your application</h1><p className="lead">Enter the reference you received and the phone number or email you applied with.</p></div></div></section>
+    <section className="sx" style={{ paddingTop: 24 }}><div className="wrap wzwrap vstack">
+      <form className="wz" method="get">
+        <div className="field"><label htmlFor="ref">Application reference</label><input id="ref" name="ref" defaultValue={ref ?? ""} placeholder="TAS-2611-ABCDE" required /></div>
+        <div className="field"><label htmlFor="who">Phone or email used to apply</label><input id="who" name="who" defaultValue={who ?? ""} required /></div>
+        <button className="btn pri" type="submit">Check status</button>
+        {ref && who && !a && <p role="alert" style={{ color: "var(--bad)", margin: 0 }}>No application matches those details. Check the reference and try again.</p>}
+      </form>
+      {a && ref && who && (<div className="panel2 vstack" style={{ gap: 22 }}>
+        <div><h2 style={{ fontSize: "1.6rem" }}>{a.programme.name}</h2><p style={{ color: "var(--mute)" }}>{a.intake.label} · {a.branch.name} · {a.session === "WEEKDAY" ? "Weekday" : "Weekend"}</p></div>
+        {a.status === "REJECTED" ? <p><span className="pillx bad">Not admitted</span></p> : <ol className="prog" style={{ listStyle: "none", padding: 0, margin: 0 }} aria-label="Application progress"><li style={{ display: "flex", gap: 6 }}>{STAGES.map((s, i) => <span key={s} style={{ flex: 1, textAlign: "center", fontSize: ".78rem", color: i <= idx ? "var(--blue)" : "var(--mute)", fontWeight: i === idx ? 700 : 500 }}><span style={{ display: "block", height: 6, borderRadius: 6, background: i <= idx ? "var(--blue)" : "#DCE7F6", marginBottom: 8 }} />{label(s)}</span>)}</li></ol>}
+        <div><h3 style={{ marginBottom: 12 }}>Documents</h3><ul className="vstack" style={{ listStyle: "none", padding: 0, margin: 0, gap: 12 }}>{a.documents.map((d) => (
+          <li key={d.id} style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}><span>{d.kind}{d.note ? <small style={{ color: "var(--mute)" }}> ({d.note})</small> : null}</span>
+            <span style={{ display: "inline-flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}><span className={`pillx ${d.status === "VERIFIED" ? "ok" : d.status === "MISSING" ? "bad" : "warn"}`}>{label(d.status)}</span>
+              {a.status !== "REJECTED" && d.status !== "VERIFIED" && <TrackUpload kind={d.kind} reference={a.reference!} who={who} />}</span></li>))}</ul></div>
+        {a.invoices.length > 0 && <div><h3 style={{ marginBottom: 12 }}>Payment</h3>{a.invoices.map((i) => <p key={i.id} style={{ margin: "0 0 8px" }}>{i.description}: <b>{money(i.amountMinor, i.currency)}</b> · reference <b>{i.reference}</b> · <span className={`pillx ${i.status === "PAID" ? "ok" : "warn"}`}>{i.status === "PAID" ? "Paid" : "Awaiting payment"}</span></p>)}
+          <p style={{ color: "var(--mute)", fontSize: ".95rem" }}>Use the invoice reference when you pay. Your status changes only after the School confirms the payment.</p></div>}
+      </div>)}
+    </div></section></>);
 }

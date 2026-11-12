@@ -1,22 +1,22 @@
 import { themeOf } from "@/lib/catalogue";
 
-/** Original vector artwork per category. These are illustrations, not photographs. */
+/** Original aviation artwork per subject area. Illustrations, not photographs. */
 export function Motif({ theme }: { theme: string }) {
-  const t = themeOf(theme); const a = t.accent;
-  const W = { fill: "none", stroke: a, strokeWidth: 2, strokeLinecap: "round" as const, opacity: 0.9 };
+  const a = themeOf(theme).accent, W = { fill: "none", stroke: a, strokeWidth: 2.2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  const soft = { fill: a, opacity: 0.18 };
   let g: React.ReactNode;
   switch (theme) {
-    case "cabin-crew": g = (<>{[0, 1, 2].map((r) => [0, 1, 2, 3].map((c) => <rect key={`${r}${c}`} x={30 + c * 44 + (c > 1 ? 24 : 0)} y={50 + r * 52} width={32} height={38} rx={10} fill={a} opacity={0.25 + r * 0.2} />))}<path d="M20 190 H230" {...W} /></>); break;
-    case "safety-security": g = (<><path d="M125 25 L205 55 V115 C205 160 170 185 125 200 C80 185 45 160 45 115 V55 Z" {...W} /><path d="M92 112 L116 136 L162 84" {...W} strokeWidth={6} /></>); break;
-    case "cargo": g = (<>{[[30, 140], [90, 140], [150, 140], [60, 90], [120, 90], [90, 40]].map(([x, y], i) => <rect key={i} x={x} y={y} width={56} height={46} fill={a} opacity={0.2 + (i % 3) * 0.2} stroke={a} />)}<path d="M20 200 H230" {...W} /></>); break;
-    case "tourism": g = (<><circle cx={125} cy={110} r={78} {...W} /><ellipse cx={125} cy={110} rx={34} ry={78} {...W} /><path d="M47 110 H203 M62 70 H188 M62 150 H188" {...W} /></>); break;
-    case "airport-ops": g = (<>{[0, 1, 2, 3, 4].map((i) => <path key={i} d={`M${40 + i * 40} 200 L${125} 40`} {...W} opacity={0.4 + i * 0.1} />)}<path d="M20 200 H230" {...W} /></>); break;
-    case "dispatch": g = (<><circle cx={125} cy={115} r={85} {...W} /><circle cx={125} cy={115} r={55} {...W} /><circle cx={125} cy={115} r={25} {...W} /><path d="M125 115 L190 60" {...W} strokeWidth={4} /><circle cx={170} cy={80} r={6} fill={a} /></>); break;
-    case "ticketing": g = (<><path d="M30 70 H200 a16 16 0 0 0 0 32 a16 16 0 0 0 0 32 H30 Z" transform="translate(0 0)" {...W} /><path d="M80 70 V134" {...W} strokeDasharray="4 6" /><path d="M105 95 H170 M105 112 H150" {...W} /></>); break;
-    case "airport-airline": g = (<><rect x={40} y={110} width={170} height={70} rx={6} {...W} /><path d="M40 110 L125 50 L210 110" {...W} /><path d="M70 180 V135 M125 180 V135 M180 180 V135" {...W} /></>); break;
-    case "aviation-management": g = (<><path d="M30 190 L90 120 L130 150 L210 50" {...W} strokeWidth={4} /><path d="M210 50 L180 52 M210 50 L208 80" {...W} strokeWidth={4} /><path d="M30 200 H230" {...W} /></>); break;
-    case "ict": g = (<><rect x={50} y={60} width={150} height={100} rx={8} {...W} /><path d="M85 100 L105 118 L85 136 M120 138 H160" {...W} strokeWidth={4} /><path d="M90 185 H160" {...W} /></>); break;
-    default: g = (<path d="M30 150 L125 40 L220 150 L125 120 Z" {...W} strokeWidth={3} />);
+    case "cabin-crew": g = (<><path d="M30 190 H220" {...W} />{[0, 1, 2].map((r) => [0, 1].map((c) => <rect key={`${r}${c}`} x={46 + c * 98} y={36 + r * 50} width={58} height={40} rx={14} {...soft} stroke={a} strokeWidth={2} />))}<path d="M122 36 V176" {...W} strokeDasharray="3 8" /></>); break;
+    case "safety-security": g = (<><path d="M125 20 L205 52 V116 C205 160 170 186 125 202 C80 186 45 160 45 116 V52 Z" {...W} /><path d="M125 20 L205 52 V116 C205 160 170 186 125 202Z" {...soft} stroke="none" /><path d="M92 112 L116 136 L162 84" {...W} strokeWidth={6} /></>); break;
+    case "cargo": g = (<><path d="M20 196 H230" {...W} />{[[34, 148], [96, 148], [158, 148], [64, 98], [126, 98], [96, 48]].map(([x, y], i) => <rect key={i} x={x} y={y} width={56} height={46} rx={4} {...soft} stroke={a} strokeWidth={2} />)}</>); break;
+    case "tourism": g = (<><circle cx={125} cy={110} r={80} {...W} /><circle cx={125} cy={110} r={80} {...soft} stroke="none" /><ellipse cx={125} cy={110} rx={34} ry={80} {...W} /><path d="M45 110 H205 M60 70 H190 M60 150 H190" {...W} /></>); break;
+    case "airport-ops": g = (<><path d="M20 200 H230" {...W} />{[0, 1, 2, 3, 4].map((i) => <path key={i} d={`M${34 + i * 46} 200 L125 40`} {...W} opacity={0.35 + i * 0.12} />)}<path d="M104 126 h42 M92 156 h66" {...W} /></>); break;
+    case "dispatch": g = (<><circle cx={125} cy={112} r={86} {...W} /><circle cx={125} cy={112} r={56} {...W} /><circle cx={125} cy={112} r={26} {...W} /><path d="M125 112 L192 58" {...W} strokeWidth={4} /><circle cx={172} cy={74} r={7} fill={a} /></>); break;
+    case "ticketing": g = (<><path d="M30 66 H208 a18 18 0 0 0 0 36 a18 18 0 0 0 0 36 H30 Z" {...W} /><path d="M30 66 H208 a18 18 0 0 0 0 36 a18 18 0 0 0 0 36 H30 Z" {...soft} stroke="none" /><path d="M84 66 V138" {...W} strokeDasharray="4 7" /><path d="M110 92 H176 M110 112 H156" {...W} /></>); break;
+    case "airport-airline": g = (<><path d="M30 196 H220" {...W} /><path d="M40 112 L125 52 L210 112 V196 H40 Z" {...soft} stroke={a} strokeWidth={2.2} /><path d="M72 196 V138 M125 196 V138 M178 196 V138" {...W} /></>); break;
+    case "aviation-management": g = (<><path d="M30 196 H224" {...W} /><path d="M34 176 L92 118 L132 150 L212 56" {...W} strokeWidth={4} /><path d="M212 56 L182 58 M212 56 L210 86" {...W} strokeWidth={4} />{[60, 100, 140, 180].map((x, i) => <rect key={x} x={x} y={196 - 20 - i * 14} width={22} height={20 + i * 14} rx={3} {...soft} />)}</>); break;
+    case "ict": g = (<><rect x={46} y={52} width={158} height={106} rx={10} {...W} /><rect x={46} y={52} width={158} height={106} rx={10} {...soft} stroke="none" /><path d="M82 94 L104 114 L82 134 M120 136 H164" {...W} strokeWidth={4} /><path d="M92 188 H158" {...W} /></>); break;
+    default: g = (<path d="M28 150 L125 36 L222 150 L125 120 Z" {...W} strokeWidth={3} />);
   }
-  return (<svg viewBox="0 0 250 220" role="img" aria-label={`${t.name} illustration`} style={{ width: "100%", height: "auto" }}>{g}</svg>);
+  return (<svg viewBox="0 0 250 220" role="img" aria-label={`${themeOf(theme).name} illustration`}>{g}</svg>);
 }

@@ -76,6 +76,32 @@ async function move(fd: FormData) {
   refresh(p.slug); redirect(`/admin/courses/${id}`);
 }
 
+async function uploadImage(fd: FormData) {
+  "use server";
+  const s = await who(can.editContent);
+  const id = String(fd.get("id")), f = fd.get("file"), back = (m: string) => redirect(`/admin/courses/${id}?e=${encodeURIComponent(m)}`);
+  const p = await db.programme.findUnique({ where: { id } });
+  if (!p) return;
+  if (p.status === "PUBLISHED" || p.status === "ARCHIVED") back("Unpublish the course before changing its image.");
+  if (!(f instanceof File) || f.size === 0) back("Choose an image file.");
+  const file = f as File;
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) back("Use a JPG, PNG or WebP image.");
+  if (file.size > 4 * 1024 * 1024) back("The image is larger than 4 MB. Resize it to about 1600 pixels wide.");
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const a = await db.asset.create({ data: { name: file.name.slice(0, 120), mime: file.type, data: bytes } });
+  await db.programme.update({ where: { id }, data: { heroImage: `/api/assets/${a.id}`, events: { create: { actorName: s.name, action: "Changed course image" } } } });
+  redirect(`/admin/courses/${id}?ok=1`);
+}
+
+async function removeImage(fd: FormData) {
+  "use server";
+  const s = await who(can.editContent); const id = String(fd.get("id"));
+  const p = await db.programme.findUnique({ where: { id } });
+  if (!p || p.status === "PUBLISHED" || p.status === "ARCHIVED") redirect(`/admin/courses/${id}?e=${encodeURIComponent("Unpublish the course before changing its image.")}`);
+  await db.programme.update({ where: { id }, data: { heroImage: null, events: { create: { actorName: s.name, action: "Removed course image" } } } });
+  redirect(`/admin/courses/${id}?ok=1`);
+}
+
 async function addOffering(fd: FormData) {
   "use server";
   const s = await who(can.editContent);
@@ -118,7 +144,7 @@ export default async function Edit({ params, searchParams }: { params: Promise<{
   return (<><div className="top"><h1>{p.name}</h1><p>{categoryLabel(p.type)} · <span className={`pill ${p.status === "PUBLISHED" ? "ok" : "warn"}`}>{label(p.status)}</span> · {p._count.applicants} applicants</p></div>
     {sp.e && <p className="err" role="alert">{sp.e}</p>}{sp.ok && <p className="pill ok" role="status">Saved</p>}
     <div className="panel" style={{ marginBottom: 16, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-      <a href={`/courses/${p.slug}?preview=1`} target="_blank" rel="noreferrer">Preview landing page</a>
+      <a href={`/preview/${p.slug}`} target="_blank" rel="noreferrer">Preview landing page</a>
       {btn("SUBMITTED", "Submit for review", p.status === "DRAFT" && can.editContent(me.role), "p")}
       {btn("APPROVED", "Approve", p.status === "SUBMITTED" && can.approve(me.role), "p")}
       {btn("DRAFT", "Return to draft", ["SUBMITTED", "APPROVED", "ARCHIVED"].includes(p.status) && can.editContent(me.role))}
@@ -141,15 +167,21 @@ export default async function Edit({ params, searchParams }: { params: Promise<{
       {T("careers", p.careers.join("\n"), 4, "Career pathways (one per line)")}
       {T("faqs", asFaqs(p.faqs).map((f) => `${f.q} | ${f.a}`).join("\n"), 4, "FAQs (one per line: Question | Answer)")}
       <label htmlFor="durationMonths">Duration (months). Leave empty until confirmed.</label><input id="durationMonths" name="durationMonths" type="number" min={1} defaultValue={p.durationMonths ?? ""} disabled={locked} />
-      <label htmlFor="heroImage">Image path (a licensed photo under /images, optional)</label><input id="heroImage" name="heroImage" defaultValue={p.heroImage ?? ""} disabled={locked} />
+      <input type="hidden" name="heroImage" value={p.heroImage ?? ""} />
       <fieldset disabled={locked}><legend>Delivery modes</legend>{[["ON_CAMPUS", "On campus"], ["ONLINE", "Online"]].map(([v, l]) => <label key={v} style={{ marginRight: 16 }}><input type="checkbox" name="deliveryModes" value={v} defaultChecked={p.deliveryModes.includes(v)} style={{ width: "auto" }} /> {l}</label>)}</fieldset>
       <label htmlFor="feeRwf">Approved tuition fee (RWF). Leave empty until approved.</label><input id="feeRwf" name="feeRwf" inputMode="numeric" defaultValue={p.feeRwf ?? ""} disabled={locked} />
       <label htmlFor="feeUsd">Approved tuition fee (USD)</label><input id="feeUsd" name="feeUsd" inputMode="numeric" defaultValue={p.feeUsd ?? ""} disabled={locked} />
       <label htmlFor="registrationFeeRwf">Registration fee (RWF). Applicants are invoiced this on applying.</label><input id="registrationFeeRwf" name="registrationFeeRwf" inputMode="numeric" defaultValue={p.registrationFeeRwf ?? ""} disabled={locked} />
-      <label htmlFor="visualTheme">Page look</label><select id="visualTheme" name="visualTheme" defaultValue={p.visualTheme} disabled={locked}>{THEME_KEYS.map((k) => <option key={k} value={k}>{THEMES[k].name}</option>)}</select>
+      <label htmlFor="visualTheme">Subject area (also sets the artwork and catalogue filter)</label><select id="visualTheme" name="visualTheme" defaultValue={p.visualTheme} disabled={locked}>{THEME_KEYS.map((k) => <option key={k} value={k}>{THEMES[k].name}</option>)}</select>
       <label htmlFor="reviewNotes">Internal review notes (not shown publicly)</label><textarea id="reviewNotes" name="reviewNotes" rows={2} defaultValue={p.reviewNotes ?? ""} disabled={locked} />
       {!locked && <button className="p" type="submit">Save draft</button>}{locked && <p className="notice">Unpublish or return to draft to edit.</p>}
     </form>
+    <div className="panel" style={{ marginTop: 16 }}><h2>Course image</h2>
+      <p style={{ color: "var(--muted)", marginTop: 0 }}>Shown on the catalogue card and at the top of the course page. Use a licensed photograph, about 1600 pixels wide. Without one, the page shows aviation artwork.</p>
+      {p.heroImage && <p><img src={p.heroImage} alt="" style={{ maxWidth: 320, borderRadius: 8 }} /></p>}
+      {!locked && can.editContent(me.role) && <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <form action={uploadImage} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><input type="hidden" name="id" value={p.id} /><input type="file" name="file" accept="image/jpeg,image/png,image/webp" aria-label="Course image file" required /><button className="p" type="submit">Upload image</button></form>
+        {p.heroImage && <form action={removeImage}><input type="hidden" name="id" value={p.id} /><button type="submit">Remove image</button></form>}</div>}</div>
     <div className="panel" style={{ marginTop: 16 }}><h2>Intakes and seats</h2>
       <div className="tbl"><table><thead><tr><th>Intake</th><th>Branch</th><th>Schedule</th><th>Seats</th><th>Left</th><th>Deadline</th><th>Status</th><th></th></tr></thead><tbody>
         {offs.length === 0 && <tr><td colSpan={8}>No intakes yet.</td></tr>}

@@ -42,18 +42,19 @@ async function decide(fd: FormData) {
 
 export default async function Detail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const a = await db.applicant.findUnique({ where: { id }, include: { programme: true, intake: true, branch: true, documents: true, invoices: true, events: { orderBy: { createdAt: "desc" } }, assignedTo: true } });
+  const a = await db.applicant.findUnique({ where: { id }, include: { programme: true, intake: true, branch: true, documents: true, invoices: true, events: { orderBy: { createdAt: "desc" } }, assignedTo: true, uploads: { select: { id: true, kind: true, filename: true, size: true, mime: true } } } });
   if (!a) notFound();
   const officers = await db.user.findMany({ where: { role: { in: ["ADMISSIONS", "ADMIN"] } }, orderBy: { name: "asc" } });
   return (<><div className="top"><h1>{a.fullName}</h1><p>{a.reference} · {a.programme.name} · {a.intake.label} · {a.branch.name} · {a.session === "WEEKDAY" ? "Weekday" : "Weekend"} · <span className="pill">{label(a.status)}</span></p></div>
     <div className="panel" style={{ marginBottom: 16 }}><h2>Contact and source</h2>
       <p style={{ margin: 0 }}>Phone: {a.phone ?? "-"} · Email: {a.email ?? "-"} · Born: {a.dateOfBirth?.toISOString().slice(0, 10) ?? "-"}</p>
+      {a.educationLevel && <p style={{ margin: "4px 0 0" }}>Education: {a.educationLevel}, {a.institution} ({a.completionYear})</p>}
       {a.guardianName && <p style={{ margin: "4px 0 0" }}>Guardian: {a.guardianName} ({a.guardianPhone})</p>}
       <p style={{ margin: "4px 0 0" }}>Source: {a.leadSource ?? a.source}{a.utmCampaign ? ` · campaign ${a.utmCampaign}` : ""}{a.language ? ` · language ${a.language}` : ""}</p>
       <form action={assign} style={{ marginTop: 10, display: "flex", gap: 8 }}><input type="hidden" name="id" value={a.id} />
         <select name="uid" defaultValue={a.assignedToId ?? ""} aria-label="Assigned officer"><option value="">Unassigned</option>{officers.map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}</select><button type="submit">Assign</button></form></div>
     <div className="panel tbl" style={{ marginBottom: 16 }}><h2>Documents</h2><table><thead><tr><th>Document</th><th>Status</th><th>Action</th></tr></thead><tbody>
-      {a.documents.map((d) => <tr key={d.id}><td>{d.kind}{d.note && <small style={{ display: "block", color: "var(--muted)" }}>{d.note}</small>}</td><td><span className={`pill ${d.status === "VERIFIED" ? "ok" : d.status === "MISSING" ? "bad" : "warn"}`}>{label(d.status)}</span></td>
+      {a.documents.map((d) => <tr key={d.id}><td>{d.kind}{d.note && <small style={{ display: "block", color: "var(--muted)" }}>{d.note}</small>}{a.uploads.filter((u) => u.kind === d.kind).map((u) => <small key={u.id} style={{ display: "block" }}><a href={`/api/documents/${u.id}`} target="_blank" rel="noreferrer">View {u.filename}</a> ({Math.max(1, Math.round(u.size / 1024))} KB)</small>)}</td><td><span className={`pill ${d.status === "VERIFIED" ? "ok" : d.status === "MISSING" ? "bad" : "warn"}`}>{label(d.status)}</span></td>
         <td><form action={setDoc} style={{ display: "flex", gap: 4 }}><input type="hidden" name="id" value={a.id} /><input type="hidden" name="docId" value={d.id} /><input name="note" placeholder="Note" aria-label="Note" style={{ width: 150 }} />
           <button className="s" name="status" value="RECEIVED">Received</button><button className="s" name="status" value="VERIFIED">Verify</button><button className="s" name="status" value="MISSING">Request again</button></form></td></tr>)}
     </tbody></table><p style={{ color: "var(--muted)", marginBottom: 0 }}>Requesting a document again records it on the application. Messages to the applicant are not sent automatically yet.</p></div>
