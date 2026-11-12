@@ -1,0 +1,3 @@
+/: headline visible 1702 ms, 22 KB so far
+/courses/personnel-licensing: headline visible 925 ms, 9 KB so far
+/apply?course=personnel-licensing: headline visible 994 ms, 7 KB so far

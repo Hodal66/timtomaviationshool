@@ -1,0 +1,29 @@
+# Proposed CI workflow. NOT EXECUTED (no CI runner available in the QA environment). Copy to .github/workflows/qa.yml
+# (pushing workflow files needs a token with the "workflow" scope).
+name: qa
+on: { pull_request: {}, push: { branches: [main] } }
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_HOST_AUTH_METHOD: trust, POSTGRES_DB: tas_qa }
+        ports: ["5544:5432"]
+        options: --health-cmd "pg_isready" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres@localhost:5544/tas_qa
+      DATABASE_URL_UNPOOLED: postgresql://postgres@localhost:5544/tas_qa
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npx prisma generate
+      - run: npx tsc --noEmit
+      - run: npx vitest run --coverage        # release gate: >= 80% of core logic
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test tests/e2e --trace off
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: qa-reports, path: "qa/reports\nqa/evidence\ntest-results" }
