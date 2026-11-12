@@ -29,7 +29,7 @@ async function save(fd: FormData) {
     name: String(fd.get("name")).trim(), slug, type: String(fd.get("type")) as never, qualificationType: String(fd.get("qualificationType") ?? "").trim() || null,
     awardingBody: String(fd.get("awardingBody") ?? "").trim() || null, summary: String(fd.get("summary") ?? "").trim() || null, description: String(fd.get("description") ?? "").trim() || null,
     objectives: lines(fd.get("objectives")), entryRequirements: lines(fd.get("entryRequirements")), careers: lines(fd.get("careers")), deliveryModes: fd.getAll("deliveryModes").map(String),
-    modules, faqs, durationMonths: num(fd.get("durationMonths")) ?? 6, feeRwf: num(fd.get("feeRwf")), feeUsd: num(fd.get("feeUsd")), registrationFeeRwf: num(fd.get("registrationFeeRwf")),
+    modules, faqs, durationMonths: num(fd.get("durationMonths")), heroImage: String(fd.get("heroImage") ?? "").trim() || null, feeRwf: num(fd.get("feeRwf")), feeUsd: num(fd.get("feeUsd")), registrationFeeRwf: num(fd.get("registrationFeeRwf")),
     visualTheme: String(fd.get("visualTheme") ?? "default"), reviewNotes: String(fd.get("reviewNotes") ?? "").trim() || null,
     events: { create: { actorName: s.name, action: "Edited details" } } } });
   redirect(`/admin/courses/${id}?ok=1`);
@@ -140,7 +140,8 @@ export default async function Edit({ params, searchParams }: { params: Promise<{
       {T("entryRequirements", p.entryRequirements.join("\n"), 4, "Entry requirements (one per line)")}
       {T("careers", p.careers.join("\n"), 4, "Career pathways (one per line)")}
       {T("faqs", asFaqs(p.faqs).map((f) => `${f.q} | ${f.a}`).join("\n"), 4, "FAQs (one per line: Question | Answer)")}
-      <label htmlFor="durationMonths">Duration (months)</label><input id="durationMonths" name="durationMonths" type="number" min={1} defaultValue={p.durationMonths} disabled={locked} />
+      <label htmlFor="durationMonths">Duration (months). Leave empty until confirmed.</label><input id="durationMonths" name="durationMonths" type="number" min={1} defaultValue={p.durationMonths ?? ""} disabled={locked} />
+      <label htmlFor="heroImage">Image path (a licensed photo under /images, optional)</label><input id="heroImage" name="heroImage" defaultValue={p.heroImage ?? ""} disabled={locked} />
       <fieldset disabled={locked}><legend>Delivery modes</legend>{[["ON_CAMPUS", "On campus"], ["ONLINE", "Online"]].map(([v, l]) => <label key={v} style={{ marginRight: 16 }}><input type="checkbox" name="deliveryModes" value={v} defaultChecked={p.deliveryModes.includes(v)} style={{ width: "auto" }} /> {l}</label>)}</fieldset>
       <label htmlFor="feeRwf">Approved tuition fee (RWF). Leave empty until approved.</label><input id="feeRwf" name="feeRwf" inputMode="numeric" defaultValue={p.feeRwf ?? ""} disabled={locked} />
       <label htmlFor="feeUsd">Approved tuition fee (USD)</label><input id="feeUsd" name="feeUsd" inputMode="numeric" defaultValue={p.feeUsd ?? ""} disabled={locked} />

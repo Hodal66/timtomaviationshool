@@ -45,10 +45,11 @@ export function slugify(s: string) {
 /** Rules a course must pass before it can be submitted for review. Prevents empty or mislabelled public pages. */
 export function readinessProblems(p: {
   name: string; slug: string | null; type: ProgrammeType; qualificationType: string | null; awardingBody: string | null;
-  summary: string | null; description: string | null; objectives: string[]; entryRequirements: string[]; durationMonths: number; deliveryModes: string[];
+  summary: string | null; description: string | null; objectives: string[]; entryRequirements: string[]; durationMonths: number | null; deliveryModes: string[];
 }) {
   const out: string[] = [];
   if (!p.slug) out.push("Add a web address (slug).");
+  if (!p.durationMonths) out.push("State the duration in months.");
   if (!p.summary?.trim()) out.push("Add a short summary.");
   if (!p.description?.trim()) out.push("Add the approved course description.");
   if (p.objectives.length === 0) out.push("Add at least one learning outcome.");

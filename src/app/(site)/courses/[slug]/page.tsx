@@ -36,16 +36,16 @@ export default async function Course({ params, searchParams }: { params: Promise
     {!staff && <Track programmeId={p.id} />}
     {staff && p.status !== "PUBLISHED" && <div className="notice wrap" style={{ marginTop: 12 }}><b>Preview.</b> Status: {p.status}. This page is not public yet.</div>}
     <section className="hero"><div className="wrap">
-      <div><span className="eyebrow">{categoryLabel(p.type)}</span><h1>{p.name}</h1><p className="lead">{p.summary}</p>
-        <div className="facts"><span>{p.durationMonths} months</span>{p.deliveryModes.length > 0 && <span>{p.deliveryModes.map((m) => MODE_TEXT[m] ?? m).join(" · ")}</span>}
+      <div><span className="eyebrow onhero">{categoryLabel(p.type)}</span><h1>{p.name}</h1><p className="lead">{p.summary}</p>
+        <div className="facts">{p.durationMonths && <span>{p.durationMonths} months</span>}{p.deliveryModes.length > 0 && <span>{p.deliveryModes.map((m) => MODE_TEXT[m] ?? m).join(" · ")}</span>}
           {next && <span>Next intake: {next.intake.label}</span>}{p.feeRwf != null && <span>Tuition RWF {p.feeRwf.toLocaleString("en-US")}</span>}</div>
         <p><ApplyLink className="btn acc" href={apply(next)} programmeId={p.id}>Apply now</ApplyLink></p></div>
-      <div className="art"><Motif theme={p.visualTheme} /><div className="cap">Illustration, not a photograph of the School.</div></div>
+      <div className="art">{p.heroImage ? <img src={p.heroImage} alt="" style={{ width: "100%", borderRadius: 12 }} /> : <><Motif theme={p.visualTheme} /><div className="cap">Illustration, not a photograph of the School.</div></>}</div>
     </div></section>
 
     <section className="sec"><div className="wrap two">
       <div><h2>About the course</h2><p style={{ maxWidth: "65ch", whiteSpace: "pre-line" }}>{p.description}</p>
-        <p><span className="tag">{p.qualificationType}</span> {p.awardingBody && <span className="tag">Certified by {p.awardingBody}</span>}</p></div>
+        <p>{p.qualificationType && <span className="tag">{p.qualificationType}</span>} {p.awardingBody && <span className="tag">Certified by {p.awardingBody}</span>}</p></div>
       {p.objectives.length > 0 && <div><h2>What you will learn</h2><ul className="ol">{p.objectives.map((o, i) => <li key={i}>{o}</li>)}</ul></div>}
     </div></section>
 
@@ -53,7 +53,7 @@ export default async function Course({ params, searchParams }: { params: Promise
       <div className="grid3">{mods.map((m, i) => <div className="tile" key={i}><h3>{m.name}</h3>{m.description && <p style={{ margin: 0, color: "var(--muted)" }}>{m.description}</p>}</div>)}</div></div></section>}
 
     <section className="sec"><div className="wrap two">
-      <div><h2>Admission requirements</h2><ul className="ol">{p.entryRequirements.map((r, i) => <li key={i}>{r}</li>)}</ul></div>
+      {p.entryRequirements.length > 0 ? <div><h2>Admission requirements</h2><ul className="ol">{p.entryRequirements.map((r, i) => <li key={i}>{r}</li>)}</ul></div> : <div><h2>Admission requirements</h2><p>Ask admissions for the entry requirements of this course.</p></div>}
       <div><h2>Fees and registration</h2>
         {p.feeRwf != null ? <p>Tuition: <b>RWF {p.feeRwf.toLocaleString("en-US")}</b>{p.feeUsd != null && <> (USD {p.feeUsd.toLocaleString("en-US")})</>}</p> : <p>Fees for this course are confirmed by admissions.</p>}
         {p.registrationFeeRwf != null && <p>Registration fee: <b>RWF {p.registrationFeeRwf.toLocaleString("en-US")}</b>, invoiced when you apply.</p>}

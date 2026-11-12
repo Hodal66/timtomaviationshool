@@ -103,7 +103,7 @@ model Programme {
   code               String              @unique
   name               String
   type               ProgrammeType
-  durationMonths     Int                 @default(6)
+  durationMonths     Int?
   feeRwf             Int?
   feeUsd             Int?
   slug               String?             @unique
@@ -118,6 +118,7 @@ model Programme {
   careers            String[]
   faqs               Json?
   visualTheme        String              @default("default")
+  heroImage          String?
   registrationFeeRwf Int?
   status             ContentStatus       @default(DRAFT)
   reviewNotes        String?
