@@ -14,6 +14,23 @@ async function main() {
   ].map(([code, name, type, feeRwf, feeUsd]) => db.programme.upsert({ where: { code: code as string }, update: {},
     create: { code: code as string, name: name as string, type: type as never, feeRwf: feeRwf as number, feeUsd: feeUsd as number } })));
 
+  // Course catalogue starting point. Titles only: everything else must be confirmed by the School before publication.
+  const NOTE = "Titles come from the School's list. Category, duration, fees, curriculum, entry requirements, awarding body and intakes are NOT yet verified against the approved catalogue.";
+  const legacy: Record<string, [string, string, string]> = { GRD: ["IATA Ground Operations", "ground-operations-legacy", "airport-ops"], CAB: ["Air Cabin Crew", "air-cabin-crew", "cabin-crew"],
+    TKT: ["Air Fares and Ticketing", "air-fares-and-ticketing", "ticketing"], CGO: ["Air Cargo Management", "air-cargo-management", "cargo"], ICT: ["ICT and Technology Training", "ict-and-technology-training", "ict"] };
+  for (const [code, [name, slug, visualTheme]] of Object.entries(legacy)) {
+    // Sample rows from the first prototype: clear invented fees and categories once, never again.
+    await db.programme.updateMany({ where: { code, slug: null }, data: { name, slug, visualTheme, feeRwf: null, feeUsd: null, type: code === "ICT" ? "ICT" : "CERTIFICATE", reviewNotes: NOTE + (code === "GRD" ? " This row is a sample from the first prototype." : ""), status: "DRAFT" } });
+  }
+  const more: [string, string, string, string][] = [
+    ["AVM", "Aviation Management", "aviation-management", "aviation-management"], ["CAM", "Civil Aviation Management", "civil-aviation-management", "aviation-management"],
+    ["AAM", "Airline and Airport Management", "airline-and-airport-management", "airport-airline"], ["APO", "Airport Operations", "airport-operations", "airport-ops"],
+    ["FDP", "Flight Dispatch", "flight-dispatch", "dispatch"], ["ASS", "Aviation Safety and Security", "aviation-safety-and-security", "safety-security"],
+    ["TTM", "Travel and Tourism Management", "travel-and-tourism-management", "tourism"],
+  ];
+  for (const [code, name, slug, visualTheme] of more)
+    await db.programme.upsert({ where: { code }, update: {}, create: { code, name, slug, visualTheme, type: "CERTIFICATE", status: "DRAFT", reviewNotes: NOTE } });
+
   const intake = await db.intake.upsert({ where: { label: "July 2027" }, update: {},
     create: { label: "July 2027", startsOn: new Date("2027-07-05"), endsOn: new Date("2027-12-31") } });
 

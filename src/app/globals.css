@@ -36,3 +36,39 @@ button.s{padding:3px 10px;margin-top:8px;cursor:pointer}
 .box{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;display:grid;gap:12px}
 .err{color:var(--bad)}
 @media(max-width:860px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;align-items:center}.side b{padding:0 8px}.side form{margin:0 0 0 auto}main{padding-left:16px}}
+/* ---------- Public website ---------- */
+.site{min-height:100vh;display:flex;flex-direction:column}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sh{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.sh .wrap{display:flex;align-items:center;gap:20px;min-height:60px;flex-wrap:wrap}
+.sh .logo{font:600 17px Poppins,sans-serif;color:var(--fg);text-decoration:none;display:flex;gap:10px;align-items:center}
+.sh .logo i{width:30px;height:30px;border-radius:50%;border:3px solid var(--orange);background:var(--surface);display:grid;place-items:center;font:700 9px Poppins;font-style:normal;color:var(--blue)}
+.sh nav{display:flex;gap:16px;margin-left:auto;flex-wrap:wrap}.sh nav a{color:var(--fg);text-decoration:none;font-weight:500}.sh nav a:hover{color:var(--blue)}
+.btn{display:inline-block;background:var(--blue);color:var(--btn-fg);padding:10px 18px;border-radius:8px;font-weight:600;text-decoration:none;border:0;cursor:pointer;font-size:14px}
+.btn.alt{background:transparent;color:inherit;border:1.5px solid currentColor}
+.btn.acc{background:var(--acc,var(--orange));color:#101010}
+.sf{background:var(--navy);color:#C9D6EA;margin-top:48px;padding-block:28px}.sf a{color:#fff}
+.hero{background:linear-gradient(120deg,var(--dark,#0A2240),color-mix(in srgb,var(--dark,#0A2240) 70%,var(--line,#0B4DA2)));color:#fff}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:32px;align-items:center;padding-block:48px}
+.hero h1{font-size:clamp(28px,4.4vw,46px);line-height:1.1;text-wrap:balance}
+.hero p.lead{font-size:17px;max-width:56ch;opacity:.92}
+.eyebrow{font:600 12px Inter;letter-spacing:.12em;text-transform:uppercase;color:var(--acc,var(--orange))}
+.facts{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+.facts span{background:rgba(255,255,255,.12);border-radius:99px;padding:4px 12px;font-size:13px}
+.hero .art{max-width:300px;justify-self:center;width:100%}
+.cap{font-size:11px;opacity:.65;text-align:center}
+.sec{padding-block:36px}.sec h2{font-size:24px;margin-bottom:14px}
+.sec.tint{background:var(--soft,var(--blue-soft))}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.tile h3{font:600 16px Poppins;margin:0 0 6px}
+.tile.link{text-decoration:none;color:inherit;display:block}.tile.link:hover{border-color:var(--blue)}
+.tag{display:inline-block;font-size:12px;border-radius:99px;padding:1px 10px;background:var(--blue-soft);color:var(--blue)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+.ol{padding-left:20px;margin:0;display:grid;gap:6px}
+.faq details{border-bottom:1px solid var(--line);padding:10px 0}.faq summary{cursor:pointer;font-weight:600}
+.cta{background:var(--dark,#0A2240);color:#fff;border-radius:14px;padding:32px;text-align:center}
+.notice{border:1px solid var(--line);border-left:4px solid var(--orange);background:var(--surface);padding:12px 14px;border-radius:8px}
+.form{display:grid;gap:12px;max-width:640px}.form label{font-weight:600}.form input,.form select,.form textarea{width:100%;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+.steps{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}.steps b{padding:4px 12px;border-radius:99px;background:var(--blue-soft);color:var(--blue);font-size:12px}.steps b.on{background:var(--blue);color:var(--btn-fg)}
+@media(max-width:760px){.hero .wrap,.two{grid-template-columns:1fr}.hero .art{max-width:200px}}

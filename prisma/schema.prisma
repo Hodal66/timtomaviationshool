@@ -14,6 +14,8 @@ enum Role {
   FINANCE
   LECTURER
   BRANCH_MANAGER
+  ACADEMIC
+  MARKETING
 }
 
 enum ProgrammeType {
@@ -72,14 +74,15 @@ enum CertificateStatus {
 }
 
 model Branch {
-  id         String       @id @default(cuid())
-  code       String       @unique
+  id         String              @id @default(cuid())
+  code       String              @unique
   name       String
   country    String
   users      User[]
   applicants Applicant[]
   rooms      Room[]
   groups     ClassGroup[]
+  offerings  ProgrammeOffering[]
 }
 
 model User {
@@ -92,52 +95,88 @@ model User {
   branch       Branch?         @relation(fields: [branchId], references: [id])
   createdAt    DateTime        @default(now())
   slots        TimetableSlot[]
+  assigned     Applicant[]     @relation("Assigned")
 }
 
 model Programme {
-  id             String        @id @default(cuid())
-  code           String        @unique
-  name           String
-  type           ProgrammeType
-  durationMonths Int           @default(6)
-  feeRwf         Int
-  feeUsd         Int
-  applicants     Applicant[]
-  certificates   Certificate[]
-  groups         ClassGroup[]
+  id                 String              @id @default(cuid())
+  code               String              @unique
+  name               String
+  type               ProgrammeType
+  durationMonths     Int                 @default(6)
+  feeRwf             Int?
+  feeUsd             Int?
+  slug               String?             @unique
+  qualificationType  String?
+  awardingBody       String?
+  summary            String?
+  description        String?
+  objectives         String[]
+  entryRequirements  String[]
+  deliveryModes      String[]
+  modules            Json?
+  careers            String[]
+  faqs               Json?
+  visualTheme        String              @default("default")
+  registrationFeeRwf Int?
+  status             ContentStatus       @default(DRAFT)
+  reviewNotes        String?
+  submittedById      String?
+  approvedById       String?
+  publishedAt        DateTime?
+  updatedAt          DateTime            @default(now()) @updatedAt
+  events             ProgrammeEvent[]
+  offerings          ProgrammeOffering[]
+  applicants         Applicant[]
+  certificates       Certificate[]
+  groups             ClassGroup[]
 }
 
 model Intake {
-  id         String       @id @default(cuid())
-  label      String       @unique
+  id         String              @id @default(cuid())
+  label      String              @unique
   startsOn   DateTime
   endsOn     DateTime
   applicants Applicant[]
   groups     ClassGroup[]
+  offerings  ProgrammeOffering[]
 }
 
 model Applicant {
-  id           String            @id @default(cuid())
-  fullName     String
-  email        String?
-  phone        String?
-  dateOfBirth  DateTime?
-  source       String            @default("Web")
-  status       ApplicationStatus @default(SUBMITTED)
-  session      Session           @default(WEEKDAY)
-  branchId     String
-  branch       Branch            @relation(fields: [branchId], references: [id])
-  programmeId  String
-  programme    Programme         @relation(fields: [programmeId], references: [id])
-  intakeId     String
-  intake       Intake            @relation(fields: [intakeId], references: [id])
-  classGroupId String?
-  classGroup   ClassGroup?       @relation(fields: [classGroupId], references: [id])
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
-  payments     Payment[]
-  attendance   Attendance[]
-  certificates Certificate[]
+  id            String             @id @default(cuid())
+  fullName      String
+  email         String?
+  phone         String?
+  dateOfBirth   DateTime?
+  source        String             @default("Web")
+  status        ApplicationStatus  @default(SUBMITTED)
+  session       Session            @default(WEEKDAY)
+  branchId      String
+  branch        Branch             @relation(fields: [branchId], references: [id])
+  programmeId   String
+  programme     Programme          @relation(fields: [programmeId], references: [id])
+  intakeId      String
+  intake        Intake             @relation(fields: [intakeId], references: [id])
+  classGroupId  String?
+  classGroup    ClassGroup?        @relation(fields: [classGroupId], references: [id])
+  reference     String?            @unique
+  leadSource    String?
+  utmSource     String?
+  utmMedium     String?
+  utmCampaign   String?
+  language      String?
+  guardianName  String?
+  guardianPhone String?
+  assignedToId  String?
+  assignedTo    User?              @relation("Assigned", fields: [assignedToId], references: [id])
+  events        ApplicationEvent[]
+  documents     DocumentItem[]
+  invoices      Invoice[]
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  payments      Payment[]
+  attendance    Attendance[]
+  certificates  Certificate[]
 
   @@index([status])
   @@index([branchId])
@@ -152,6 +191,9 @@ model Payment {
   status      PaymentStatus  @default(UNMATCHED)
   applicantId String?
   applicant   Applicant?     @relation(fields: [applicantId], references: [id])
+  invoiceId   String?
+  invoice     Invoice?       @relation(fields: [invoiceId], references: [id])
+  verifiedBy  String?
   paidAt      DateTime       @default(now())
 
   @@index([status])
@@ -230,4 +272,123 @@ model Certificate {
   issuer      String            @default("Timtom Aviation School")
   status      CertificateStatus @default(VALID)
   issuedOn    DateTime
+}
+
+enum ContentStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum OfferingStatus {
+  DRAFT
+  OPEN
+  CLOSED
+}
+
+enum DocStatus {
+  PENDING
+  RECEIVED
+  VERIFIED
+  MISSING
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+model ProgrammeEvent {
+  id          String    @id @default(cuid())
+  programmeId String
+  programme   Programme @relation(fields: [programmeId], references: [id], onDelete: Cascade)
+  actorName   String
+  action      String
+  createdAt   DateTime  @default(now())
+}
+
+model ProgrammeOffering {
+  id          String         @id @default(cuid())
+  programmeId String
+  programme   Programme      @relation(fields: [programmeId], references: [id])
+  intakeId    String
+  intake      Intake         @relation(fields: [intakeId], references: [id])
+  branchId    String
+  branch      Branch         @relation(fields: [branchId], references: [id])
+  session     Session
+  seats       Int
+  deadline    DateTime?
+  status      OfferingStatus @default(DRAFT)
+
+  @@unique([programmeId, intakeId, branchId, session])
+}
+
+model ApplicationEvent {
+  id          String    @id @default(cuid())
+  applicantId String
+  applicant   Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  type        String
+  message     String
+  actorName   String
+  createdAt   DateTime  @default(now())
+
+  @@index([applicantId])
+}
+
+model DocumentItem {
+  id          String    @id @default(cuid())
+  applicantId String
+  applicant   Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  kind        String
+  status      DocStatus @default(PENDING)
+  note        String?
+
+  @@unique([applicantId, kind])
+}
+
+model Invoice {
+  id          String        @id @default(cuid())
+  reference   String        @unique
+  applicantId String
+  applicant   Applicant     @relation(fields: [applicantId], references: [id])
+  description String
+  amountMinor Int
+  currency    Currency      @default(RWF)
+  status      InvoiceStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  paidAt      DateTime?
+  payments    Payment[]
+}
+
+model Lead {
+  id          String   @id @default(cuid())
+  name        String
+  phone       String?
+  email       String?
+  message     String?
+  programmeId String?
+  source      String   @default("Website")
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  createdAt   DateTime @default(now())
+}
+
+model PageEvent {
+  id          String   @id @default(cuid())
+  type        String
+  path        String
+  programmeId String?
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  lang        String?
+  device      String?
+  createdAt   DateTime @default(now())
+
+  @@index([type, createdAt])
+  @@index([programmeId])
 }
