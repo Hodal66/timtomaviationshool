@@ -1,0 +1,227 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TAS-One</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap">
+<style>
+/* Layout: staff console (sidebar + workspace) with a phone-framed student app view. Brand tokens from SRS §10. */
+:root{
+  --bg:#F4F7FB; --surface:#FFFFFF; --fg:#0A2240; --muted:#5B6B82; --line:#DDE5F0;
+  --blue:#0B4DA2; --blue-soft:#E4EEFB; --navy:#0A2240; --orange:#F7893B; --orange-soft:#FEEBDC;
+  --ok:#157F4B; --ok-soft:#DDF3E6; --warn:#9A5B00; --warn-soft:#FFF0CC; --bad:#B3261E; --bad-soft:#FBE3E1;
+  --nav-bg:#0A2240; --nav-fg:#C9D6EA; --nav-active:#12376A;
+  --display:'Poppins',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0A1424; --surface:#101D33; --fg:#E8EEF8; --muted:#97A7C0; --line:#223656;
+  --blue:#5B9BEF; --blue-soft:#162E52; --orange:#F7993F; --orange-soft:#3A2713;
+  --ok:#5CD08F; --ok-soft:#10301F; --warn:#F2C25C; --warn-soft:#3A2E0E; --bad:#FF8A80; --bad-soft:#3E1714;
+  --nav-bg:#07101E; --nav-fg:#A9B9D3; --nav-active:#12294B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A1424; --surface:#101D33; --fg:#E8EEF8; --muted:#97A7C0; --line:#223656;
+  --blue:#5B9BEF; --blue-soft:#162E52; --orange:#F7993F; --orange-soft:#3A2713;
+  --ok:#5CD08F; --ok-soft:#10301F; --warn:#F2C25C; --warn-soft:#3A2E0E; --bad:#FF8A80; --bad-soft:#3E1714;
+  --nav-bg:#07101E; --nav-fg:#A9B9D3; --nav-active:#12294B; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:14px;line-height:1.5;
+  padding-block:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);gap:0 24px;max-width:1280px;margin:0 auto;min-height:100vh}
+nav.side{background:var(--nav-bg);color:var(--nav-fg);padding:16px 12px;position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;margin-left:calc(-1*max(16px,env(safe-area-inset-left,0px)));padding-left:max(16px,env(safe-area-inset-left,0px))}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 6px 16px;color:#fff}
+.logo{width:36px;height:36px;border-radius:50%;background:#fff;border:3px solid var(--orange);display:grid;place-items:center;color:var(--blue);font:700 11px var(--display);flex:none}
+.brand b{font:600 15px var(--display);display:block;line-height:1.1}.brand small{font-size:11px;color:var(--nav-fg)}
+.grp{font:600 10px var(--body);letter-spacing:.12em;text-transform:uppercase;padding:14px 8px 6px;color:#7F93B3}
+.side button.nv{display:flex;width:100%;align-items:center;justify-content:space-between;gap:8px;background:none;border:0;border-radius:8px;padding:8px 10px;text-align:left;color:inherit}
+.side button.nv:hover{background:var(--nav-active)}
+.side button.nv[aria-current="page"]{background:var(--nav-active);color:#fff;box-shadow:inset 3px 0 0 var(--orange)}
+.cnt{font-size:11px;background:var(--orange);color:#2A1500;border-radius:99px;padding:0 7px;font-weight:600}
+main{padding-block:20px 48px;min-width:0}
+.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:20px}
+.top h1{font-size:22px}.top p{margin:2px 0 0;color:var(--muted)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select,.btn,input[type=text]{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 12px;color:var(--fg);font:inherit}
+.btn.p{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+[data-theme="dark"] .btn.p,:root:not([data-theme="light"]) .btn.p{color:#06152B}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
+.kpi span{color:var(--muted);font-size:12px}.kpi b{display:block;font:600 24px var(--display);font-variant-numeric:tabular-nums;margin-top:2px}
+.kpi em{font-style:normal;font-size:12px}.up{color:var(--ok)}.dn{color:var(--bad)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.panel h2{font-size:15px;margin-bottom:12px}
+.tbl{overflow-x:auto}table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th{font:600 11px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}tr:last-child td{border:0}
+.pill{display:inline-block;border-radius:99px;padding:1px 10px;font-size:12px;font-weight:500}
+.ok{background:var(--ok-soft);color:var(--ok)}.warn{background:var(--warn-soft);color:var(--warn)}.bad{background:var(--bad-soft);color:var(--bad)}.info{background:var(--blue-soft);color:var(--blue)}
+.kan{display:grid;grid-template-columns:repeat(5,minmax(190px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px}
+.col{background:var(--blue-soft);border-radius:10px;padding:10px;min-height:260px}
+.col h3{font:600 12px var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--blue);display:flex;justify-content:space-between;margin-bottom:8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px;margin-bottom:8px;display:block;width:100%;text-align:left}
+.card b{display:block}.card small{color:var(--muted)}.card .row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.tt{display:grid;grid-template-columns:70px repeat(5,minmax(120px,1fr));gap:6px;overflow-x:auto;min-width:0}
+.tt>div{padding:6px;border-radius:6px;min-height:46px}.tt .h{font:600 12px var(--body);color:var(--muted);text-align:center;min-height:0}
+.slot{background:var(--blue-soft);border-left:3px solid var(--blue);font-size:12px}.slot.o{background:var(--orange-soft);border-color:var(--orange)}.slot.x{background:var(--bad-soft);border-color:var(--bad)}
+.bars{display:flex;align-items:flex-end;gap:10px;height:150px;border-bottom:1px solid var(--line);padding-top:8px}
+.bars div{flex:1;background:var(--blue);border-radius:4px 4px 0 0;position:relative;min-width:0}
+.bars div.cur{background:var(--orange)}.bars i{position:absolute;top:-18px;left:0;right:0;text-align:center;font:500 11px var(--body);font-style:normal;color:var(--muted)}
+.lbl{display:flex;gap:10px}.lbl span{flex:1;text-align:center;font-size:11px;color:var(--muted)}
+.qr{display:grid;grid-template-columns:repeat(9,1fr);width:150px;aspect-ratio:1;gap:2px;padding:8px;background:#fff;border-radius:8px;border:1px solid var(--line)}
+.qr i{background:#0A2240}.qr i.w{background:#fff}
+.split{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.phone{width:320px;max-width:100%;border:8px solid var(--navy);border-radius:32px;background:var(--bg);overflow:hidden;margin-inline:auto}
+.ph-top{background:var(--blue);color:#fff;padding:18px 16px 28px}
+.ph-top small{opacity:.85}.ph-top h2{font-size:18px;margin-top:2px}
+.ph-body{padding:0 12px 12px;margin-top:-18px;display:grid;gap:10px}
+.ph-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.ph-card h3{font:600 12px var(--body);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.steps{display:flex;gap:4px;margin-top:6px}.steps i{flex:1;height:6px;border-radius:3px;background:var(--line)}.steps i.on{background:var(--ok)}.steps i.now{background:var(--orange)}
+.verify{display:flex;gap:8px;flex-wrap:wrap}.verify input{flex:1;min-width:180px}
+.res{margin-top:12px;padding:12px;border-radius:8px}
+.note{color:var(--muted);font-size:12px;margin-top:20px}
+@media (max-width:860px){
+  .app{grid-template-columns:1fr}
+  nav.side{position:static;height:auto;margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;overflow-x:auto;gap:4px;align-items:center}
+  .brand{padding:0 8px 0 0}.grp{display:none}.side button.nv{white-space:nowrap;width:auto}
+  .grid2{grid-template-columns:1fr}
+}
+</style>
+
+</head><body>
+<div class="app">
+<nav class="side" aria-label="Modules">
+  <div class="brand"><div class="logo">TAS</div><div><b>TAS-One</b><small>Timtom Aviation School</small></div></div>
+  <div class="grp">Overview</div>
+  <button class="nv" data-v="dash">Dashboard</button>
+  <div class="grp">Academics</div>
+  <button class="nv" data-v="adm">Admissions <span class="cnt">14</span></button>
+  <button class="nv" data-v="tt">Timetable</button>
+  <button class="nv" data-v="att">Attendance</button>
+  <button class="nv" data-v="crt">Certificates</button>
+  <div class="grp">Operations</div>
+  <button class="nv" data-v="fin">Finance</button>
+  <div class="grp">Students</div>
+  <button class="nv" data-v="app">Student app</button>
+</nav>
+
+<main>
+  <div class="top">
+    <div><h1 id="ttl"></h1><p id="sub"></p></div>
+    <div class="tools">
+      <label class="sr" for="br" style="position:absolute;left:-9999px">Branch</label>
+      <select id="br"><option>All branches</option><option>Kigali</option><option>Bugesera–Nyamata</option><option>Goma</option></select>
+      <select id="lang" aria-label="Language"><option>English</option><option>Français</option><option>Kinyarwanda</option></select>
+    </div>
+  </div>
+  <section id="view"></section>
+  <p class="note">Prototype built from SRS v2.0. All names, figures and references are sample data. Requirement IDs (e.g. ADM-05) show where each screen comes from.</p>
+</main>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const views={};
+const titles={dash:['Dashboard','Today across Kigali, Bugesera–Nyamata and Goma · Intake: July 2027'],adm:['Admissions','Kanban per branch with duplicate detection · ADM-05'],tt:['Timetable','Clash detection for lecturer, room and group · TTB-02'],att:['Attendance','Rotating QR, roll-call or online join log · ATT-01'],crt:['Certificates','Unique number and QR, public verification · CRT-01, CRT-02'],fin:['Finance','Mobile money and bank references, automatic reconciliation · FIN-02, FIN-03'],app:['Student app','What a student sees: status, timetable, results, balance · ADM-04, TTB-03, ASM-03, FIN-04']};
+
+views.dash=()=>`
+<div class="kpis">
+ <div class="kpi"><span>Applications this intake</span><b>248</b><em class="up">▲ 18% vs April</em></div>
+ <div class="kpi"><span>Application to decision</span><b>31 h</b><em class="up">Target under 48 h</em></div>
+ <div class="kpi"><span>Payments auto-reconciled</span><b>93%</b><em class="dn">Target 95%</em></div>
+ <div class="kpi"><span>Attendance this week</span><b>86%</b><em class="up">Alert threshold 80%</em></div>
+</div>
+<div class="grid2">
+ <div class="panel"><h2>Weekly attendance by branch</h2>
+  <div class="bars"><div style="height:86%"><i>86%</i></div><div style="height:79%" class="cur"><i>79%</i></div><div style="height:91%"><i>91%</i></div><div style="height:84%"><i>84%</i></div></div>
+  <div class="lbl"><span>Kigali</span><span>Nyamata</span><span>Goma</span><span>Online</span></div></div>
+ <div class="panel"><h2>Needs attention</h2>
+  <table><tbody>
+   <tr><td><span class="pill bad">Alert</span></td><td>Nyamata weekday group below 80%</td></tr>
+   <tr><td><span class="pill warn">Review</span></td><td>6 applicants missing A2 certificate</td></tr>
+   <tr><td><span class="pill warn">Review</span></td><td>3 payments without a matching reference</td></tr>
+   <tr><td><span class="pill bad">Offline</span></td><td>Goma branch link down 12 min</td></tr>
+   <tr><td><span class="pill info">Approve</span></td><td>2 Friday assessment grades awaiting moderation</td></tr>
+  </tbody></table></div>
+</div>`;
+
+const apps={0:[['Aline Uwase','IATA Ground Ops','Kigali','Web'],['Eric Habimana','Cabin Crew','Goma','WhatsApp']],1:[['Diane Mukamana','IATA Ground Ops','Kigali','Web'],['Patrick Nshuti','Airline Ticketing','Nyamata','Walk-in']],2:[['Grace Iradukunda','ICT Certificate','Kigali','Web'],['Jean Bosco Niyonzima','Cargo & Dangerous Goods','Kigali','Referral']],3:[['Sandrine Uwimana','IATA Ground Ops','Kigali','Web'],['Moise Kabera','Cabin Crew','Goma','Facebook']],4:[['Chantal Ingabire','Airline Ticketing','Nyamata','Web']]};
+const cols=['Submitted','Documents verified','Registration paid','Admitted','Enrolled'];
+views.adm=()=>`<div class="kan">`+cols.map((c,i)=>`<div class="col"><h3>${c}<span>${apps[i].length}</span></h3>`+apps[i].map(a=>`
+ <button class="card" data-a="${a[0]}"><b>${a[0]}</b><small>${a[1]}</small><div class="row"><span class="pill info">${a[2]}</span><span class="pill ${a[3]=='Web'?'ok':'warn'}">${a[3]}</span></div></button>`).join('')+`</div>`).join('')+`</div>
+<p class="note" id="admnote">Select a card to move it to the next stage. The applicant is notified by SMS, WhatsApp and email.</p>`;
+
+views.tt=()=>{
+ const d=['Mon','Tue','Wed','Thu','Fri'];
+ const r=[['08:00',['Ground Ops · Rm 2','','Ticketing · Lab 1','Ground Ops · Rm 2','']],['10:00',['','Cabin Crew · Rm 3','Ticketing · Lab 1','','Weekly assessment']],['14:00',['Cargo · Rm 2','Cabin Crew · Rm 3','CLASH: Mr. Kamali','Cargo · Rm 2','']]];
+ return `<div class="panel"><h2>Week 27 · Kigali · Weekday sessions</h2><div class="tbl"><div class="tt"><div class="h"></div>${d.map(x=>`<div class="h">${x}</div>`).join('')}`+
+ r.map(row=>`<div class="h">${row[0]}</div>`+row[1].map(c=>`<div class="${!c?'':c.startsWith('CLASH')?'slot x':c.includes('assessment')?'slot o':'slot'}">${c||''}</div>`).join('')).join('')+
+ `</div></div><p class="note">Wednesday 14:00: Mr. Kamali is also assigned to an airport shift. Drag the class to another slot to resolve it.</p></div>`};
+
+views.att=()=>{
+ let q='';const p=[1,1,1,1,0,1,1,1,1, 1,0,0,1,0,1,0,1,1, 1,0,1,0,0,0,1,0,1, 1,1,0,1,1,0,0,1,0, 1,0,1,1,0,1,0,1,1, 0,1,0,0,1,0,1,0,1, 1,0,0,1,0,0,1,1,1, 1,0,1,0,1,1,1,0,1, 1,1,1,0,1,0,1,1,1];
+ q=p.map(x=>`<i class="${x?'':'w'}"></i>`).join('');
+ return `<div class="split"><div class="panel" style="flex:1;min-width:260px"><h2>IATA Ground Ops · Mon 08:00</h2>
+ <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div class="qr" aria-label="Rotating attendance code">${q}</div>
+ <div><b style="font:600 28px var(--display)" id="cd">0:30</b><p style="margin:2px 0 0;color:var(--muted)">Code refreshes every 30 seconds.<br>Students scan it in the app.</p><p><span class="pill ok" id="cnt">21 of 26 present</span></p></div></div></div>
+ <div class="panel" style="flex:1;min-width:260px"><h2>Absent or late</h2><table><tbody>
+ <tr><td>Olivier Ndayisaba</td><td><span class="pill bad">Absent · 3rd</span></td></tr>
+ <tr><td>Claudine Mutesi</td><td><span class="pill warn">Late</span></td></tr>
+ <tr><td>Fabrice Gasana</td><td><span class="pill warn">Late</span></td></tr>
+ <tr><td>Solange Umutoni</td><td><span class="pill bad">Absent</span></td></tr>
+ <tr><td>Innocent Rugira</td><td><span class="pill ok">Excused</span></td></tr></tbody></table>
+ <p class="note">Captured offline on the lecturer phone and synced later (ATT-02).</p></div></div>`};
+
+views.crt=()=>`<div class="panel"><h2>Verify a certificate</h2>
+ <div class="verify"><input type="text" id="vn" value="TAS-2027-004281" aria-label="Certificate number"><button class="btn p" id="vb">Verify</button></div>
+ <div id="vr" class="res ok"><b>Valid.</b> TAS-2027-004281 · Aline Uwase · Advanced Certificate in Airline Ground Operations · Issued 14 Jan 2028 by Timtom Aviation School, Kigali.</div></div>
+<div class="panel" style="margin-top:16px"><h2>Recent certificates</h2><div class="tbl"><table><thead><tr><th>Number</th><th>Holder</th><th>Programme</th><th>Issuer</th><th>Status</th></tr></thead><tbody>
+<tr><td>TAS-2027-004281</td><td>Aline Uwase</td><td>Ground Operations</td><td>Timtom</td><td><span class="pill ok">Valid</span></td></tr>
+<tr><td>TAS-2027-004282</td><td>Eric Habimana</td><td>Cabin Crew</td><td>Timtom</td><td><span class="pill ok">Valid</span></td></tr>
+<tr><td>IATA-7781-2027</td><td>Diane Mukamana</td><td>Airline Ticketing</td><td>IATA</td><td><span class="pill info">Issued by IATA</span></td></tr>
+<tr><td>TAS-2026-003990</td><td>Moise Kabera</td><td>ICT Certificate</td><td>Timtom</td><td><span class="pill bad">Revoked</span></td></tr></tbody></table></div></div>`;
+
+views.fin=()=>`<div class="kpis">
+ <div class="kpi"><span>Collected this month</span><b>RWF 38.6M</b><em class="up">▲ 12%</em></div>
+ <div class="kpi"><span>Outstanding balances</span><b>RWF 9.2M</b><em class="dn">41 students</em></div>
+ <div class="kpi"><span>Unmatched payments</span><b>3</b><em class="dn">Needs review</em></div></div>
+<div class="panel"><h2>Payments</h2><div class="tbl"><table><thead><tr><th>Reference</th><th>Student</th><th>Channel</th><th>Amount</th><th>Status</th></tr></thead><tbody>
+<tr><td>TAS-A0412</td><td>Aline Uwase</td><td>MTN MoMo</td><td>RWF 150,000</td><td><span class="pill ok">Reconciled</span></td></tr>
+<tr><td>TAS-A0413</td><td>Diane Mukamana</td><td>Bank of Kigali</td><td>RWF 420,000</td><td><span class="pill ok">Reconciled</span></td></tr>
+<tr><td>TAS-A0418</td><td>Patrick Nshuti</td><td>Equity (USD)</td><td>USD 310</td><td><span class="pill ok">Reconciled</span></td></tr>
+<tr><td>—</td><td>Unknown payer</td><td>Airtel Money</td><td>RWF 75,000</td><td><span class="pill warn">No reference</span></td></tr>
+<tr><td>TAS-A0421</td><td>Moise Kabera</td><td>MTN MoMo</td><td>RWF 60,000</td><td><span class="pill warn">Part payment</span></td></tr></tbody></table></div></div>`;
+
+views.app=()=>`<div class="split"><div class="phone">
+ <div class="ph-top"><small>Muraho, Aline</small><h2>IATA Ground Ops</h2><small>Kigali · July 2027 intake · Weekday</small></div>
+ <div class="ph-body">
+  <div class="ph-card"><h3>Application</h3><b>Enrolled</b><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+  <div class="ph-card"><h3>Next class</h3><b>Ground Ops · Mon 08:00</b><div style="color:var(--muted)">Room 2 · Mr. Kamali</div><button class="btn p" style="margin-top:8px;width:100%">Scan attendance code</button></div>
+  <div class="ph-card"><h3>Results</h3><div style="display:flex;justify-content:space-between"><span>Weekly assessment 3</span><b>78%</b></div><div style="display:flex;justify-content:space-between"><span>Attendance</span><b>92%</b></div></div>
+  <div class="ph-card"><h3>Balance</h3><b style="font:600 20px var(--display)">RWF 120,000</b><div style="color:var(--muted)">Due 30 Jul · Pay with MoMo</div></div>
+ </div></div>
+ <div class="panel" style="flex:1;min-width:240px"><h2>Design notes</h2><p style="margin:0;color:var(--muted)">One record, one app. Every status, timetable, result and balance question is answered here, so students do not need to call or visit an office (design principle 1 and 4). Mobile first, installable, works offline for timetable and materials.</p></div></div>`;
+
+function show(v){
+  document.querySelectorAll('.nv').forEach(b=>b.toggleAttribute('aria-current',b.dataset.v===v)||b.removeAttribute('aria-current'));
+  document.querySelectorAll('.nv').forEach(b=>{if(b.dataset.v===v)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+  $('#ttl').textContent=titles[v][0];$('#sub').textContent=titles[v][1];
+  $('#view').innerHTML=views[v]();
+  try{location.hash=v}catch(e){}
+  if(v==='att')startCd();
+}
+let t;function startCd(){clearInterval(t);let s=30;t=setInterval(()=>{const e=$('#cd');if(!e){clearInterval(t);return}s=s<=1?30:s-1;e.textContent='0:'+String(s).padStart(2,'0')},1000)}
+document.addEventListener('click',e=>{
+  const n=e.target.closest('.nv');if(n)return show(n.dataset.v);
+  const c=e.target.closest('.card');
+  if(c){const name=c.dataset.a;let from=-1,idx=-1;for(const k in apps){const i=apps[k].findIndex(a=>a[0]===name);if(i>-1){from=+k;idx=i}}
+    if(from>-1&&from<4){const [a]=apps[from].splice(idx,1);apps[from+1].push(a);show('adm');$('#admnote').textContent=`${name} moved to "${cols[from+1]}". Notification sent by SMS, WhatsApp and email.`}}
+  if(e.target.id==='vb'){const v=$('#vn').value.trim().toUpperCase(),r=$('#vr');
+    if(v==='TAS-2027-004281'||v==='TAS-2027-004282'){r.className='res ok';r.innerHTML=`<b>Valid.</b> ${v} issued by Timtom Aviation School.`}
+    else if(v==='TAS-2026-003990'){r.className='res bad';r.innerHTML='<b>Revoked.</b> This certificate was revoked and must not be accepted.'}
+    else{r.className='res warn';r.innerHTML='<b>Not found.</b> Check the number on the certificate or scan its QR code.'}}
+});
+const h=location.hash.slice(1);show(views[h]?h:'dash');
+</script>
+</body></html>
