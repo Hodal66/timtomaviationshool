@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { db, expectNoHorizontalScroll, scrollAll } from "./helpers";
+import { db, expectNoHorizontalScroll, scrollAll, signIn, uniqueEmail } from "./helpers";
 import { SITE } from "../../src/lib/site";
 
+test.beforeEach(async ({ page }) => { await signIn(page.request, uniqueEmail()); });
 test.describe("Homepage, navigation and content", () => {
   test("FT-001 Homepage loads with every primary section and no errors", async ({ page }) => {
     const errors: string[] = []; page.on("pageerror", (e) => errors.push(e.message)); page.on("console", (m) => m.type() === "error" && errors.push(m.text()));

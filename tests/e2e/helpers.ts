@@ -23,9 +23,19 @@ export async function nextStart(page: Page) { await page.goto("/apply"); return 
 
 export type Apply = { course?: string; branch?: string; session?: string; start?: string; fullName?: string; phone?: string; email?: string; dob?: string };
 /** Creates an application through the public API exactly as the wizard does (draft, then submit). */
+/** Proves ownership of an email the way an applicant does: request a code, read it from the fake mailbox, verify it. The session cookie stays on the request context (and its page). */
+export async function signIn(request: APIRequestContext, email: string) {
+  const before = readMail().length;
+  const r = await request.post("/api/otp/request", { data: { email } }); expect(r.status(), await r.text()).toBe(200);
+  let code = ""; for (let i = 0; i < 60 && !code; i++) { const m = readMail().slice(before).reverse().find((x) => x.rcpt.some((a) => a.includes(email))); const mm = m?.text.match(/verification code is (\d{6})/); if (mm) code = mm[1]; else await new Promise((res) => setTimeout(res, 150)); }
+  expect(code, "verification email arrived").toMatch(/^\d{6}$/);
+  const v = await request.post("/api/otp/verify", { data: { email, code } }); expect(v.status(), await v.text()).toBe(200); return code;
+}
+let em = 0; export const uniqueEmail = () => `qa.${Date.now().toString(36)}${em++}@example.com`;
 export async function apiApply(request: APIRequestContext, o: Apply = {}) {
+  const email = o.email ?? uniqueEmail(); await signIn(request, email);
   const branch = o.branch ?? (await db.branch.findFirstOrThrow({ where: { code: "KGL" } })).id;
-  const data = { course: "personnel-licensing", branch, session: "WEEKDAY", start: o.start ?? "2027-01", fullName: "QA Applicant", phone: uniquePhone(), dob: "2002-02-02", educationLevel: "Other", institution: "QA School", completionYear: "2020", ...o };
+  const data = { course: "personnel-licensing", branch, session: "WEEKDAY", start: o.start ?? "2027-01", fullName: "QA Applicant", email, phone: uniquePhone(), dob: "2002-02-02", educationLevel: "Other", institution: "QA School", completionYear: "2020", ...o };
   const d = await request.post("/api/apply/draft", { data: { data, step: 4 } }); const { token } = await d.json();
   const r = await request.post("/api/apply/submit", { data: { token } }); return { token, body: await r.json(), data, status: r.status() };
 }

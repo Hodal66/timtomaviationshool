@@ -6,6 +6,8 @@ import { can } from "@/lib/perm";
 import { label, money } from "@/lib/format";
 import { advanceApplicant } from "@/lib/admissions";
 import { COPY, notifyApplicant } from "@/lib/notify";
+import { DataTable, type Col, type Row } from "@/components/dash/DataTable";
+import { getT } from "@/lib/i18n/server";
 export const dynamic = "force-dynamic";
 
 /** Finance-only. The public website can never reach this: it requires a signed-in Finance or Admin user and a bank or mobile-money reference. */
@@ -36,17 +38,16 @@ export default async function Payments({ searchParams }: { searchParams: Promise
     db.payment.findMany({ include: { applicant: true }, orderBy: { paidAt: "desc" }, take: 100 }),
     db.invoice.findMany({ where: { status: "PENDING" }, include: { applicant: true }, orderBy: { createdAt: "asc" } }),
   ]);
-  const tone = { RECONCILED: "ok", UNMATCHED: "bad", PART_PAYMENT: "warn" } as const;
-  return (<><div className="top"><h1>Payments</h1><p>Invoices from online applications wait here until Finance verifies the money.</p></div>
+  const { t } = await getT(); const tone = { RECONCILED: "ok", UNMATCHED: "bad", PART_PAYMENT: "warn" } as const;
+  const pcols: Col[] = [{ key: "inv", label: t("Invoice") }, { key: "who", label: t("Applicant") }, { key: "amt", label: t("Amount"), align: "right" }, { key: "date", label: t("Raised") }, { key: "act", label: t("Verify payment"), sortable: false }];
+  const prow: Row[] = pending.map((i) => ({ id: i.id, v: { inv: i.reference, who: i.applicant.fullName, amt: Number(i.amountMinor), date: i.createdAt.toISOString().slice(0, 10) }, c: { amt: money(i.amountMinor, i.currency),
+    act: me && can.finance(me.role) ? <form action={verify} style={{ display: "flex", gap: 4, flexWrap: "wrap" }}><input type="hidden" name="invoiceId" value={i.id} />
+      <select name="channel" aria-label="Channel">{["MTN_MOMO", "AIRTEL_MONEY", "BANK_OF_KIGALI", "IM_BANK", "EQUITY", "CASH"].map((c) => <option key={c} value={c}>{label(c)}</option>)}</select>
+      <input name="reference" placeholder={t("Transaction reference")} aria-label="Transaction reference" required /><button className="s" type="submit">{t("Mark verified")}</button></form> : t("Finance only") } }));
+  const hcols: Col[] = [{ key: "ref", label: t("Reference") }, { key: "who", label: t("Student") }, { key: "channel", label: t("Channel"), filter: true }, { key: "amt", label: t("Amount"), align: "right" }, { key: "by", label: t("Verified by"), filter: true }, { key: "status", label: t("Status"), filter: true }, { key: "date", label: t("Date") }];
+  const hrow: Row[] = rows.map((p) => ({ id: p.id, v: { ref: p.reference ?? "", who: p.applicant?.fullName ?? "Unknown payer", channel: label(p.channel), amt: Number(p.amountMinor), by: p.verifiedBy ?? "", status: label(p.status), date: p.paidAt.toISOString().slice(0, 10) }, c: { amt: money(p.amountMinor, p.currency), status: <span className={`pill ${tone[p.status]}`}>{label(p.status)}</span> } }));
+  return (<><div className="top"><div><h1>{t("Payments")}</h1><p>{t("Invoices from online applications wait here until Finance verifies the money.")}</p></div></div>
     {e && <p className="err" role="alert">{e}</p>}
-    <div className="panel tbl" style={{ marginBottom: 16 }}><h2>Invoices awaiting payment</h2><table><thead><tr><th>Invoice</th><th>Applicant</th><th>Amount</th><th>Verify payment</th></tr></thead><tbody>
-      {pending.length === 0 && <tr><td colSpan={4}>No unpaid invoices.</td></tr>}
-      {pending.map((i) => <tr key={i.id}><td>{i.reference}</td><td>{i.applicant.fullName}</td><td>{money(i.amountMinor, i.currency)}</td>
-        <td>{me && can.finance(me.role) ? <form action={verify} style={{ display: "flex", gap: 4 }}><input type="hidden" name="invoiceId" value={i.id} />
-          <select name="channel" aria-label="Channel">{["MTN_MOMO", "AIRTEL_MONEY", "BANK_OF_KIGALI", "IM_BANK", "EQUITY", "CASH"].map((c) => <option key={c} value={c}>{label(c)}</option>)}</select>
-          <input name="reference" placeholder="Transaction reference" aria-label="Transaction reference" required /><button className="s" type="submit">Mark verified</button></form> : "Finance only"}</td></tr>)}
-    </tbody></table></div>
-    <div className="panel tbl"><h2>Transaction history</h2><table><thead><tr><th>Reference</th><th>Student</th><th>Channel</th><th>Amount</th><th>Verified by</th><th>Status</th></tr></thead><tbody>
-      {rows.map((p) => <tr key={p.id}><td>{p.reference ?? "No reference"}</td><td>{p.applicant?.fullName ?? "Unknown payer"}</td><td>{label(p.channel)}</td><td>{money(p.amountMinor, p.currency)}</td><td>{p.verifiedBy ?? "-"}</td><td><span className={`pill ${tone[p.status]}`}>{label(p.status)}</span></td></tr>)}
-    </tbody></table></div></>);
+    <div className="panel" style={{ marginBottom: 16 }}><h2>{t("Invoices awaiting payment")}</h2><DataTable id="invoices" cols={pcols} rows={prow} exportName="unpaid-invoices" empty={t("No unpaid invoices.")} /></div>
+    <div className="panel"><h2>{t("Transaction history")}</h2><DataTable id="payments" cols={hcols} rows={hrow} exportName="payments" empty={t("No payments yet.")} /></div></>);
 }

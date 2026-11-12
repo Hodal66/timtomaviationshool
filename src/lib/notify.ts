@@ -27,7 +27,7 @@ export function waNumber(phone: string | null | undefined) {
 }
 export const waLink = (phone: string | null | undefined, text: string) => { const n = waNumber(phone); return n ? `https://wa.me/${n}?text=${encodeURIComponent(text)}` : null; };
 
-async function sendEmail(to: string, subject: string, text: string) {
+export async function sendEmail(to: string, subject: string, text: string) {
   await transport().sendMail({ from: `${SITE.name} <${FROM_ADDR}>`, replyTo: FROM_ADDR, to, subject, text });
 }
 

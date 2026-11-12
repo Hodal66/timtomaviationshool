@@ -1,5 +1,5 @@
 import { notFound, redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { db } from "@/lib/db";
 import { getSession, type Session } from "@/lib/session";
 import { can } from "@/lib/perm";
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 const lines = (v: FormDataEntryValue | null) => String(v ?? "").split("\n").map((x) => x.trim()).filter(Boolean);
 const num = (v: FormDataEntryValue | null) => { const n = parseInt(String(v ?? "").replace(/[^\d]/g, ""), 10); return Number.isFinite(n) ? n : null; };
 async function who(need: (r: Session["role"]) => boolean) { const s = await getSession(); if (!s || !need(s.role)) throw new Error("Not allowed"); return s; }
-const refresh = (slug?: string | null) => { revalidatePath("/"); revalidatePath("/courses"); if (slug) revalidatePath(`/courses/${slug}`); revalidatePath("/apply"); revalidatePath("/sitemap.xml"); };
+const refresh = (slug?: string | null) => { revalidateTag("catalogue"); revalidatePath("/"); revalidatePath("/courses"); if (slug) revalidatePath(`/courses/${slug}`); revalidatePath("/apply"); revalidatePath("/sitemap.xml"); };
 
 async function save(fd: FormData) {
   "use server";

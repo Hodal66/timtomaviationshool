@@ -1,9 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { apiApply, db, FIX, getState, nextStart, readMail, setState, uniquePhone } from "./helpers";
+import { apiApply, db, FIX, getState, nextStart, readMail, setState, uniquePhone, signIn, uniqueEmail } from "./helpers";
 
 const st = () => getState("apply", () => ({ ref: "", phone: "", email: "" })) as { ref: string; phone: string; email: string };
 
 test.describe("Application journey", () => {
+  test.beforeEach(async ({ page }) => { await signIn(page.request, uniqueEmail()); });
   test("FT-017 One central application route works without extra navigation", async ({ page }) => {
     const r = await page.goto("/apply"); expect(r?.status()).toBe(200); await expect(page.getByRole("heading", { name: "Choose your programme" })).toBeVisible(); await expect(page.locator(".prog .meta")).toContainText("Step 1 of 5");
   });
@@ -16,19 +17,19 @@ test.describe("Application journey", () => {
     await page.goto("/apply?course=personnel-licensing"); await page.evaluate(() => localStorage.removeItem("tas_draft")); await page.reload(); await page.waitForSelector("#f-course");
     await page.click("button:has-text('Continue')"); await expect(page.locator("#e-branch, .field .err").first()).toBeVisible();
     await page.locator("input[name=branch]").first().check(); await page.click("button:has-text('Continue')"); await page.waitForSelector("#f-fullName");
-    await page.click("button:has-text('Continue')"); await expect(page.locator("#e-fullName")).toContainText("full name"); await expect(page.locator("#e-phone")).toBeVisible(); await expect(page.locator("#e-dob")).toBeVisible();
-    await page.fill("#f-fullName", "X"); await page.fill("#f-email", "not-an-email"); await page.fill("#f-phone", "123"); await page.fill("#f-dob", "1900-01-01"); await page.click("button:has-text('Continue')");
-    await expect(page.locator("#e-email")).toContainText("does not look right"); await expect(page.locator("#e-phone")).toContainText("too short"); await expect(page.locator("#e-dob")).toContainText("Check your date");
-    await page.fill("#f-dob", "2012-01-01"); await page.waitForSelector("#f-guardianName"); await page.fill("#f-phone", "+250788000111"); await page.fill("#f-email", ""); await page.click("button:has-text('Continue')"); await expect(page.locator("#e-guardianName")).toBeVisible();
+    await page.click("button:has-text('Continue')"); await expect(page.locator("#e-fullName")).toContainText("full name"); await expect(page.locator("#e-dob")).toBeVisible();
+    await page.fill("#f-fullName", "X"); await page.fill("#f-phone", "123"); await page.fill("#f-dob", "1900-01-01"); await page.click("button:has-text('Continue')");
+    await expect(page.locator("#e-phone")).toContainText("too short"); await expect(page.locator("#e-dob")).toContainText("Check your date");
+    await page.fill("#f-dob", "2012-01-01"); await page.waitForSelector("#f-guardianName"); await page.fill("#f-phone", "+250788000111"); await page.click("button:has-text('Continue')"); await expect(page.locator("#e-guardianName")).toBeVisible();
     await expect(page.locator(".prog .meta")).toContainText("Step 2 of 5");
   });
   test("FT-020 Valid application through the UI creates exactly one correct record (with FT-022, FT-023, FT-024, FT-025)", async ({ page }) => {
-    const phone = uniquePhone(), email = `qa.${Date.now()}@example.com`; setState("apply", { phone, email }); const start = await nextStart(page);
+    const phone = uniquePhone(), email = `qa.${Date.now()}@example.com`; setState("apply", { phone, email }); await signIn(page.request, email); const start = await nextStart(page);
     await page.goto("/courses/personnel-licensing?utm_source=facebook&utm_medium=social&utm_campaign=qa-campaign", { waitUntil: "networkidle" });
     await Promise.all([page.waitForURL(/\/apply/), page.locator("main a.btn", { hasText: "Apply Now" }).first().click()]); await page.waitForSelector("#f-course");
     await page.evaluate(() => localStorage.removeItem("tas_draft")); await page.reload(); await page.waitForSelector("#f-course");
     await page.locator("input[name=branch]").nth(0).check(); await page.check("input[name=session][value=WEEKEND]"); await page.click("button:has-text('Continue')");
-    await page.fill("#f-fullName", "QA Applicant One"); await page.fill("#f-phone", phone); await page.fill("#f-email", email); await page.fill("#f-dob", "2003-04-09"); await page.click("button:has-text('Continue')");
+    await page.fill("#f-fullName", "QA Applicant One"); await page.fill("#f-phone", phone); await page.fill("#f-dob", "2003-04-09"); await page.click("button:has-text('Continue')");
     await page.selectOption("#f-educationLevel", { index: 1 }); await page.fill("#f-institution", "QA School"); await page.fill("#f-completionYear", "2021"); await page.click("button:has-text('Continue')"); await page.waitForSelector(".upl");
     // FT-023: documents
     await page.setInputFiles("#up-National-ID-or-passport", FIX("id.jpg")); await expect(page.locator(".ur.ok")).toHaveCount(1);
@@ -83,7 +84,7 @@ test.describe("Application journey", () => {
     await page.goto(`/track?ref=${ref}&who=${encodeURIComponent(phone)}`); await expect(page.locator(".panel2")).toContainText("Personnel Licensing"); await expect(page.locator(".panel2")).toContainText("Submitted");
   });
   test("FT-026 The application appears in the admissions dashboard with programme, applicant, intake, branch, source and submission details", async ({ page }) => { const { ref, phone, email } = st(); void email;
-    const { loginStaff } = await import("./helpers"); await loginStaff(page); await page.goto("/admissions?q=" + ref); const card = page.locator(".card", { hasText: ref }); await expect(card).toBeVisible();
+    const { loginStaff } = await import("./helpers"); await loginStaff(page); await page.goto("/admissions?view=board&q=" + ref); const card = page.locator(".card", { hasText: ref }); await expect(card).toBeVisible();
     await expect(card).toContainText("QA Applicant Edited"); await expect(card).toContainText("Personnel Licensing"); await expect(card).toContainText("Weekend"); await expect(card).toContainText("Docs 0/3");
     const a = await db.applicant.findUniqueOrThrow({ where: { reference: ref } }); await page.goto(`/admissions/${a.id}`);
     const t = await page.locator("main").innerText(); for (const x of [ref, "facebook", "qa-campaign", phone, email, "QA School"]) expect(t).toContain(x);
@@ -91,7 +92,7 @@ test.describe("Application journey", () => {
   });
   test("FT-027 Staff status changes reach the applicant, with email and WhatsApp messages", async ({ page }) => { const { ref, phone, email } = st(); void email;
     const { loginStaff } = await import("./helpers"); await loginStaff(page); const a = await db.applicant.findUniqueOrThrow({ where: { reference: ref } });
-    await db.documentItem.updateMany({ where: { applicantId: a.id }, data: { status: "VERIFIED" } }); await page.goto("/admissions?q=" + ref);
+    await db.documentItem.updateMany({ where: { applicantId: a.id }, data: { status: "VERIFIED" } }); await page.goto("/admissions?view=board&q=" + ref);
     await Promise.all([page.waitForResponse((r) => r.request().method() === "POST"), page.locator(".card", { hasText: ref }).getByRole("button", { name: "Next stage" }).click()]); await page.waitForTimeout(800);
     expect((await db.applicant.findUniqueOrThrow({ where: { id: a.id } })).status).toBe("DOCUMENTS_VERIFIED");
     await page.goto(`/track?ref=${ref}&who=${encodeURIComponent(phone)}`); await expect(page.locator(".panel2")).toContainText("Documents verified"); await expect(page.locator(".panel2")).toContainText("Next:");

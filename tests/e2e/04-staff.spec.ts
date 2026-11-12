@@ -5,7 +5,7 @@ test.describe("Staff workflows and dashboard connectivity", () => {
   test("ST-01 Sign in: wrong password and unknown user are refused with the same message; correct sign-in works; sign-out is not required for the session to end after cookie removal", async ({ page, context }) => {
     await page.goto("/login"); await page.fill("#email", ADMIN.email); await page.fill("#password", "wrong"); await page.click("button[type=submit]"); await expect(page.locator(".err")).toContainText("incorrect");
     await page.fill("#email", "nobody@test.local"); await page.fill("#password", "wrong"); await page.click("button[type=submit]"); await expect(page.locator(".err")).toContainText("incorrect");
-    await loginStaff(page); await expect(page.getByRole("heading", { name: "Today" })).toBeVisible(); await context.clearCookies(); await page.goto("/dashboard"); await expect(page).toHaveURL(/\/login/);
+    await loginStaff(page); await expect(page.locator(".hero h1")).toBeVisible(); await context.clearCookies(); await page.goto("/dashboard"); await expect(page).toHaveURL(/\/login/);
   });
   test("ST-02 Dashboard queue counts equal the database", async ({ page }) => {
     await loginStaff(page); const text = (await page.locator(".kpis").innerText()).replace(/\s+/g, " ");
@@ -26,7 +26,7 @@ test.describe("Staff workflows and dashboard connectivity", () => {
     const dup = await db.payment.findFirstOrThrow({ where: { invoiceId: inv.id } }); expect(dup.reference).toBeTruthy();
   });
   test("ST-04 Stage rules cannot be bypassed from the board", async ({ page, request }) => {
-    const a = await apiApply(request, { fullName: "QA Stage Rules" }); const app = await db.applicant.findUniqueOrThrow({ where: { reference: a.body.reference } }); await loginStaff(page); await page.goto("/admissions?q=" + a.body.reference);
+    const a = await apiApply(request, { fullName: "QA Stage Rules" }); const app = await db.applicant.findUniqueOrThrow({ where: { reference: a.body.reference } }); await loginStaff(page); await page.goto("/admissions?view=board&q=" + a.body.reference);
     await Promise.all([page.waitForURL(/e=/), page.locator(".card").getByRole("button", { name: "Next stage" }).click()]); await expect(page.locator("body")).toContainText("Verify every required document first"); expect((await db.applicant.findUniqueOrThrow({ where: { id: app.id } })).status).toBe("SUBMITTED");
   });
   test("ST-05 Enquiries: website question reaches staff, is actionable and updates the dashboard", async ({ page, browser }) => {
@@ -46,7 +46,7 @@ test.describe("Staff workflows and dashboard connectivity", () => {
   });
   test("ST-07 Email: sent from the school address with reference and tracking link; staff inbox alerted", async ({ request }) => {
     const mail = `mail.${Date.now()}@example.com`; const a = await apiApply(request, { fullName: "QA Email", email: mail }); await new Promise((r) => setTimeout(r, 600)); const m = readMail();
-    const toApp = m.find((x) => x.rcpt.join().includes(mail)); expect(toApp?.text).toContain(a.body.reference); expect(toApp?.text).toMatch(/timtomaviationschool@gmail\.com/); expect(toApp?.text).toContain("/track?ref=");
+    const toApp = m.find((x) => x.rcpt.join().includes(mail) && !/verification code/.test(x.text)); expect(toApp?.text).toContain(a.body.reference); expect(toApp?.text).toMatch(/timtomaviationschool@gmail\.com/); expect(toApp?.text).toContain("/track?ref=");
     expect(m.some((x) => x.rcpt.join().includes("timtomaviationschool@gmail.com") && x.text.includes(`New application ${a.body.reference}`))).toBe(true);
   });
   test("ST-08 Executive dashboard and CSV export reflect submitted applications and campaigns", async ({ page, context }) => {

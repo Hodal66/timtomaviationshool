@@ -22,9 +22,9 @@ async function shrink(file: File): Promise<File> {
 }
 const kb = (n: number) => (n > 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
 
-export function Wizard({ programmes, branches, starts, initial }: { programmes: WProgramme[]; branches: WBranch[]; starts: WStart[]; initial: { course?: string; branch?: string; session?: string; draft?: string } }) {
+export function Wizard({ programmes, branches, starts, initial, verifiedEmail }: { programmes: WProgramme[]; branches: WBranch[]; starts: WStart[]; verifiedEmail?: string; initial: { course?: string; branch?: string; session?: string; draft?: string } }) {
   const [step, setStep] = useState(0);
-  const [data, setData] = useState<ApplyData>({ course: initial.course, branch: initial.branch, session: initial.session ?? "WEEKDAY", start: starts[0]?.key });
+  const [data, setData] = useState<ApplyData>({ course: initial.course, branch: initial.branch, session: initial.session ?? "WEEKDAY", start: starts[0]?.key, email: verifiedEmail });
   const [errors, setErrors] = useState<Errors>({});
   const [token, setToken] = useState<string | null>(null);
   const [uploads, setUploads] = useState<Up>({});
@@ -48,13 +48,17 @@ export function Wizard({ programmes, branches, starts, initial }: { programmes: 
         const r = await fetch(`/api/apply/draft?token=${encodeURIComponent(t)}`).catch(() => null);
         if (r?.ok) {
           const d = await r.json(); setToken(t);
-          setData((cur) => ({ ...cur, ...d.data, ...(initial.course ? { course: initial.course } : {}), start: starts.some((x) => x.key === d.data.start) ? d.data.start : starts[0]?.key }));
+          // Values the person already typed while the draft was loading win over the saved ones.
+          setData((cur) => ({ ...d.data, ...Object.fromEntries(Object.entries(cur).filter(([, v]) => v)), ...(initial.course ? { course: initial.course } : {}), start: cur.start && starts.some((x) => x.key === cur.start) ? cur.start : starts.some((x) => x.key === d.data.start) ? d.data.start : starts[0]?.key }));
           setStep(Math.min(Number(d.step) || 0, 4)); setUploads(Object.fromEntries((d.uploads as { kind: string; filename: string; size: number }[]).map((u) => [u.kind, { filename: u.filename, size: u.size }])));
         }
       }
       setReady(true);
     })();
-  }, [initial.draft, initial.course, starts]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => { if (ready && verifiedEmail) setData((d) => (d.email === verifiedEmail ? d : { ...d, email: verifiedEmail })); }, [ready, verifiedEmail]);
 
   const persist = useCallback(async (d: ApplyData, s: number) => {
     setSave("saving");
@@ -163,7 +167,7 @@ export function Wizard({ programmes, branches, starts, initial }: { programmes: 
 
     {step === 1 && <>
       {fld("fullName", "Full name", { autoComplete: "name" })}
-      <div className="cols2">{fld("phone", "Phone (WhatsApp if possible)", { inputMode: "tel", autoComplete: "tel", placeholder: "+250 7XX XXX XXX" })}{fld("email", "Email", { type: "email", autoComplete: "email" }, "Phone or email is enough. Both help us reach you.")}</div>
+      <div className="cols2">{fld("phone", "Phone (WhatsApp if possible)", { inputMode: "tel", autoComplete: "tel", placeholder: "+250 7XX XXX XXX" })}{verifiedEmail ? <div className="field"><label htmlFor="f-email">Email</label><input id="f-email" value={verifiedEmail} disabled aria-describedby="e-verified" /><small id="e-verified" className="ok">Verified by code</small></div> : fld("email", "Email", { type: "email", autoComplete: "email" }, "Phone or email is enough. Both help us reach you.")}</div>
       {fld("dob", "Date of birth", { type: "date", max: new Date().toISOString().slice(0, 10), autoComplete: "bday" })}
       {minor && <div className="note"><b>You are under 18.</b> A parent or guardian must be linked to your application.
         <div className="cols2" style={{ marginTop: 14 }}>{fld("guardianName", "Guardian full name")}{fld("guardianPhone", "Guardian phone", { inputMode: "tel" })}</div></div>}

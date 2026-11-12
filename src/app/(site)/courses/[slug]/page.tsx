@@ -1,13 +1,12 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
+import { unstable_cache } from "next/cache";
+const cachedProgramme = unstable_cache((slug: string) => db.programme.findFirst({ where: { slug, status: "PUBLISHED" } }), ["programme-by-slug"], { revalidate: 60, tags: ["catalogue"] });
 import { CourseView } from "@/components/CourseView";
-export const revalidate = 60;
-export const dynamicParams = true;
-/** No pages are built ahead of time; each course is rendered on first visit, then cached and refreshed every minute (and at once when staff publish or edit). */
-export function generateStaticParams() { return []; }
+export const dynamic = "force-dynamic"; // language comes from a cookie, so pages are rendered per request; database reads below are cached
 
-const get = (slug: string) => db.programme.findFirst({ where: { slug, status: "PUBLISHED" } });
+const get = (slug: string) => cachedProgramme(slug);
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const p = await get((await params).slug);

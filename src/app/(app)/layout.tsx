@@ -1,15 +1,22 @@
 import { redirect } from "next/navigation";
 import { getSession, destroySession } from "@/lib/session";
+import { can } from "@/lib/perm";
+import { getT } from "@/lib/i18n/server";
+import { Shell, type NavItem } from "@/components/dash/Shell";
 
 async function logout() { "use server"; await destroySession(); redirect("/login"); }
+const ROLE: Record<string, string> = { ADMIN: "Administrator", ADMISSIONS: "Admissions", FINANCE: "Finance", ACADEMIC: "Academic", MARKETING: "Marketing", BRANCH_MANAGER: "Branch manager", LECTURER: "Lecturer" };
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const s = await getSession();
   if (!s) redirect("/login");
-  return (<div className="shell"><nav className="side" aria-label="Modules">
-    <b>TAS-One</b>
-    <a href="/dashboard">Dashboard</a><a href="/executive">Executive</a><a href="/admissions">Admissions</a><a href="/enquiries">Enquiries</a><a href="/messages">Messages</a><a href="/admin/courses">Courses</a><a href="/timetable">Timetable</a><a href="/attendance">Attendance</a>
-    <a href="/media">Media</a><a href="/payments">Payments</a><a href="/certificates">Certificates</a>
-    <form action={logout}><small style={{ display: "block", padding: "0 10px 6px" }}>{s.name}</small><button className="s" type="submit">Sign out</button></form>
-  </nav><main>{children}</main></div>);
+  const { t } = await getT(); const r = s.role;
+  const nav: (NavItem | false)[] = [
+    { href: "/dashboard", label: t("Dashboard"), icon: "home" }, can.reports(r) && { href: "/executive", label: t("Executive"), icon: "chart" },
+    can.viewApplicants(r) && { href: "/admissions", label: t("Admissions"), icon: "users" }, can.enquiries(r) && { href: "/enquiries", label: t("Enquiries"), icon: "mail" },
+    can.admissions(r) && { href: "/messages", label: t("Messages"), icon: "mail" }, can.editContent(r) && { href: "/admin/courses", label: t("Courses"), icon: "book" },
+    can.editContent(r) && { href: "/media", label: t("Media"), icon: "image" }, can.viewApplicants(r) && { href: "/payments", label: t("Payments"), icon: "card" },
+    can.reports(r) && { href: "/certificates", label: t("Certificates"), icon: "award" }, { href: "/timetable", label: t("Timetable"), icon: "cal" }, { href: "/attendance", label: t("Attendance"), icon: "check" },
+  ];
+  return <Shell brand="TAS-One" nav={nav.filter(Boolean) as NavItem[]} user={{ name: s.name, sub: t(ROLE[r] ?? r) }} logout={logout}>{children}</Shell>;
 }

@@ -11,7 +11,8 @@ import { SITE } from "./site";
 export type Result = { ok: true; reference: string } | { ok: false; error: string; field?: string };
 
 /** The single place an application is created. Everything is re-validated here; nothing from the browser is trusted. */
-export async function createApplication(d: ApplyData, o: { draftId?: string; cookieUtm?: string; lang?: string | null }): Promise<Result> {
+export async function createApplication(d: ApplyData, o: { draftId?: string; cookieUtm?: string; lang?: string | null; verifiedEmail?: string }): Promise<Result> {
+  if (o.verifiedEmail) d = { ...d, email: o.verifiedEmail }; // the address that proved ownership with a one-time code always wins
   const errs = validate(d, "all");
   const first = Object.entries(errs)[0];
   if (first) return { ok: false, field: first[0], error: first[1]! };
@@ -43,7 +44,7 @@ export async function createApplication(d: ApplyData, o: { draftId?: string; coo
     const again = await tx.applicant.findFirst({ where: { programmeId: programme.id, status: { not: "REJECTED" }, OR: [...(email ? [{ email }] : []), ...(phone ? [{ phone }] : [])] }, select: { id: true } });
     if (again) return null;
     const a = await tx.applicant.create({ data: {
-      fullName: d.fullName!.trim().slice(0, 120), email: email || null, phone: phone || null, dateOfBirth: dob,
+      fullName: d.fullName!.trim().slice(0, 120), email: email || null, emailVerifiedAt: o.verifiedEmail ? new Date() : null, phone: phone || null, dateOfBirth: dob,
       source: utm?.utmSource ?? "Web", leadSource: utm?.utmSource ?? "Direct website", utmSource: utm?.utmSource ?? null, utmMedium: utm?.utmMedium ?? null, utmCampaign: utm?.utmCampaign ?? null,
       language: o.lang ?? null, reference, session: d.session as "WEEKDAY" | "WEEKEND",
       guardianName: minor ? d.guardianName!.trim().slice(0, 120) : null, guardianPhone: minor ? cleanPhone(d.guardianPhone).slice(0, 20) : null,
