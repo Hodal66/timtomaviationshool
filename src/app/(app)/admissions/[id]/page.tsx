@@ -5,6 +5,7 @@ import { getSession } from "@/lib/session";
 import { can } from "@/lib/perm";
 import { label, money } from "@/lib/format";
 import { ensureIntake, SESSIONS, upcomingIntakes } from "@/lib/intakes";
+import { COPY, notifyApplicant, waLink } from "@/lib/notify";
 export const dynamic = "force-dynamic";
 
 async function guard() { const s = await getSession(); if (!s || !can.admissions(s.role)) throw new Error("Not allowed"); return s; }
@@ -16,6 +17,7 @@ async function setDoc(status: string, fd: FormData) {
   if (!["RECEIVED", "VERIFIED", "MISSING", "PENDING"].includes(status)) return;
   const d = await db.documentItem.update({ where: { id: docId }, data: { status: status as never, note: String(fd.get("note") ?? "").trim() || null } });
   await db.applicationEvent.create({ data: { applicantId: id, type: "DOC", actorName: s.name, message: `${d.kind}: ${label(status)}${status === "MISSING" ? " (applicant must provide it)" : ""}` } });
+  if (status === "MISSING") await notifyApplicant(id, (a) => COPY.docMissing(a, d.kind));
   back(id);
 }
 async function addNote(fd: FormData) {
@@ -41,6 +43,7 @@ async function place(fd: FormData) {
   if (!intake) return;
   await db.applicant.update({ where: { id }, data: { branchId: branch.id, session, intakeId: intake.id, classGroupId: null,
     events: { create: { type: "PLACEMENT", actorName: s.name, message: `Placement set to ${branch.name}, ${SESSIONS[session].label.toLowerCase()} schedule, ${intake.label} intake.` } } } });
+  await notifyApplicant(id, COPY.placement);
   back(id);
 }
 async function raiseInvoice(fd: FormData) {
@@ -52,6 +55,7 @@ async function raiseInvoice(fd: FormData) {
   const reference = `INV-${a.reference ?? a.id.slice(-6).toUpperCase()}${a._count.invoices ? `-${a._count.invoices + 1}` : ""}`;
   await db.invoice.create({ data: { reference, applicantId: id, description, amountMinor: amount, currency: "RWF" } });
   await db.applicationEvent.create({ data: { applicantId: id, type: "PAYMENT", actorName: s.name, message: `Invoice ${reference} raised: ${description}, RWF ${amount.toLocaleString("en-US")}.` } });
+  await notifyApplicant(id, (ap) => COPY.invoice(ap, reference, description, amount));
   back(id);
 }
 
@@ -63,6 +67,7 @@ async function decide(fd: FormData) {
   if (op === "reject") {
     const reason = String(fd.get("reason") ?? "").trim().slice(0, 300);
     await db.applicant.update({ where: { id }, data: { status: "REJECTED", events: { create: [{ type: "STATUS", actorName: s.name, message: "Application not admitted." }, ...(reason ? [{ type: "NOTE", actorName: s.name, message: `Reason: ${reason}` }] : [])] } } });
+    await notifyApplicant(id, (ap) => COPY.status(ap, "REJECTED"));
   }
   if (op === "reopen" && a.status === "REJECTED") await db.applicant.update({ where: { id }, data: { status: "SUBMITTED", events: { create: { type: "STATUS", actorName: s.name, message: "Reopened." } } } });
   back(id);
@@ -70,7 +75,7 @@ async function decide(fd: FormData) {
 
 export default async function Detail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const a = await db.applicant.findUnique({ where: { id }, include: { programme: true, intake: true, branch: true, documents: true, invoices: true, events: { orderBy: { createdAt: "desc" } }, assignedTo: true, uploads: { select: { id: true, kind: true, filename: true, size: true, mime: true } } } });
+  const a = await db.applicant.findUnique({ where: { id }, include: { programme: true, intake: true, branch: true, documents: true, invoices: true, events: { orderBy: { createdAt: "desc" } }, assignedTo: true, uploads: { select: { id: true, kind: true, filename: true, size: true, mime: true } }, notifications: { orderBy: { createdAt: "desc" }, take: 20 } } });
   if (!a) notFound();
   const [branches, intakes] = await Promise.all([db.branch.findMany({ orderBy: { code: "asc" } }), db.intake.findMany({ orderBy: { startsOn: "asc" } })]);
   const officers = await db.user.findMany({ where: { role: { in: ["ADMISSIONS", "ADMIN"] } }, orderBy: { name: "asc" } });
@@ -99,6 +104,12 @@ export default async function Detail({ params }: { params: Promise<{ id: string 
       <form action={raiseInvoice} style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}><input type="hidden" name="id" value={a.id} />
         <input name="description" placeholder="Description, e.g. Tuition deposit" aria-label="Invoice description" required style={{ minWidth: 240 }} /><input name="amount" inputMode="numeric" placeholder="Amount (RWF)" aria-label="Amount in RWF" required style={{ width: 140 }} /><button type="submit">Raise invoice</button></form>
       <p style={{ color: "var(--muted)", marginBottom: 0 }}>Only Finance can mark an invoice paid, on the <a href="/payments">Payments</a> page.</p></div>
+    <div className="panel tbl" style={{ marginBottom: 16 }}><h2>Messages to the applicant</h2>
+      <table><tbody>{a.notifications.length === 0 && <tr><td>No messages yet.</td></tr>}
+        {a.notifications.map((n) => <tr key={n.id}><td>{n.createdAt.toISOString().slice(0, 16).replace("T", " ")}</td><td>{n.channel === "EMAIL" ? "Email" : "WhatsApp"}</td><td style={{ whiteSpace: "normal" }}>{n.subject ?? n.template}</td>
+          <td><span className={`pill ${n.status === "SENT" ? "ok" : n.status === "FAILED" ? "bad" : "warn"}`}>{n.status === "QUEUED" && n.channel === "WHATSAPP" ? "To send" : label(n.status)}</span>{n.error && <small style={{ display: "block", color: "var(--muted)", whiteSpace: "normal", maxWidth: 260 }}>{n.error}</small>}</td>
+          <td>{n.channel === "WHATSAPP" && n.status === "QUEUED" && waLink(n.to, n.body) && <a href={waLink(n.to, n.body)!} target="_blank" rel="noreferrer">Open WhatsApp</a>}</td></tr>)}</tbody></table>
+      {a.phone && waLink(a.phone, `Hello ${a.fullName.split(" ")[0]}, this is Timtom Aviation School about your application ${a.reference}.`) && <p style={{ marginBottom: 0 }}><a href={waLink(a.phone, `Hello ${a.fullName.split(" ")[0]}, this is Timtom Aviation School about your application ${a.reference}.`)!} target="_blank" rel="noreferrer">Start a WhatsApp chat</a></p>}</div>
     <div className="panel" style={{ marginBottom: 16 }}><h2>Decision</h2>
       {a.status === "REJECTED" ? <form action={decide}><input type="hidden" name="id" value={a.id} /><input type="hidden" name="op" value="reopen" /><button type="submit">Reopen application</button></form> :
         <form action={decide} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><input type="hidden" name="id" value={a.id} /><input type="hidden" name="op" value="reject" /><input name="reason" placeholder="Reason" aria-label="Reason" style={{ minWidth: 260 }} /><button type="submit">Not admitted</button></form>}

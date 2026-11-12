@@ -5,6 +5,8 @@ import { readUtm, record } from "./track";
 import { ageOf, cleanPhone, validate, type ApplyData } from "./apply";
 import { DOC_KINDS } from "./apply";
 import { revalidatePath } from "next/cache";
+import { alertStaff, COPY, notifyApplicant } from "./notify";
+import { SITE } from "./site";
 
 export type Result = { ok: true; reference: string } | { ok: false; error: string; field?: string };
 
@@ -34,7 +36,7 @@ export async function createApplication(d: ApplyData, o: { draftId?: string; coo
   const uploads = o.draftId ? await db.upload.findMany({ where: { draftId: o.draftId }, select: { id: true, kind: true } }) : [];
   const regFee = programme.registrationFeeRwf;
 
-  await db.$transaction(async (tx) => {
+  const created = await db.$transaction(async (tx) => {
     const a = await tx.applicant.create({ data: {
       fullName: d.fullName!.trim().slice(0, 120), email: email || null, phone: phone || null, dateOfBirth: dob,
       source: utm?.utmSource ?? "Web", leadSource: utm?.utmSource ?? "Direct website", utmSource: utm?.utmSource ?? null, utmMedium: utm?.utmMedium ?? null, utmCampaign: utm?.utmCampaign ?? null,
@@ -53,6 +55,9 @@ export async function createApplication(d: ApplyData, o: { draftId?: string; coo
 
   await db.lead.create({ data: { name: d.fullName!.trim(), email: email || null, phone: phone || null, programmeId: programme.id, source: utm?.utmSource ?? "Website application", utmSource: utm?.utmSource ?? null, utmMedium: utm?.utmMedium ?? null, utmCampaign: utm?.utmCampaign ?? null, message: `Application ${reference}` } });
   await record({ type: "APPLICATION", path: "/apply", programmeId: programme.id, utmSource: utm?.utmSource, utmMedium: utm?.utmMedium, utmCampaign: utm?.utmCampaign });
+  await notifyApplicant(created.id, COPY.submitted);
+  if (regFee) await notifyApplicant(created.id, (a) => COPY.invoice(a, `INV-${reference}`, `Registration fee, ${programme.name}`, regFee));
+  await alertStaff(`New application ${reference}: ${programme.name}`, `${d.fullName} applied for ${programme.name}.\nBranch: ${branch.name}. ${d.session === "WEEKDAY" ? "Weekday" : "Weekend"}. Start: ${intake.label}.\nPhone: ${phone || "-"}  Email: ${email || "-"}\nDocuments uploaded: ${uploads.length} of ${DOC_KINDS.length}\n\nOpen it: ${SITE.url}/admissions/${created.id}`);
   revalidatePath(`/courses/${programme.slug}`); revalidatePath("/courses");
   return { ok: true, reference };
 }

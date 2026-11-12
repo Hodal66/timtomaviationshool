@@ -2,6 +2,8 @@
 import { cookies } from "next/headers";
 import { db } from "@/lib/db";
 import { readUtm, record } from "@/lib/track";
+import { alertStaff } from "@/lib/notify";
+import { SITE } from "@/lib/site";
 
 export type EnquiryState = { ok: boolean; error?: string } | null;
 
@@ -16,6 +18,7 @@ export async function enquire(_prev: EnquiryState, fd: FormData): Promise<Enquir
   const programme = pid ? await db.programme.findUnique({ where: { id: pid }, select: { id: true, slug: true } }) : null;
   await db.lead.create({ data: { name, email: isEmail ? contact : null, phone: isEmail ? null : contact, message: String(fd.get("message") ?? "").slice(0, 1000) || null,
     programmeId: programme?.id ?? null, source: utm?.utmSource ?? (programme ? "Website course page" : "Website contact page"), utmSource: utm?.utmSource ?? null, utmMedium: utm?.utmMedium ?? null, utmCampaign: utm?.utmCampaign ?? null } });
+  await alertStaff(`New enquiry from ${name}`, `${name} (${contact}) asked${programme ? " about a programme" : ""}:\n\n${String(fd.get("message") ?? "").slice(0, 1000) || "(no message)"}\n\nReply from: ${SITE.url}/enquiries`);
   await record({ type: "ENQUIRY", path: programme ? `/courses/${programme.slug}` : "/contact", programmeId: programme?.id, utmSource: utm?.utmSource });
   return { ok: true };
 }

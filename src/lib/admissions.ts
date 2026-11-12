@@ -1,5 +1,6 @@
 import { db } from "./db";
 import { STAGES } from "./format";
+import { COPY, notifyApplicant } from "./notify";
 
 /** Moves an applicant one stage forward when the SRS rules for that step are met. Returns an error message or null. */
 export async function advanceApplicant(id: string, actor: string): Promise<string | null> {
@@ -14,5 +15,6 @@ export async function advanceApplicant(id: string, actor: string): Promise<strin
   const group = next === "ENROLLED" ? await db.classGroup.findFirst({ where: { programmeId: a.programmeId, branchId: a.branchId, intakeId: a.intakeId, session: a.session } }) : null;
   await db.applicant.update({ where: { id }, data: { status: next, ...(group ? { classGroupId: group.id } : {}),
     events: { create: { type: "STATUS", actorName: actor, message: `Status changed to ${next.replace(/_/g, " ").toLowerCase()}.${group ? ` Placed in ${group.name}.` : ""}` } } } });
+  await notifyApplicant(id, (a) => COPY.status(a, next));
   return null;
 }

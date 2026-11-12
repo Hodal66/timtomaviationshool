@@ -1,12 +1,13 @@
 import { db } from "@/lib/db";
 import { label } from "@/lib/format";
 import { ENQUIRY } from "@/lib/leads";
+import { emailConfigured } from "@/lib/notify";
 export const dynamic = "force-dynamic";
 
 /** Staff home. Every number links to the screen where the work is done, and comes from the same tables the website writes to. */
 export default async function Dashboard() {
   const since = new Date(Date.now() - 864e5);
-  const [newApps, toVerify, unpaid, enquiries, admitted, today, recent, recentEnq, courses] = await Promise.all([
+  const [newApps, toVerify, unpaid, enquiries, admitted, today, recent, recentEnq, courses, waQueue] = await Promise.all([
     db.applicant.count({ where: { status: "SUBMITTED" } }),
     db.applicant.count({ where: { status: "SUBMITTED", documents: { some: { status: "RECEIVED" } } } }),
     db.invoice.aggregate({ where: { status: "PENDING" }, _count: true, _sum: { amountMinor: true } }),
@@ -16,6 +17,7 @@ export default async function Dashboard() {
     db.applicant.findMany({ orderBy: { createdAt: "desc" }, take: 8, include: { programme: true, branch: true, intake: true } }),
     db.lead.findMany({ where: ENQUIRY, orderBy: { createdAt: "desc" }, take: 5 }),
     db.programme.count({ where: { status: "PUBLISHED" } }),
+    db.notification.count({ where: { channel: "WHATSAPP", status: "QUEUED" } }),
   ]);
   const K = (href: string, t: string, v: string | number, sub: string) => <a href={href} className="kpi" style={{ textDecoration: "none", color: "inherit" }}><span>{t}</span><b>{v}</b><small style={{ color: "var(--muted)" }}>{sub}</small></a>;
   return (<><div className="top"><h1>Today</h1><p>What needs attention. Everything here is live from the website and the admissions, finance and course records.</p></div>
@@ -25,6 +27,7 @@ export default async function Dashboard() {
       {K("/payments", "Unpaid invoices", unpaid._count, `RWF ${(unpaid._sum.amountMinor ?? 0).toLocaleString("en-US")} outstanding`)}
       {K("/enquiries", "New enquiries", enquiries, "Waiting for a reply")}
       {K("/admissions", "Admitted, not enrolled", admitted, "Ready to place in a class")}
+      {K("/messages", "WhatsApp to send", waQueue, emailConfigured() ? "Email is sending automatically" : "Email not configured yet")}
       {K("/admin/courses", "Published courses", courses, "Open for registration all year")}
     </div>
     <div className="panel tbl" style={{ marginBottom: 16 }}><h2>Latest applications</h2><table><thead><tr><th>Received</th><th>Applicant</th><th>Programme</th><th>Placement</th><th>Status</th></tr></thead><tbody>

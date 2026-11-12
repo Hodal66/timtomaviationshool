@@ -179,6 +179,7 @@ model Applicant {
   payments       Payment[]
   attendance     Attendance[]
   certificates   Certificate[]
+  notifications  Notification[]
 
   @@index([status])
   @@index([branchId])
@@ -416,4 +417,34 @@ model Asset {
   mime      String
   data      Bytes
   createdAt DateTime @default(now())
+}
+
+enum NotifyChannel {
+  EMAIL
+  WHATSAPP
+}
+
+enum NotifyStatus {
+  QUEUED
+  SENT
+  FAILED
+  SKIPPED
+}
+
+model Notification {
+  id          String        @id @default(cuid())
+  applicantId String
+  applicant   Applicant     @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  channel     NotifyChannel
+  template    String
+  to          String
+  subject     String?
+  body        String
+  status      NotifyStatus  @default(QUEUED)
+  error       String?
+  createdAt   DateTime      @default(now())
+  sentAt      DateTime?
+
+  @@index([status, channel])
+  @@index([applicantId])
 }

@@ -201,6 +201,7 @@ export function Wizard({ programmes, branches, starts, initial }: { programmes: 
         <div><dt>Education</dt><dd>{data.educationLevel}, {data.institution} ({data.completionYear})</dd><dd><button className="btn ghost sm" onClick={() => go(2)}>Change</button></dd></div>
         <div><dt>Documents</dt><dd>{DOC_KINDS.filter((k) => uploads[k]).length} of {DOC_KINDS.length} uploaded</dd><dd><button className="btn ghost sm" onClick={() => go(3)}>Change</button></dd></div>
       </dl>
+      <p style={{ margin: 0, color: "var(--mute)", fontSize: ".95rem" }}>We will send updates about your application by email (if you gave one) and WhatsApp, using the details above.</p>
       <label style={{ display: "flex", gap: 12, alignItems: "flex-start", cursor: "pointer" }}><input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} style={{ width: 22, height: 22, marginTop: 2, accentColor: "var(--blue)" }} /><span>I confirm that the information I have given is correct.</span></label>
       <div className="nav2"><button className="btn ghost" onClick={() => go(3)}>Back</button><button className="btn cta" onClick={submit} disabled={!agree || submitting}>{submitting ? "Submitting..." : "Submit application"}</button></div>
     </>}

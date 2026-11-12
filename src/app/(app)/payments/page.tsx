@@ -5,6 +5,7 @@ import { getSession } from "@/lib/session";
 import { can } from "@/lib/perm";
 import { label, money } from "@/lib/format";
 import { advanceApplicant } from "@/lib/admissions";
+import { COPY, notifyApplicant } from "@/lib/notify";
 export const dynamic = "force-dynamic";
 
 /** Finance-only. The public website can never reach this: it requires a signed-in Finance or Admin user and a bank or mobile-money reference. */
@@ -23,7 +24,8 @@ async function verify(fd: FormData) {
     db.applicationEvent.create({ data: { applicantId: inv.applicantId, type: "PAYMENT", actorName: s.name, message: `Payment verified by Finance (${reference}).` } }),
   ]);
   // If documents are already verified, the application moves to "Registration paid" on its own.
-  if (inv.applicant.status === "DOCUMENTS_VERIFIED") await advanceApplicant(inv.applicantId, "System");
+  if (inv.applicant.status === "DOCUMENTS_VERIFIED") await advanceApplicant(inv.applicantId, "System"); // sends the status message
+  else await notifyApplicant(inv.applicantId, (ap) => COPY.paid(ap, inv.reference));
   revalidatePath("/payments"); revalidatePath("/admissions");
   redirect("/payments");
 }
