@@ -16,7 +16,7 @@ export default function About() {
     </div></section>
     <section className="sx soft"><div className="wrap"><Reveal className="shead"><span className="eyebrow">How we teach</span><h2>Where and when you can study</h2></Reveal>
       <div className="grid-cards">
-        <Reveal><div className="card2"><h3>Three branches</h3><p>{SITE.branches.join(", ")}. Each programme page shows which branches have an open intake.</p></div></Reveal>
+        <Reveal><div className="card2"><h3>Three branches</h3><p>{SITE.branches.join(", ")}. You choose your branch when you apply.</p></div></Reveal>
         <Reveal delay={80}><div className="card2"><h3>Four intakes a year</h3><p>New intakes start in January, April, July and October.</p></div></Reveal>
         <Reveal delay={160}><div className="card2"><h3>Weekday or weekend</h3><p>Weekday classes run Monday to Friday. Weekend classes run Saturday and Sunday, 9:00 AM to 2:00 PM.</p></div></Reveal>
       </div></div></section>

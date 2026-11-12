@@ -3,6 +3,7 @@ import { getSession } from "@/lib/session";
 import { can } from "@/lib/perm";
 import { redirect } from "next/navigation";
 import { label } from "@/lib/format";
+import { ENQUIRY } from "@/lib/leads";
 export const dynamic = "force-dynamic";
 
 const day = (s?: string, end = false) => (s && /^\d{4}-\d{2}-\d{2}$/.test(s) ? new Date(`${s}T${end ? "23:59:59" : "00:00:00"}Z`) : undefined);
@@ -18,7 +19,7 @@ export default async function Executive({ searchParams }: { searchParams: Promis
     db.pageEvent.count({ where: { type: "PAGE_VIEW", createdAt: range } }),
     db.pageEvent.count({ where: { type: "PAGE_VIEW", programmeId: { not: null }, createdAt: range } }),
     db.pageEvent.count({ where: { type: "APPLY_CLICK", createdAt: range } }),
-    db.lead.count({ where: { createdAt: range, message: { not: { startsWith: "Application " } } } }),
+    db.lead.count({ where: { createdAt: range, ...ENQUIRY } }),
     db.applicant.count({ where: { createdAt: range } }),
     db.applicant.groupBy({ by: ["status"], where: { createdAt: range }, _count: true }),
     db.applicant.groupBy({ by: ["programmeId"], where: { createdAt: range }, _count: true }),

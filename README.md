@@ -14,8 +14,12 @@ Admin > Courses (draft, review, approve, publish) writes the `Programme` records
 2. Otherwise `src/lib/images.ts` maps a subject area to a photo, if one is configured.
 3. Otherwise the page shows aviation artwork. Add licensed photos in `public/images/areas` and list them in `images.ts`; no component changes are needed.
 
-## Applications
-`/apply` saves a draft as the applicant types (`/api/apply/draft`), accepts document uploads (`/api/apply/upload`, stored in Postgres, never public) and creates the application in one place (`src/lib/application.ts`): applicant, document checklist, registration invoice, lead and campaign attribution. Staff open documents from the admissions record.
+## Applications and the staff journey
+Every published course is open for registration all year. There are no seats, deadlines or intake set-up to maintain.
+1. `/apply` asks for programme, branch, schedule and preferred start (the next four quarterly intakes are calculated in `src/lib/intakes.ts`), then details, education and documents. Progress autosaves; uploads are stored in Postgres and are never public.
+2. `src/lib/application.ts` creates the application in one place: applicant, document checklist, optional registration invoice, lead and campaign attribution.
+3. Staff see it at once: **Today** (`/dashboard`) shows the queues, **Admissions** has the board, documents, notes, placement (branch, schedule, intake) and invoice controls, **Payments** lets Finance verify money, **Enquiries** lists website questions.
+4. Applicants follow all of it on `/track`: placement, next step, documents, invoice and a progress timeline (internal notes stay private).
 
 ## Environment variables
 Provided by the Neon integration: `DATABASE_URL`, `DATABASE_URL_UNPOOLED`.

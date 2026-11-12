@@ -3,8 +3,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { getSession, type Session } from "@/lib/session";
 import { can } from "@/lib/perm";
-import { asFaqs, asModules, categoryLabel, readinessProblems, slugify, SESSION_TEXT, THEMES, THEME_KEYS } from "@/lib/catalogue";
-import { listOfferings } from "@/lib/offerings";
+import { asFaqs, asModules, categoryLabel, readinessProblems, slugify, THEMES, THEME_KEYS } from "@/lib/catalogue";
 import { label } from "@/lib/format";
 export const dynamic = "force-dynamic";
 
@@ -64,12 +63,12 @@ async function move(fd: FormData) {
   } else if (to === "UNPUBLISH") {
     s = await who(can.publish);
     if (p.status !== "PUBLISHED") return;
-    await db.$transaction([db.programme.update({ where: { id }, data: { status: "APPROVED", events: { create: { actorName: s.name, action: "Unpublished" } } } }), db.programmeOffering.updateMany({ where: { programmeId: id, status: "OPEN" }, data: { status: "CLOSED" } })]);
+    await db.programme.update({ where: { id }, data: { status: "APPROVED", events: { create: { actorName: s.name, action: "Unpublished" } } } });
     refresh(p.slug); redirect(`/admin/courses/${id}`);
   } else if (to === "ARCHIVED") {
     s = await who(can.publish);
-    // Applications and history stay. Open offerings close so nobody can apply to an archived course.
-    await db.$transaction([db.programme.update({ where: { id }, data: { status: "ARCHIVED", events: { create: { actorName: s.name, action: "Archived" } } } }), db.programmeOffering.updateMany({ where: { programmeId: id, status: { not: "CLOSED" } }, data: { status: "CLOSED" } })]);
+    // Applications and history stay. An archived course is no longer public, so nobody can apply to it.
+    await db.programme.update({ where: { id }, data: { status: "ARCHIVED", events: { create: { actorName: s.name, action: "Archived" } } } });
     refresh(p.slug); redirect(`/admin/courses/${id}`);
   } else return;
   await db.programme.update({ where: { id }, data: { ...data, status: to as never, events: { create: { actorName: s.name, action: `Moved to ${label(to)}` } } } });
@@ -102,41 +101,11 @@ async function removeImage(fd: FormData) {
   redirect(`/admin/courses/${id}?ok=1`);
 }
 
-async function addOffering(fd: FormData) {
-  "use server";
-  const s = await who(can.editContent);
-  const programmeId = String(fd.get("id")), seats = num(fd.get("seats"));
-  const intakeLabel = String(fd.get("intake") ?? "").trim(), start = String(fd.get("startsOn") ?? "");
-  if (!seats || !intakeLabel || !start) redirect(`/admin/courses/${programmeId}?e=${encodeURIComponent("Enter an intake name, start date and seats.")}`);
-  const startsOn = new Date(start + "T00:00:00Z");
-  const intake = await db.intake.upsert({ where: { label: intakeLabel }, update: {}, create: { label: intakeLabel, startsOn, endsOn: new Date(+startsOn + 182 * 864e5) } });
-  const deadline = String(fd.get("deadline") ?? "");
-  try {
-    await db.programmeOffering.create({ data: { programmeId, intakeId: intake.id, branchId: String(fd.get("branchId")), session: String(fd.get("session")) as never, seats, deadline: deadline ? new Date(deadline + "T23:59:59Z") : null, status: "DRAFT" } });
-  } catch { redirect(`/admin/courses/${programmeId}?e=${encodeURIComponent("That intake, branch and schedule already exists.")}`); }
-  await db.programmeEvent.create({ data: { programmeId, actorName: s.name, action: `Added offering ${intakeLabel}` } });
-  redirect(`/admin/courses/${programmeId}`);
-}
-
-async function offering(fd: FormData) {
-  "use server";
-  const s = await who(can.publish);
-  const id = String(fd.get("oid")), op = String(fd.get("op"));
-  const o = await db.programmeOffering.findUnique({ where: { id }, include: { programme: true } });
-  if (!o) return;
-  if (op === "open" && o.programme.status !== "PUBLISHED") redirect(`/admin/courses/${o.programmeId}?e=${encodeURIComponent("Publish the course before opening an intake.")}`);
-  const data = op === "open" ? { status: "OPEN" as const } : op === "close" ? { status: "CLOSED" as const } : { seats: num(fd.get("seats")) ?? o.seats };
-  await db.programmeOffering.update({ where: { id }, data });
-  await db.programmeEvent.create({ data: { programmeId: o.programmeId, actorName: s.name, action: `Offering ${op}` } });
-  refresh(o.programme.slug); redirect(`/admin/courses/${o.programmeId}`);
-}
-
 export default async function Edit({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ e?: string; ok?: string }> }) {
   const { id } = await params; const sp = await searchParams;
   const me = (await getSession())!;
   const p = await db.programme.findUnique({ where: { id }, include: { events: { orderBy: { createdAt: "desc" }, take: 12 }, _count: { select: { applicants: true } } } });
   if (!p) notFound();
-  const [branches, offs] = await Promise.all([db.branch.findMany(), listOfferings(p.id)]);
   const locked = p.status === "PUBLISHED" || p.status === "ARCHIVED";
   const problems = readinessProblems(p);
   const T = (n: string, v: string, rows = 4, hint?: string) => (<><label htmlFor={n}>{hint ?? n}</label><textarea id={n} name={n} rows={rows} defaultValue={v} disabled={locked} style={{ width: "100%" }} /></>);
@@ -182,19 +151,5 @@ export default async function Edit({ params, searchParams }: { params: Promise<{
       {!locked && can.editContent(me.role) && <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <form action={uploadImage} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><input type="hidden" name="id" value={p.id} /><input type="file" name="file" accept="image/jpeg,image/png,image/webp" aria-label="Course image file" required /><button className="p" type="submit">Upload image</button></form>
         {p.heroImage && <form action={removeImage}><input type="hidden" name="id" value={p.id} /><button type="submit">Remove image</button></form>}</div>}</div>
-    <div className="panel" style={{ marginTop: 16 }}><h2>Intakes and seats</h2>
-      <div className="tbl"><table><thead><tr><th>Intake</th><th>Branch</th><th>Schedule</th><th>Seats</th><th>Left</th><th>Deadline</th><th>Status</th><th></th></tr></thead><tbody>
-        {offs.length === 0 && <tr><td colSpan={8}>No intakes yet.</td></tr>}
-        {offs.map((o) => <tr key={o.id}><td>{o.intake.label}</td><td>{o.branch.name}</td><td style={{ whiteSpace: "normal" }}>{SESSION_TEXT[o.session]}</td><td>{o.seats}</td><td>{o.seatsLeft}</td><td>{o.deadline?.toISOString().slice(0, 10) ?? "-"}</td><td><span className={`pill ${o.status === "OPEN" ? "ok" : "warn"}`}>{label(o.status)}</span></td>
-          <td>{can.publish(me.role) && <form action={offering} style={{ display: "flex", gap: 4 }}><input type="hidden" name="oid" value={o.id} /><input name="seats" type="number" defaultValue={o.seats} aria-label="Seats" style={{ width: 70 }} />
-            <button className="s" name="op" value="seats">Set seats</button>{o.status !== "OPEN" ? <button className="s" name="op" value="open">Open</button> : <button className="s" name="op" value="close">Close</button>}</form>}</td></tr>)}
-      </tbody></table></div>
-      {can.editContent(me.role) && <form action={addOffering} style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}><input type="hidden" name="id" value={p.id} />
-        <input name="intake" placeholder="Intake name, e.g. January 2027" required /><input name="startsOn" type="date" aria-label="Start date" required />
-        <select name="branchId" aria-label="Branch">{branches.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}</select>
-        <select name="session" aria-label="Session"><option value="WEEKDAY">Weekday</option><option value="WEEKEND">Weekend</option></select>
-        <input name="seats" type="number" min={1} placeholder="Seats" required style={{ width: 90 }} /><input name="deadline" type="date" aria-label="Application deadline" />
-        <button className="p" type="submit">Add intake</button></form>}
-    </div>
     <div className="panel" style={{ marginTop: 16 }}><h2>History</h2><ul className="ol">{p.events.map((e) => <li key={e.id}>{e.createdAt.toISOString().slice(0, 16).replace("T", " ")} · {e.actorName}: {e.action}</li>)}</ul></div></>);
 }

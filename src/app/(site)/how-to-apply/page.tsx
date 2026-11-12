@@ -6,7 +6,7 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = { title: "Admissions | Timtom Aviation School", description: "How to apply to Timtom Aviation School: what you need, how payment works and how to track your application.", alternates: { canonical: "/how-to-apply" } };
 
 const STEPS = [
-  ["Choose a programme and intake", "Open a programme page, check the intakes, then press Apply. The programme is selected for you."],
+  ["Choose a programme and intake", "Open a programme page and press Apply. The programme is selected for you. Registration is open all year."],
   ["Complete the application", "Give your contact details and education. Your progress is saved, so you can stop and continue on any device."],
   ["Upload your documents", "Photograph or scan each document on your phone. You can also add them later from your tracking page."],
   ["Pay the registration fee", "If the programme has one, your invoice shows the amount and a payment reference. The School confirms the payment before your status changes."],
@@ -25,7 +25,7 @@ export default function Admissions() {
       <div className="vstack">
         <Reveal><div className="panel2"><h3 style={{ marginBottom: 12 }}>Documents to have ready</h3><ul className="list">{DOC_KINDS.map((d) => <li key={d}>{d}</li>)}</ul>
           <p style={{ marginTop: 14, color: "var(--mute)", fontSize: ".95rem" }}>Applicants under 18 also give a parent or guardian name and phone number. Each programme page lists any extra entry requirements.</p></div></Reveal>
-        <Reveal delay={80}><div className="panel2"><h3 style={{ marginBottom: 12 }}>Intakes and sessions</h3><p style={{ color: "var(--mute)" }}>New intakes start in January, April, July and October at {SITE.branches.join(", ")}. Choose a weekday or weekend session when you apply.</p></div></Reveal>
+        <Reveal delay={80}><div className="panel2"><h3 style={{ marginBottom: 12 }}>Intakes and sessions</h3><p style={{ color: "var(--mute)" }}>A new intake starts every three months, in January, April, July and October. You can apply at any time. Choose your branch ({SITE.branches.join(", ")}), a weekday or weekend schedule and a preferred start, and admissions confirms your intake.</p></div></Reveal>
         <Reveal delay={160}><div className="panel2"><h3 style={{ marginBottom: 12 }}>Need help?</h3><p style={{ color: "var(--mute)" }}>Call <a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a> or email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p></div></Reveal>
       </div></div></section></>);
 }

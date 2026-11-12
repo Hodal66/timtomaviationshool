@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { listOfferings } from "./offerings";
+import { ensureIntake } from "./intakes";
 import { newReference } from "./reference";
 import { readUtm, record } from "./track";
 import { ageOf, cleanPhone, validate, type ApplyData } from "./apply";
@@ -16,14 +16,16 @@ export async function createApplication(d: ApplyData, o: { draftId?: string; coo
 
   const programme = await db.programme.findFirst({ where: { slug: d.course, status: "PUBLISHED" } });
   if (!programme) return { ok: false, field: "course", error: "This programme is not open for applications." };
-  const offering = (await listOfferings(programme.id)).find((x) => x.id === d.offering);
-  if (!offering) return { ok: false, field: "offering", error: "Choose an intake." };
-  if (!offering.accepting) return { ok: false, field: "offering", error: offering.seatsLeft === 0 ? "That intake is full. Choose another." : "That intake is closed. Choose another." };
+  const branch = await db.branch.findUnique({ where: { id: d.branch } });
+  if (!branch) return { ok: false, field: "branch", error: "Choose the branch where you want to study." };
+  const intake = await ensureIntake(d.start);
+  if (!intake) return { ok: false, field: "start", error: "Choose a start date from the list." };
 
   const email = (d.email ?? "").trim().toLowerCase(), phone = cleanPhone(d.phone), dob = new Date(d.dob + "T00:00:00Z");
   const minor = ageOf(d.dob) < 18;
-  const dupe = await db.applicant.findFirst({ where: { programmeId: programme.id, intakeId: offering.intakeId, status: { not: "REJECTED" }, OR: [...(email ? [{ email }] : []), ...(phone ? [{ phone }] : [])] }, select: { id: true } });
-  if (dupe) return { ok: false, error: "An application with these contact details already exists for this intake. Use Track application, or contact admissions." };
+  // One live application per person per programme. Rejected applicants may apply again.
+  const dupe = await db.applicant.findFirst({ where: { programmeId: programme.id, status: { not: "REJECTED" }, OR: [...(email ? [{ email }] : []), ...(phone ? [{ phone }] : [])] }, select: { id: true } });
+  if (dupe) return { ok: false, error: "An application with these contact details already exists for this programme. Use Track application, or contact admissions." };
 
   const utm = readUtm(o.cookieUtm);
   let reference = newReference();
@@ -32,25 +34,22 @@ export async function createApplication(d: ApplyData, o: { draftId?: string; coo
   const uploads = o.draftId ? await db.upload.findMany({ where: { draftId: o.draftId }, select: { id: true, kind: true } }) : [];
   const regFee = programme.registrationFeeRwf;
 
-  const created = await db.$transaction(async (tx) => {
-    const used = await tx.applicant.count({ where: { programmeId: programme.id, intakeId: offering.intakeId, branchId: offering.branchId, session: offering.session, status: { not: "REJECTED" } } });
-    if (used >= offering.seats) return null; // last seat taken while the form was open
+  await db.$transaction(async (tx) => {
     const a = await tx.applicant.create({ data: {
       fullName: d.fullName!.trim().slice(0, 120), email: email || null, phone: phone || null, dateOfBirth: dob,
       source: utm?.utmSource ?? "Web", leadSource: utm?.utmSource ?? "Direct website", utmSource: utm?.utmSource ?? null, utmMedium: utm?.utmMedium ?? null, utmCampaign: utm?.utmCampaign ?? null,
-      language: o.lang ?? null, reference, session: offering.session,
+      language: o.lang ?? null, reference, session: d.session as "WEEKDAY" | "WEEKEND",
       guardianName: minor ? d.guardianName!.trim().slice(0, 120) : null, guardianPhone: minor ? cleanPhone(d.guardianPhone).slice(0, 20) : null,
       educationLevel: d.educationLevel, institution: d.institution!.trim().slice(0, 160), completionYear: Number(d.completionYear),
-      programmeId: programme.id, intakeId: offering.intakeId, branchId: offering.branchId,
+      programmeId: programme.id, intakeId: intake.id, branchId: branch.id,
       documents: { create: DOC_KINDS.map((kind) => ({ kind, status: uploads.some((u) => u.kind === kind) ? "RECEIVED" : "PENDING" })) },
-      events: { create: [{ type: "SYSTEM", actorName: "Website", message: `Application submitted online${utm?.utmSource ? ` (source: ${utm.utmSource})` : ""}. ${uploads.length} of ${DOC_KINDS.length} documents uploaded.` }] },
+      events: { create: [{ type: "STATUS", actorName: "Website", message: "Application submitted." }, { type: "SYSTEM", actorName: "Website", message: `Submitted online${utm?.utmSource ? ` (source: ${utm.utmSource})` : ""}. ${uploads.length} of ${DOC_KINDS.length} documents uploaded.` }] },
     } });
     if (uploads.length) await tx.upload.updateMany({ where: { draftId: o.draftId }, data: { applicantId: a.id, draftId: null } });
     if (regFee) await tx.invoice.create({ data: { reference: `INV-${reference}`, applicantId: a.id, description: `Registration fee, ${programme.name}`, amountMinor: regFee, currency: "RWF" } });
     if (o.draftId) await tx.applicationDraft.delete({ where: { id: o.draftId } });
     return a;
   });
-  if (!created) return { ok: false, field: "offering", error: "The last seat was just taken. Choose another intake." };
 
   await db.lead.create({ data: { name: d.fullName!.trim(), email: email || null, phone: phone || null, programmeId: programme.id, source: utm?.utmSource ?? "Website application", utmSource: utm?.utmSource ?? null, utmMedium: utm?.utmMedium ?? null, utmCampaign: utm?.utmCampaign ?? null, message: `Application ${reference}` } });
   await record({ type: "APPLICATION", path: "/apply", programmeId: programme.id, utmSource: utm?.utmSource, utmMedium: utm?.utmMedium, utmCampaign: utm?.utmCampaign });

@@ -2,7 +2,7 @@ import { randomBytes } from "node:crypto";
 import { db } from "@/lib/db";
 import type { ApplyData } from "@/lib/apply";
 
-const FIELDS = ["course", "offering", "fullName", "phone", "email", "dob", "guardianName", "guardianPhone", "educationLevel", "institution", "completionYear"] as const;
+const FIELDS = ["course", "branch", "session", "start", "fullName", "phone", "email", "dob", "guardianName", "guardianPhone", "educationLevel", "institution", "completionYear"] as const;
 const clean = (raw: unknown): ApplyData => {
   const out: Record<string, string> = {};
   if (raw && typeof raw === "object") for (const k of FIELDS) { const v = (raw as Record<string, unknown>)[k]; if (typeof v === "string") out[k] = v.slice(0, 200); }

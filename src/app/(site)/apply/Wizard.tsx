@@ -2,9 +2,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DOC_KINDS, EDU_LEVELS, MAX_UPLOAD, UPLOAD_MIME, ageOf, validate, type ApplyData, type Errors } from "@/lib/apply";
 
-export type WProgramme = { slug: string; name: string; offerings: { id: string; intake: string; branch: string; session: string; seatsLeft: number; deadline: string | null; accepting: boolean }[] };
+export type WProgramme = { slug: string; name: string };
+export type WBranch = { id: string; name: string };
+export type WStart = { key: string; label: string };
 const STEPS = ["Programme", "Your details", "Education", "Documents", "Review"] as const;
-const STEP_OF: Partial<Record<keyof ApplyData, number>> = { course: 0, offering: 0, fullName: 1, phone: 1, email: 1, dob: 1, guardianName: 1, guardianPhone: 1, educationLevel: 2, institution: 2, completionYear: 2 };
+const STEP_OF: Partial<Record<keyof ApplyData, number>> = { course: 0, branch: 0, session: 0, start: 0, fullName: 1, phone: 1, email: 1, dob: 1, guardianName: 1, guardianPhone: 1, educationLevel: 2, institution: 2, completionYear: 2 };
 type Save = "idle" | "saving" | "saved" | "error";
 type Up = Record<string, { filename: string; size: number } | undefined>;
 
@@ -20,9 +22,9 @@ async function shrink(file: File): Promise<File> {
 }
 const kb = (n: number) => (n > 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
 
-export function Wizard({ programmes, initial }: { programmes: WProgramme[]; initial: { course?: string; offering?: string; draft?: string } }) {
+export function Wizard({ programmes, branches, starts, initial }: { programmes: WProgramme[]; branches: WBranch[]; starts: WStart[]; initial: { course?: string; branch?: string; session?: string; draft?: string } }) {
   const [step, setStep] = useState(0);
-  const [data, setData] = useState<ApplyData>({ course: initial.course, offering: initial.offering });
+  const [data, setData] = useState<ApplyData>({ course: initial.course, branch: initial.branch, session: initial.session ?? "WEEKDAY", start: starts[0]?.key });
   const [errors, setErrors] = useState<Errors>({});
   const [token, setToken] = useState<string | null>(null);
   const [uploads, setUploads] = useState<Up>({});
@@ -33,7 +35,6 @@ export function Wizard({ programmes, initial }: { programmes: WProgramme[]; init
   const [submitting, setSubmitting] = useState(false);
   const [submitErr, setSubmitErr] = useState("");
   const [agree, setAgree] = useState(false);
-  const [blocked, setBlocked] = useState<string[]>([]);
   const [ref, setRef] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const head = useRef<HTMLHeadingElement>(null);
@@ -47,13 +48,13 @@ export function Wizard({ programmes, initial }: { programmes: WProgramme[]; init
         const r = await fetch(`/api/apply/draft?token=${encodeURIComponent(t)}`).catch(() => null);
         if (r?.ok) {
           const d = await r.json(); setToken(t);
-          setData({ ...d.data, ...(initial.course ? { course: initial.course, offering: initial.offering ?? (d.data.course === initial.course ? d.data.offering : undefined) } : {}) });
+          setData((cur) => ({ ...cur, ...d.data, ...(initial.course ? { course: initial.course } : {}), start: starts.some((x) => x.key === d.data.start) ? d.data.start : starts[0]?.key }));
           setStep(Math.min(Number(d.step) || 0, 4)); setUploads(Object.fromEntries((d.uploads as { kind: string; filename: string; size: number }[]).map((u) => [u.kind, { filename: u.filename, size: u.size }])));
         }
       }
       setReady(true);
     })();
-  }, [initial.draft, initial.course, initial.offering]);
+  }, [initial.draft, initial.course, starts]);
 
   const persist = useCallback(async (d: ApplyData, s: number) => {
     setSave("saving");
@@ -66,7 +67,7 @@ export function Wizard({ programmes, initial }: { programmes: WProgramme[]; init
   }, []);
   useEffect(() => { if (!ready || ref) return; const id = setTimeout(() => { if (Object.values(data).some(Boolean)) persist(data, step); }, 700); return () => clearTimeout(id); }, [data, step, ready, ref, persist]);
 
-  const set = (k: keyof ApplyData, v: string) => { setData((d) => ({ ...d, [k]: v, ...(k === "course" ? { offering: undefined } : {}) })); setErrors((e) => ({ ...e, [k]: undefined })); };
+  const set = (k: keyof ApplyData, v: string) => { setData((d) => ({ ...d, [k]: v })); setErrors((e) => ({ ...e, [k]: undefined })); };
   const go = (n: number) => { if (n > step) setSubmitErr(""); setStep(n); setTimeout(() => { head.current?.focus(); scrollTo({ top: 0, behavior: "smooth" }); }, 30); };
   const focusField = (k: string) => setTimeout(() => document.getElementById(`f-${k}`)?.focus(), 40);
   const next = () => {
@@ -77,7 +78,8 @@ export function Wizard({ programmes, initial }: { programmes: WProgramme[]; init
 
   const prog = programmes.find((p) => p.slug === data.course);
   const age = ageOf(data.dob), minor = !Number.isNaN(age) && age < 18;
-  const chosen = prog?.offerings.find((o) => o.id === data.offering);
+  const branchName = branches.find((b) => b.id === data.branch)?.name;
+  const startLabel = starts.find((x) => x.key === data.start)?.label;
 
   async function upload(kind: string, f: File | undefined) {
     if (!f) return;
@@ -108,7 +110,6 @@ export function Wizard({ programmes, initial }: { programmes: WProgramme[]; init
     setSubmitting(false);
     if (j.ok) { try { localStorage.removeItem("tas_draft"); } catch { /* ignore */ } setRef(j.reference); setTimeout(() => { head.current?.focus(); scrollTo({ top: 0, behavior: "smooth" }); }, 30); return; }
     setSubmitErr(j.error || "Something went wrong.");
-    if (j.field === "offering" && data.offering) { setBlocked((b) => [...b, data.offering!]); setData((d) => ({ ...d, offering: undefined })); }
     if (j.field) go(STEP_OF[j.field as keyof ApplyData] ?? 0);
   }
 
@@ -142,16 +143,22 @@ export function Wizard({ programmes, initial }: { programmes: WProgramme[]; init
     {step === 0 && <>
       <div className="field"><label htmlFor="f-course">Programme</label>
         <select id="f-course" value={data.course ?? ""} onChange={(e) => set("course", e.target.value)} aria-invalid={!!errors.course}>
-          <option value="">Select a programme</option>{programmes.map((p) => <option key={p.slug} value={p.slug}>{p.name}{p.offerings.some((o) => o.accepting) ? "" : " (no open intake)"}</option>)}</select>
+          <option value="">Select a programme</option>{programmes.map((p) => <option key={p.slug} value={p.slug}>{p.name}</option>)}</select>
         {errors.course && <span className="err" role="alert">{errors.course}</span>}</div>
-      {prog && (prog.offerings.length === 0 ? <div className="note">No intake is open for <b>{prog.name}</b> right now. <a href="/contact">Contact admissions</a> to be told when one opens, or choose another programme.</div> :
-        <fieldset className="field" style={{ border: 0, padding: 0, margin: 0 }}><legend>Intake, branch and schedule</legend>
-          <div className="opts" role="radiogroup" aria-label="Intake">{prog.offerings.map((o) => (
-            <label key={o.id} className="opt" aria-disabled={!o.accepting || blocked.includes(o.id)}><input type="radio" name="offering" value={o.id} checked={data.offering === o.id} disabled={!o.accepting || blocked.includes(o.id)} onChange={() => { setSubmitErr(""); set("offering", o.id); }} />
-              <span><b>{o.intake}</b> · {o.branch}<small>{o.session === "WEEKDAY" ? "Weekday: Monday to Friday, three 2-hour sessions" : "Weekend: Saturday and Sunday, 9:00 AM to 2:00 PM"}</small></span>
-              <span className={`pillx ${o.accepting && !blocked.includes(o.id) ? "ok" : "warn"}`}>{blocked.includes(o.id) ? "Full" : o.accepting ? `${o.seatsLeft} seats left` : o.seatsLeft === 0 ? "Full" : "Closed"}</span></label>))}</div>
-          {errors.offering && <span className="err" role="alert">{errors.offering}</span>}</fieldset>)}
-      <div className="nav2"><span /><button className="btn pri" onClick={next} disabled={!prog || prog.offerings.length === 0}>Continue</button></div>
+      <fieldset className="field" style={{ border: 0, padding: 0, margin: 0 }}><legend>Branch</legend>
+        <div className="opts" role="radiogroup" aria-label="Branch">{branches.map((b) => (
+          <label key={b.id} className="opt"><input type="radio" name="branch" id={b.id === branches[0].id ? "f-branch" : undefined} value={b.id} checked={data.branch === b.id} onChange={() => set("branch", b.id)} /><span><b>{b.name}</b></span><span /></label>))}</div>
+        {errors.branch && <span className="err" role="alert">{errors.branch}</span>}</fieldset>
+      <fieldset className="field" style={{ border: 0, padding: 0, margin: 0 }}><legend>Schedule</legend>
+        <div className="opts" role="radiogroup" aria-label="Schedule">{(["WEEKDAY", "WEEKEND"] as const).map((k) => (
+          <label key={k} className="opt"><input type="radio" name="session" id={k === "WEEKDAY" ? "f-session" : undefined} value={k} checked={data.session === k} onChange={() => set("session", k)} />
+            <span><b>{k === "WEEKDAY" ? "Weekday" : "Weekend"}</b><small>{k === "WEEKDAY" ? "Monday to Friday, three 2-hour sessions" : "Saturday and Sunday, 9:00 AM to 2:00 PM"}</small></span><span /></label>))}</div>
+        {errors.session && <span className="err" role="alert">{errors.session}</span>}</fieldset>
+      <div className="field"><label htmlFor="f-start">Preferred start</label>
+        <select id="f-start" value={data.start ?? ""} onChange={(e) => set("start", e.target.value)} aria-invalid={!!errors.start}>{starts.map((x, i) => <option key={x.key} value={x.key}>{x.label}{i === 0 ? " (next intake)" : ""}</option>)}</select>
+        <span className="hint">You can apply at any time. Admissions confirms your intake with you.</span>
+        {errors.start && <span className="err" role="alert">{errors.start}</span>}</div>
+      <div className="nav2"><span /><button className="btn pri" onClick={next} disabled={!data.course}>Continue</button></div>
     </>}
 
     {step === 1 && <>
@@ -187,7 +194,7 @@ export function Wizard({ programmes, initial }: { programmes: WProgramme[]; init
 
     {step === 4 && <>
       <dl className="rv-list">
-        <div><dt>Programme</dt><dd>{prog?.name}<br /><small style={{ color: "var(--mute)" }}>{chosen ? `${chosen.intake} · ${chosen.branch} · ${chosen.session === "WEEKDAY" ? "Weekday" : "Weekend"}` : ""}</small></dd><dd><button className="btn ghost sm" onClick={() => go(0)}>Change</button></dd></div>
+        <div><dt>Programme</dt><dd>{prog?.name}<br /><small style={{ color: "var(--mute)" }}>{branchName} · {data.session === "WEEKDAY" ? "Weekday" : "Weekend"} · Start {startLabel}</small></dd><dd><button className="btn ghost sm" onClick={() => go(0)}>Change</button></dd></div>
         <div><dt>Name</dt><dd>{data.fullName}</dd><dd><button className="btn ghost sm" onClick={() => go(1)}>Change</button></dd></div>
         <div><dt>Contact</dt><dd>{[data.phone, data.email].filter(Boolean).join(" · ")}</dd><dd /></div>
         <div><dt>Date of birth</dt><dd>{data.dob}{minor && data.guardianName ? ` · Guardian: ${data.guardianName}` : ""}</dd><dd /></div>

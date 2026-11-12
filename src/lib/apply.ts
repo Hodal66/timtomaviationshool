@@ -5,7 +5,7 @@ export const MAX_UPLOAD = 4 * 1024 * 1024;
 export const UPLOAD_MIME = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 
 export type ApplyData = {
-  course?: string; offering?: string;
+  course?: string; branch?: string; session?: string; start?: string;
   fullName?: string; phone?: string; email?: string; dob?: string; guardianName?: string; guardianPhone?: string;
   educationLevel?: string; institution?: string; completionYear?: string;
 };
@@ -18,7 +18,9 @@ export function validate(d: ApplyData, step: "programme" | "details" | "educatio
   const e: Errors = {};
   if (step === "programme" || step === "all") {
     if (!d.course) e.course = "Choose a programme.";
-    else if (!d.offering) e.offering = "Choose an intake.";
+    else if (!d.branch) e.branch = "Choose the branch where you want to study.";
+    else if (d.session !== "WEEKDAY" && d.session !== "WEEKEND") e.session = "Choose a weekday or weekend schedule.";
+    else if (!d.start) e.start = "Choose when you would like to start.";
   }
   if (step === "details" || step === "all") {
     if (!d.fullName?.trim()) e.fullName = "Enter your full name.";

@@ -74,15 +74,14 @@ enum CertificateStatus {
 }
 
 model Branch {
-  id         String              @id @default(cuid())
-  code       String              @unique
+  id         String       @id @default(cuid())
+  code       String       @unique
   name       String
   country    String
   users      User[]
   applicants Applicant[]
   rooms      Room[]
   groups     ClassGroup[]
-  offerings  ProgrammeOffering[]
 }
 
 model User {
@@ -99,14 +98,14 @@ model User {
 }
 
 model Programme {
-  id                 String              @id @default(cuid())
-  code               String              @unique
+  id                 String           @id @default(cuid())
+  code               String           @unique
   name               String
   type               ProgrammeType
   durationMonths     Int?
   feeRwf             Int?
   feeUsd             Int?
-  slug               String?             @unique
+  slug               String?          @unique
   qualificationType  String?
   awardingBody       String?
   summary            String?
@@ -117,30 +116,28 @@ model Programme {
   modules            Json?
   careers            String[]
   faqs               Json?
-  visualTheme        String              @default("default")
+  visualTheme        String           @default("default")
   heroImage          String?
   registrationFeeRwf Int?
-  status             ContentStatus       @default(DRAFT)
+  status             ContentStatus    @default(DRAFT)
   reviewNotes        String?
   submittedById      String?
   approvedById       String?
   publishedAt        DateTime?
-  updatedAt          DateTime            @default(now()) @updatedAt
+  updatedAt          DateTime         @default(now()) @updatedAt
   events             ProgrammeEvent[]
-  offerings          ProgrammeOffering[]
   applicants         Applicant[]
   certificates       Certificate[]
   groups             ClassGroup[]
 }
 
 model Intake {
-  id         String              @id @default(cuid())
-  label      String              @unique
+  id         String       @id @default(cuid())
+  label      String       @unique
   startsOn   DateTime
   endsOn     DateTime
   applicants Applicant[]
   groups     ClassGroup[]
-  offerings  ProgrammeOffering[]
 }
 
 model Applicant {
@@ -287,12 +284,6 @@ enum ContentStatus {
   ARCHIVED
 }
 
-enum OfferingStatus {
-  DRAFT
-  OPEN
-  CLOSED
-}
-
 enum DocStatus {
   PENDING
   RECEIVED
@@ -313,22 +304,6 @@ model ProgrammeEvent {
   actorName   String
   action      String
   createdAt   DateTime  @default(now())
-}
-
-model ProgrammeOffering {
-  id          String         @id @default(cuid())
-  programmeId String
-  programme   Programme      @relation(fields: [programmeId], references: [id])
-  intakeId    String
-  intake      Intake         @relation(fields: [intakeId], references: [id])
-  branchId    String
-  branch      Branch         @relation(fields: [branchId], references: [id])
-  session     Session
-  seats       Int
-  deadline    DateTime?
-  status      OfferingStatus @default(DRAFT)
-
-  @@unique([programmeId, intakeId, branchId, session])
 }
 
 model ApplicationEvent {
@@ -368,18 +343,26 @@ model Invoice {
   payments    Payment[]
 }
 
+enum LeadStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
 model Lead {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
   phone       String?
   email       String?
   message     String?
   programmeId String?
-  source      String   @default("Website")
+  source      String     @default("Website")
   utmSource   String?
   utmMedium   String?
   utmCampaign String?
-  createdAt   DateTime @default(now())
+  status      LeadStatus @default(NEW)
+  handledBy   String?
+  createdAt   DateTime   @default(now())
 }
 
 model PageEvent {

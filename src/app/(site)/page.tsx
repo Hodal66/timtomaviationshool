@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 const I = (d: string) => <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={d} /></svg>;
 const STEPS = [
   { t: "Explore courses", p: "Browse programmes and compare.", i: I("M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3") },
-  { t: "Select your programme", p: "Pick a course and an open intake.", i: I("M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11") },
+  { t: "Select your programme", p: "Pick a course, branch and schedule.", i: I("M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11") },
   { t: "Complete the application", p: "Short form, saved as you go.", i: I("M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z") },
   { t: "Submit your documents", p: "Upload from your phone.", i: I("M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12") },
   { t: "Track your application", p: "Follow every status update.", i: I("M22 11.1V12a10 10 0 1 1-5.9-9.1M22 4L12 14l-3-3") },

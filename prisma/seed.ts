@@ -24,8 +24,8 @@ async function main() {
   }
   // Placeholder drafts from an earlier step are replaced by the imported catalogue below.
   for (const code of ["AVM", "CAM", "AAM", "APO", "FDP", "ASS", "TTM"]) {
-    const row = await db.programme.findUnique({ where: { code }, include: { _count: { select: { applicants: true, offerings: true } } } });
-    if (row && row._count.applicants === 0 && row._count.offerings === 0) await db.programme.delete({ where: { code } });
+    const row = await db.programme.findUnique({ where: { code }, include: { _count: { select: { applicants: true } } } });
+    if (row && row._count.applicants === 0) await db.programme.delete({ where: { code } });
   }
   // The School's existing public course list (timtomaviation.com, read 12 Nov 2026). Already public there, so imported as published.
   // Created once. Later edits in the admin console are never overwritten.
