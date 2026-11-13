@@ -189,6 +189,9 @@ model Applicant {
 }
 
 model Payment {
+  valueRwf    Int?
+  claimedBy   String         @default("FINANCE")
+  note        String?
   id          String         @id @default(cuid())
   reference   String?        @unique
   amountMinor Int
@@ -334,6 +337,10 @@ model DocumentItem {
 }
 
 model Invoice {
+  kind        String        @default("REGISTRATION")
+  dueOn       DateTime?
+  installment Int?
+  remindedAt  DateTime?
   id          String        @id @default(cuid())
   reference   String        @unique
   applicantId String
@@ -463,4 +470,12 @@ model EmailOtp {
   createdAt  DateTime  @default(now())
 
   @@index([email, createdAt])
+}
+
+/// How many RWF one unit of a foreign currency is worth. Set by Finance (FIN-05).
+model ExchangeRate {
+  currency   Currency @id
+  rwfPerUnit Float
+  updatedBy  String?
+  updatedAt  DateTime @default(now()) @updatedAt
 }

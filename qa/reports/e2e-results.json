@@ -4,7 +4,9 @@
       "/opt/node22/bin/node",
       "/home/user/timtomaviationshool/node_modules/.bin/playwright",
       "test",
-      "tests/e2e/11-admission-letter.spec.ts"
+      "tests/e2e/07-a11y-responsive.spec.ts",
+      "-g",
+      "staff dashboard"
     ],
     "configFile": "/home/user/timtomaviationshool/playwright.config.ts",
     "rootDir": "/home/user/timtomaviationshool/tests/e2e",
@@ -79,20 +81,20 @@
   },
   "suites": [
     {
-      "title": "11-admission-letter.spec.ts",
-      "file": "11-admission-letter.spec.ts",
+      "title": "07-a11y-responsive.spec.ts",
+      "file": "07-a11y-responsive.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Admissions completion (ADM-01, ADM-06, ADM-07)",
-          "file": "11-admission-letter.spec.ts",
-          "line": 5,
+          "title": "Accessibility (NFT-05, WCAG 2.2 AA) and responsive layout (NFT-04)",
+          "file": "07-a11y-responsive.spec.ts",
+          "line": 12,
           "column": 6,
           "specs": [
             {
-              "title": "ADM-06/07 Entry requirements must be confirmed before admission; the admission letter is then issued, downloadable and verifiable by QR link",
+              "title": "A11Y staff dashboard pages (axe, desktop)",
               "ok": true,
               "tags": [],
               "tests": [
@@ -107,12 +109,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3889,
+                      "duration": 8755,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T04:44:06.307Z",
+                      "startTime": "2026-11-13T04:59:55.213Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -120,43 +122,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "babfbdf2407b3f66004e-24ef89a39b615f97648f",
-              "file": "11-admission-letter.spec.ts",
-              "line": 6,
-              "column": 7
-            },
-            {
-              "title": "ADM-01 Staff record an enquiry from WhatsApp or another channel; it appears in the list with its source and on the dashboard count",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1162,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-13T04:44:10.327Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "babfbdf2407b3f66004e-27b73b88dc830ea760cd",
-              "file": "11-admission-letter.spec.ts",
-              "line": 24,
+              "id": "aeff9a498b4c196e4253-f1eb7f0757c5f05adc12",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 21,
               "column": 7
             }
           ]
@@ -166,9 +134,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-13T04:44:05.513Z",
-    "duration": 6036.574,
-    "expected": 2,
+    "startTime": "2026-11-13T04:59:54.574Z",
+    "duration": 9567.854000000001,
+    "expected": 1,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

@@ -17,7 +17,7 @@ test.describe("Application journey", () => {
     await page.goto("/apply?course=personnel-licensing"); await page.evaluate(() => localStorage.removeItem("tas_draft")); await page.reload(); await page.waitForSelector("#f-course");
     await page.click("button:has-text('Continue')"); await expect(page.locator("#e-branch, .field .err").first()).toBeVisible();
     await page.locator("input[name=branch]").first().check(); await page.click("button:has-text('Continue')"); await page.waitForSelector("#f-fullName");
-    await page.click("button:has-text('Continue')"); await expect(page.locator("#e-fullName")).toContainText("full name"); await expect(page.locator("#e-dob")).toBeVisible();
+    await page.click("button:has-text('Continue')"); await expect(page.locator("#e-fullName")).toContainText("full name"); await expect(page.locator("#e-dob")).toBeVisible(); await expect(page.locator("#f-fullName")).toBeFocused();
     await page.fill("#f-fullName", "X"); await page.fill("#f-phone", "123"); await page.fill("#f-dob", "1900-01-01"); await page.click("button:has-text('Continue')");
     await expect(page.locator("#e-phone")).toContainText("too short"); await expect(page.locator("#e-dob")).toContainText("Check your date");
     await page.fill("#f-dob", "2012-01-01"); await page.waitForSelector("#f-guardianName"); await page.fill("#f-phone", "+250788000111"); await page.click("button:has-text('Continue')"); await expect(page.locator("#e-guardianName")).toBeVisible();

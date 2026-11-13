@@ -46,7 +46,7 @@ export function DataTable({ id, cols, rows, exportName = "export", bulk, toolbar
     </div>
     {note && <div className="bulk" role="status">{note}<button className="s" onClick={() => setNote("")}>{t("Clear")}</button></div>}
     {bulk && sel.size > 0 && <div className="bulk" role="region" aria-label={t("Selected rows")}>{t("{n} selected", { n: sel.size })}{bulk.map((b) => <button key={b.label} className={"s" + (b.danger ? " danger" : "")} disabled={pending} onClick={() => { if (b.confirm && !confirm(b.confirm)) return; start(async () => { const m = await b.run([...sel]); setNote(m || ""); setSel(new Set()); }); }}>{b.label}</button>)}<button className="s" onClick={() => setSel(new Set())}>{t("Clear")}</button></div>}
-    <div className="tbl"><table><thead><tr>
+    <div className="tbl" tabIndex={0} role="region" aria-label={t("Table")}><table><thead><tr>
       {bulk && <th style={{ width: 36 }}><input className="dt-sel" type="checkbox" aria-label={t("Select all on this page")} checked={allOn} onChange={(e) => flip(slice.map((r) => r.id), e.target.checked)} /></th>}
       {vis.map((c) => <th key={c.key} className={c.sortable !== false ? "sort" : ""} style={{ textAlign: c.align }} aria-sort={sort?.k === c.key ? (sort.d === 1 ? "ascending" : "descending") : undefined} onClick={() => c.sortable !== false && toggleSort(c.key)}>{c.label}{sort?.k === c.key ? (sort.d === 1 ? " ▲" : " ▼") : ""}</th>)}
     </tr></thead><tbody>

@@ -17,5 +17,6 @@ export async function advanceApplicant(id: string, actor: string): Promise<strin
   await db.applicant.update({ where: { id }, data: { status: next, ...(next === "ADMITTED" ? { admittedAt: new Date() } : {}), ...(group ? { classGroupId: group.id } : {}),
     events: { create: { type: "STATUS", actorName: actor, message: `Status changed to ${next.replace(/_/g, " ").toLowerCase()}.${group ? ` Placed in ${group.name}.` : ""}` } } } });
   await notifyApplicant(id, (a) => COPY.status(a, next));
+  if (next === "ADMITTED") { const { setTuitionPlan } = await import("./finance"); await setTuitionPlan(id, 1, "System"); } // FIN-01: tuition is invoiced on admission
   return null;
 }
