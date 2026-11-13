@@ -15,4 +15,3 @@ describe("languages (EN, RW, SW, FR)", () => {
   }
   it("each dictionary covers the interface text (entries identical to English are left out)", () => { for (const d of [fr, rw, sw]) expect(Object.keys(d).length).toBeGreaterThan(400); const all = new Set([...Object.keys(fr), ...Object.keys(rw), ...Object.keys(sw)]); expect(all.size).toBeGreaterThan(430); });
 });
-});

@@ -47,7 +47,7 @@ test.describe("Languages, theme and dashboard components", () => {
     expect((await db.applicant.findFirstOrThrow({ where: { reference: a.body.reference } })).status).toBe("DOCUMENTS_VERIFIED"); expect((await db.applicant.findFirstOrThrow({ where: { reference: b.body.reference } })).status).toBe("SUBMITTED");
   });
   test("SHELL-01 Staff navigation shows only the modules a role may use; the menu collapses and survives reload", async ({ page, browser }) => {
-    await loginStaff(page); await expect(page.locator(".ds-nav a")).toHaveCount(11); await page.getByRole("button", { name: "Collapse menu" }).click(); await expect(page.locator(".ds")).toHaveAttribute("data-collapsed", "true"); await page.reload(); await expect(page.locator(".ds")).toHaveAttribute("data-collapsed", "true");
+    await loginStaff(page); await expect(page.locator(".ds-nav a")).toHaveCount(12); await page.getByRole("button", { name: "Collapse menu" }).click(); await expect(page.locator(".ds")).toHaveAttribute("data-collapsed", "true"); await page.reload(); await expect(page.locator(".ds")).toHaveAttribute("data-collapsed", "true");
     const ctx = await browser.newContext(); const l = await ctx.newPage(); await loginStaff(l, await staff("LECTURER")); const labels = await l.locator(".ds-nav a").allInnerTexts(); expect(labels.map((x) => x.trim())).toEqual(["Dashboard", "Timetable", "Attendance"]); await ctx.close();
   });
   test("SHELL-02 Mobile: the menu is a drawer that opens, closes with Escape and the page does not scroll sideways", async ({ browser }) => {
@@ -55,5 +55,22 @@ test.describe("Languages, theme and dashboard components", () => {
     await expect(p.locator(".ds-side")).not.toBeInViewport(); await p.getByRole("button", { name: "Open menu" }).click(); await expect(p.locator(".ds-side")).toBeInViewport(); await p.keyboard.press("Escape"); await expect(p.locator(".ds-side")).not.toBeInViewport();
     for (const path of ["/dashboard", "/admissions", "/payments", "/enquiries", "/admin/courses", "/media"]) { await p.goto(path, { waitUntil: "networkidle" }); expect(await p.evaluate(() => document.documentElement.scrollWidth - innerWidth), path).toBeLessThanOrEqual(0); }
     await ctx.close();
+  });
+});
+
+test.describe("Staff administration and live data", () => {
+  test("USERS-01 Administrator adds, re-roles, resets and deletes a staff account; others cannot see the page", async ({ page, browser }) => {
+    const email = `crud.${Date.now()}@test.local`; await loginStaff(page); await page.goto("/admin/users");
+    await page.fill("input[name=name]", "Crud Tester"); await page.fill("form.panel input[name=email]", email); await page.selectOption("form.panel select[name=role]", "LECTURER"); await page.fill("form.panel input[name=password]", "short"); await page.click("button:has-text('Add')");
+    expect((await db.user.count({ where: { email } })), "short password refused by the browser or server").toBe(0);
+    await page.fill("form.panel input[name=password]", "a-long-password-1"); await page.click("button:has-text('Add')"); await page.waitForURL(/ok=1/); expect((await db.user.findUniqueOrThrow({ where: { email } })).role).toBe("LECTURER");
+    await page.locator(".dt-search input").fill(email); const row = page.locator("tbody tr"); await expect(row).toHaveCount(1); await row.locator("summary").click(); await row.getByRole("button", { name: "Finance" }).click(); await expect.poll(async () => (await db.user.findUniqueOrThrow({ where: { email } })).role).toBe("FINANCE");
+    const before = (await db.user.findUniqueOrThrow({ where: { email } })).passwordHash; await page.locator(".dt-search input").fill(email); await row.locator("details").evaluate((d: HTMLDetailsElement) => { d.open = true; }); await row.locator("input[name=password]").fill("another-long-pass-2"); await row.getByRole("button", { name: "Reset password" }).click(); await expect.poll(async () => (await db.user.findUniqueOrThrow({ where: { email } })).passwordHash).not.toBe(before);
+    const ctx = await browser.newContext(); const p2 = await ctx.newPage(); await p2.goto("/login"); await p2.fill("#email", email); await p2.fill("#password", "another-long-pass-2"); await p2.click("button[type=submit]"); await p2.waitForURL("**/dashboard"); await p2.goto("/admin/users"); await expect(p2).toHaveURL(/dashboard/); await ctx.close();
+    await page.locator(".dt-search input").fill(email); page.once("dialog", (d) => d.accept()); await page.locator("tbody tr input[type=checkbox]").check(); await page.getByRole("button", { name: "Delete" }).click(); await expect.poll(async () => db.user.count({ where: { email } })).toBe(0);
+  });
+  test("LIVE-01 The staff dashboard refreshes by itself: a new application appears without reloading", async ({ page, request }) => {
+    test.setTimeout(120000); await loginStaff(page); const kpi = () => page.locator(".kpi", { hasText: "New applications" }).locator("b").innerText(); const before = Number(await kpi());
+    await apiApply(request, { fullName: "Live Tester" }); await expect.poll(async () => Number(await kpi()), { timeout: 75000, intervals: [3000] }).toBeGreaterThan(before);
   });
 });

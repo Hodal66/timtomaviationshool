@@ -4,7 +4,7 @@
       "/opt/node22/bin/node",
       "/home/user/timtomaviationshool/node_modules/.bin/playwright",
       "test",
-      "tests/e2e/06-security.spec.ts"
+      "tests/e2e"
     ],
     "configFile": "/home/user/timtomaviationshool/playwright.config.ts",
     "rootDir": "/home/user/timtomaviationshool/tests/e2e",
@@ -79,6 +79,2096 @@
   },
   "suites": [
     {
+      "title": "01-public.spec.ts",
+      "file": "01-public.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Homepage, navigation and content",
+          "file": "01-public.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "FT-001 Homepage loads with every primary section and no errors",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2953,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:16.357Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-38068d9120352551b4f9",
+              "file": "01-public.spec.ts",
+              "line": 7,
+              "column": 7
+            },
+            {
+              "title": "FT-002 Every navigation item reaches its page; back/forward work; header is sticky",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1833,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:19.403Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-04b7842dcfc648f954d8",
+              "file": "01-public.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "FT-003 Hero buttons lead to the catalogue and the application",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 905,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:21.253Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-bd5272344510a0c7724f",
+              "file": "01-public.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "FT-005 Homepage content matches approved records and makes no unverifiable claims",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1170,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:23.025Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-d02cb88c7ff1a8ffc5fb",
+              "file": "01-public.spec.ts",
+              "line": 39,
+              "column": 7
+            }
+          ],
+          "suites": [
+            {
+              "title": "mobile",
+              "file": "01-public.spec.ts",
+              "line": 30,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "FT-004 Mobile menu opens, closes with Escape, navigates and survives scrolling",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 90000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "",
+                      "projectName": "",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 840,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2026-11-13T00:18:22.169Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "457ed5db543c36f71108-29d659edc93a1ba3105e",
+                  "file": "01-public.spec.ts",
+                  "line": 32,
+                  "column": 9
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Course pages and links",
+          "file": "01-public.spec.ts",
+          "line": 49,
+          "column": 6,
+          "specs": [
+            {
+              "title": "FT-013 Course URLs are stable: direct, refreshed, new tab; unknown identifiers give 404",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 986,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:24.205Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-951dca03bd6ac99b0802",
+              "file": "01-public.spec.ts",
+              "line": 50,
+              "column": 7
+            },
+            {
+              "title": "FT-014 Each course shows its own content; nothing is shared between programmes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1542,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:25.205Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-03d767cb77da53fed065",
+              "file": "01-public.spec.ts",
+              "line": 55,
+              "column": 7
+            },
+            {
+              "title": "FT-015 Apply Now carries the programme into the wizard from every course button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 678,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:26.756Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-60d8430c0980b9e76c06",
+              "file": "01-public.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "FT-016 Related programme links open the correct programmes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 904,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:27.442Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-cf477427baa6de0ad5ab",
+              "file": "01-public.spec.ts",
+              "line": 65,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "SEO (NFT-09, WEB-01)",
+          "file": "01-public.spec.ts",
+          "line": 72,
+          "column": 6,
+          "specs": [
+            {
+              "title": "NFT-09a Initial HTML (no JavaScript) carries real content, unique titles and descriptions",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1073,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m38\u001b[39m\nReceived:   \u001b[31m37\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m38\u001b[39m\nReceived:   \u001b[31m37\u001b[39m\n    at /home/user/timtomaviationshool/tests/e2e/01-public.spec.ts:83:25",
+                        "location": {
+                          "file": "/home/user/timtomaviationshool/tests/e2e/01-public.spec.ts",
+                          "column": 25,
+                          "line": 83
+                        },
+                        "snippet": "  81 |       expect(html).toContain('\"@type\":\"Course\"');\n  82 |     }\n> 83 |     expect(titles.size).toBeGreaterThan(slugs.length * 0.95); expect(descs.size).toBeGreaterThan(slugs.length * 0.7);\n     |                         ^\n  84 |   });\n  85 |   test(\"NFT-09b Home, sitemap and robots\", async ({ request }) => {\n  86 |     const home = await (await request.get(\"/\")).text(); expect(home).toContain(\"EducationalOrganization\"); expect(home).toContain(\"<h1\");"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/user/timtomaviationshool/tests/e2e/01-public.spec.ts",
+                            "column": 25,
+                            "line": 83
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m38\u001b[39m\nReceived:   \u001b[31m37\u001b[39m\n\n  81 |       expect(html).toContain('\"@type\":\"Course\"');\n  82 |     }\n> 83 |     expect(titles.size).toBeGreaterThan(slugs.length * 0.95); expect(descs.size).toBeGreaterThan(slugs.length * 0.7);\n     |                         ^\n  84 |   });\n  85 |   test(\"NFT-09b Home, sitemap and robots\", async ({ request }) => {\n  86 |     const home = await (await request.get(\"/\")).text(); expect(home).toContain(\"EducationalOrganization\"); expect(home).toContain(\"<h1\");\n    at /home/user/timtomaviationshool/tests/e2e/01-public.spec.ts:83:25"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:28.356Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/user/timtomaviationshool/test-results/01-public-SEO-NFT-09-WEB-0-2b49c-que-titles-and-descriptions/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/user/timtomaviationshool/test-results/01-public-SEO-NFT-09-WEB-0-2b49c-que-titles-and-descriptions/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/user/timtomaviationshool/tests/e2e/01-public.spec.ts",
+                        "column": 25,
+                        "line": 83
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-e4dfd38df74b4e7954f6",
+              "file": "01-public.spec.ts",
+              "line": 73,
+              "column": 7
+            },
+            {
+              "title": "NFT-09b Home, sitemap and robots",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 277,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:29.871Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-3b6102e1be12554a3b54",
+              "file": "01-public.spec.ts",
+              "line": 85,
+              "column": 7
+            },
+            {
+              "title": "NFT-09c Private and unpublished pages are not indexable and absent from the sitemap",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 207,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:30.244Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-02455063ef59f693ea0a",
+              "file": "01-public.spec.ts",
+              "line": 91,
+              "column": 7
+            },
+            {
+              "title": "NFT-09d Internal links on the main pages are not broken",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1769,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:30.461Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-fede8fc14d46ac14a366",
+              "file": "01-public.spec.ts",
+              "line": 96,
+              "column": 7
+            },
+            {
+              "title": "NFT-09e Social previews: image, title and description present on the home and a course page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 207,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:32.239Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "457ed5db543c36f71108-90f70bdaff8c1dd94207",
+              "file": "01-public.spec.ts",
+              "line": 104,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "02-catalogue.spec.ts",
+      "file": "02-catalogue.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Course catalogue",
+          "file": "02-catalogue.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "FT-006 Catalogue shows exactly the published programmes from the database",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 959,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:32.460Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "15d6a72401238bd3d485-ef5ff28b7254c3db6f79",
+              "file": "02-catalogue.spec.ts",
+              "line": 6,
+              "column": 7
+            },
+            {
+              "title": "FT-008a Category filters return exactly the matching programmes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1584,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:33.427Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "15d6a72401238bd3d485-453ba980ebacbcf609cb",
+              "file": "02-catalogue.spec.ts",
+              "line": 12,
+              "column": 7
+            },
+            {
+              "title": "FT-008b A category with no approved programme is not offered as a filter",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 431,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:35.022Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "15d6a72401238bd3d485-8111561f4f6cfcb74db8",
+              "file": "02-catalogue.spec.ts",
+              "line": 19,
+              "column": 7
+            },
+            {
+              "title": "FT-008c Filters by delivery mode, duration, branch and intake (SRS 14.1)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "status",
+                      "description": "NOT IMPLEMENTED"
+                    },
+                    {
+                      "type": "reason",
+                      "description": "Only subject area and text search exist. SRS 14.1 also asks for filters by type, duration, fee, session and branch."
+                    },
+                    {
+                      "type": "skip",
+                      "description": "Only subject area and text search exist. SRS 14.1 also asks for filters by type, duration, fee, session and branch.",
+                      "location": {
+                        "file": "/home/user/timtomaviationshool/tests/e2e/helpers.ts",
+                        "line": 48,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "skipped",
+                      "duration": 1,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:35.463Z",
+                      "annotations": [
+                        {
+                          "type": "status",
+                          "description": "NOT IMPLEMENTED"
+                        },
+                        {
+                          "type": "reason",
+                          "description": "Only subject area and text search exist. SRS 14.1 also asks for filters by type, duration, fee, session and branch."
+                        },
+                        {
+                          "type": "skip",
+                          "description": "Only subject area and text search exist. SRS 14.1 also asks for filters by type, duration, fee, session and branch.",
+                          "location": {
+                            "file": "/home/user/timtomaviationshool/tests/e2e/helpers.ts",
+                            "line": 48,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "15d6a72401238bd3d485-b1bf81a886eefea34e73",
+              "file": "02-catalogue.spec.ts",
+              "line": 23,
+              "column": 7
+            },
+            {
+              "title": "FT-009 Search: full name, part of a name, no match, upper and lower case, special characters",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1704,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:35.471Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "15d6a72401238bd3d485-cc1748043215916ca61f",
+              "file": "02-catalogue.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "FT-010 Programme details on the page equal the database record",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3700,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:37.182Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "15d6a72401238bd3d485-625c4621ed5c1899595b",
+              "file": "02-catalogue.spec.ts",
+              "line": 33,
+              "column": 7
+            },
+            {
+              "title": "FT-011 Every published programme has a loading, relevant, correctly sized image",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3594,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:40.890Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "15d6a72401238bd3d485-68d3670797b39bf3a61d",
+              "file": "02-catalogue.spec.ts",
+              "line": 41,
+              "column": 7
+            },
+            {
+              "title": "FT-011b Course hero images have alternative text",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 955,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:44.492Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "15d6a72401238bd3d485-3628cfc8985858eafce2",
+              "file": "02-catalogue.spec.ts",
+              "line": 48,
+              "column": 7
+            },
+            {
+              "title": "FT-011c Images are relevant: no single photograph is reused for more than a few unrelated programmes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3035,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:45.454Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "15d6a72401238bd3d485-c82e8ac5b79d30380c5b",
+              "file": "02-catalogue.spec.ts",
+              "line": 52,
+              "column": 7
+            },
+            {
+              "title": "FT-012 Seats and intake changes shown on the website (CMS-02, WEB-05)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "status",
+                      "description": "NOT IMPLEMENTED"
+                    },
+                    {
+                      "type": "reason",
+                      "description": "By decision of the product owner, registration is open all year and seats are not shown. SRS CMS-02/WEB-05 still describe live seat data; the SRS needs to be updated."
+                    },
+                    {
+                      "type": "skip",
+                      "description": "By decision of the product owner, registration is open all year and seats are not shown. SRS CMS-02/WEB-05 still describe live seat data; the SRS needs to be updated.",
+                      "location": {
+                        "file": "/home/user/timtomaviationshool/tests/e2e/helpers.ts",
+                        "line": 48,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:48.496Z",
+                      "annotations": [
+                        {
+                          "type": "status",
+                          "description": "NOT IMPLEMENTED"
+                        },
+                        {
+                          "type": "reason",
+                          "description": "By decision of the product owner, registration is open all year and seats are not shown. SRS CMS-02/WEB-05 still describe live seat data; the SRS needs to be updated."
+                        },
+                        {
+                          "type": "skip",
+                          "description": "By decision of the product owner, registration is open all year and seats are not shown. SRS CMS-02/WEB-05 still describe live seat data; the SRS needs to be updated.",
+                          "location": {
+                            "file": "/home/user/timtomaviationshool/tests/e2e/helpers.ts",
+                            "line": 48,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "15d6a72401238bd3d485-5f5754e9810aa3403b88",
+              "file": "02-catalogue.spec.ts",
+              "line": 58,
+              "column": 7
+            },
+            {
+              "title": "NFT-10a Catalogue interactions respond without delay",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1115,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:48.503Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "15d6a72401238bd3d485-4ae83e61226df5f056e2",
+              "file": "02-catalogue.spec.ts",
+              "line": 59,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "03-apply.spec.ts",
+      "file": "03-apply.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Application journey",
+          "file": "03-apply.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "FT-017 One central application route works without extra navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 478,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:49.634Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-7729e626fd6f3809c01e",
+              "file": "03-apply.spec.ts",
+              "line": 8,
+              "column": 7
+            },
+            {
+              "title": "FT-018 Manual selection and Apply Now from a course use the same wizard and the same programme value",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 696,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:50.120Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-89ee83dea6b567fc5a3e",
+              "file": "03-apply.spec.ts",
+              "line": 11,
+              "column": 7
+            },
+            {
+              "title": "FT-019 Validation: empty form, invalid email, invalid phone, missing fields, invalid dates",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2094,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:50.824Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-ffd16ec26e51bec5a687",
+              "file": "03-apply.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "FT-020 Valid application through the UI creates exactly one correct record (with FT-022, FT-023, FT-024, FT-025)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5503,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:52.927Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-adcae1edf18aae0e4700",
+              "file": "03-apply.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "FT-021a Rapid repeated clicks on Submit create only one application",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3084,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:18:58.438Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-63bfe0ef642dd874e743",
+              "file": "03-apply.spec.ts",
+              "line": 54,
+              "column": 7
+            },
+            {
+              "title": "FT-021b Retrying the same submission token and double POSTs create only one application",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 671,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:01.534Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-7ef55a4607184d47d6de",
+              "file": "03-apply.spec.ts",
+              "line": 62,
+              "column": 7
+            },
+            {
+              "title": "FT-023 Document upload: oversized, unsupported, corrupted, empty and disguised files are rejected safely",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 249,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:02.213Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-704de9967233e2cbeb6d",
+              "file": "03-apply.spec.ts",
+              "line": 69,
+              "column": 7
+            },
+            {
+              "title": "FT-025b Confirmation survives a refresh and the reference works for tracking",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 510,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:02.471Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-f0ac39118e6f90302623",
+              "file": "03-apply.spec.ts",
+              "line": 83,
+              "column": 7
+            },
+            {
+              "title": "FT-026 The application appears in the admissions dashboard with programme, applicant, intake, branch, source and submission details",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1312,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:02.992Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-f44bf4c6a11ac298fd09",
+              "file": "03-apply.spec.ts",
+              "line": 86,
+              "column": 7
+            },
+            {
+              "title": "FT-027 Staff status changes reach the applicant, with email and WhatsApp messages",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2028,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:04.315Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-cf51ee63f8c917ca89b2",
+              "file": "03-apply.spec.ts",
+              "line": 93,
+              "column": 7
+            },
+            {
+              "title": "FT-028 Applicants cannot reach other applicants' records",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 575,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:06.351Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-37969ddf5d1bd944f8de",
+              "file": "03-apply.spec.ts",
+              "line": 102,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "04-staff.spec.ts",
+      "file": "04-staff.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Staff workflows and dashboard connectivity",
+          "file": "04-staff.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "ST-01 Sign in: wrong password and unknown user are refused with the same message; correct sign-in works; sign-out is not required for the session to end after cookie removal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1728,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:06.941Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f0eba5d410743ea255a0-09815a46faafa5da20c6",
+              "file": "04-staff.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "ST-02 Dashboard queue counts equal the database",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 864,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:08.676Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f0eba5d410743ea255a0-7643eadc2cb33db89e09",
+              "file": "04-staff.spec.ts",
+              "line": 10,
+              "column": 7
+            },
+            {
+              "title": "ST-03 Finance cycle: raise invoice, verify payment, status and applicant view and messages follow",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3142,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:09.548Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f0eba5d410743ea255a0-12c9db3200680739cdb7",
+              "file": "04-staff.spec.ts",
+              "line": 15,
+              "column": 7
+            },
+            {
+              "title": "ST-04 Stage rules cannot be bypassed from the board",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1194,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:12.702Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f0eba5d410743ea255a0-328148ebb7185b69370f",
+              "file": "04-staff.spec.ts",
+              "line": 28,
+              "column": 7
+            },
+            {
+              "title": "ST-05 Enquiries: website question reaches staff, is actionable and updates the dashboard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5830,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:13.904Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f0eba5d410743ea255a0-9400402eb3a23be13a6a",
+              "file": "04-staff.spec.ts",
+              "line": 32,
+              "column": 7
+            },
+            {
+              "title": "ST-06 WhatsApp queue: links are correct, sending marks done",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1789,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:19.740Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f0eba5d410743ea255a0-7877debeed63609aa573",
+              "file": "04-staff.spec.ts",
+              "line": 41,
+              "column": 7
+            },
+            {
+              "title": "ST-07 Email: sent from the school address with reference and tracking link; staff inbox alerted",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 806,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:21.539Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f0eba5d410743ea255a0-ddaa969be3071a646366",
+              "file": "04-staff.spec.ts",
+              "line": 47,
+              "column": 7
+            },
+            {
+              "title": "ST-08 Executive dashboard and CSV export reflect submitted applications and campaigns",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 878,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:22.351Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f0eba5d410743ea255a0-1c581d18d7c75bca5d8c",
+              "file": "04-staff.spec.ts",
+              "line": 52,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "05-cms.spec.ts",
+      "file": "05-cms.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Course lifecycle and CMS connectivity",
+          "file": "05-cms.spec.ts",
+          "line": 7,
+          "column": 6,
+          "specs": [
+            {
+              "title": "FT-029 Administrator creates a draft programme; a valid central record exists and is not public",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1275,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:23.242Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa6fc78fbb22d799b596-c25e753f80a87cbdd1a4",
+              "file": "05-cms.spec.ts",
+              "line": 9,
+              "column": 7
+            },
+            {
+              "title": "FT-031 Approval workflow: draft, submitted and approved are not public; only publishing exposes it",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4280,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:24.525Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa6fc78fbb22d799b596-f108f80a2311623821f9",
+              "file": "05-cms.spec.ts",
+              "line": 14,
+              "column": 7
+            },
+            {
+              "title": "FT-007 Publication controls public visibility: the published programme appears in the catalogue and on its own page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1064,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:28.814Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa6fc78fbb22d799b596-62cccd264ea3d9ba0519",
+              "file": "05-cms.spec.ts",
+              "line": 22,
+              "column": 7
+            },
+            {
+              "title": "FT-033 Fee changes made through the dashboard appear on the website (one source of truth)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3560,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:29.886Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa6fc78fbb22d799b596-8c7cd4cba167296e2667",
+              "file": "05-cms.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "FT-030 Description and image edits appear on the public page and in the catalogue",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4357,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:33.460Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa6fc78fbb22d799b596-feb62f3cbca268995608",
+              "file": "05-cms.spec.ts",
+              "line": 32,
+              "column": 7
+            },
+            {
+              "title": "FT-034 Intake dates are one calculated source shared by the course page and the wizard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 599,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:37.830Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa6fc78fbb22d799b596-e00526ae39f969aca3b2",
+              "file": "05-cms.spec.ts",
+              "line": 40,
+              "column": 7
+            },
+            {
+              "title": "FT-035 Campaign landing: UTM parameters are retained through a multi-page visit into the lead and application",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2628,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:38.440Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa6fc78fbb22d799b596-cc865386aa0ab9b63bf4",
+              "file": "05-cms.spec.ts",
+              "line": 44,
+              "column": 7
+            },
+            {
+              "title": "FT-036 News, events and gallery managed in the CMS (CMS-01)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "status",
+                      "description": "NOT IMPLEMENTED"
+                    },
+                    {
+                      "type": "reason",
+                      "description": "Only programme content (descriptions, FAQs, images) is editable. News, events, gallery and page editing are not built."
+                    },
+                    {
+                      "type": "skip",
+                      "description": "Only programme content (descriptions, FAQs, images) is editable. News, events, gallery and page editing are not built.",
+                      "location": {
+                        "file": "/home/user/timtomaviationshool/tests/e2e/helpers.ts",
+                        "line": 48,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "skipped",
+                      "duration": 135,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:41.076Z",
+                      "annotations": [
+                        {
+                          "type": "status",
+                          "description": "NOT IMPLEMENTED"
+                        },
+                        {
+                          "type": "reason",
+                          "description": "Only programme content (descriptions, FAQs, images) is editable. News, events, gallery and page editing are not built."
+                        },
+                        {
+                          "type": "skip",
+                          "description": "Only programme content (descriptions, FAQs, images) is editable. News, events, gallery and page editing are not built.",
+                          "location": {
+                            "file": "/home/user/timtomaviationshool/tests/e2e/helpers.ts",
+                            "line": 48,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "fa6fc78fbb22d799b596-f4f0a175b87964e2986a",
+              "file": "05-cms.spec.ts",
+              "line": 51,
+              "column": 7
+            },
+            {
+              "title": "FT-032 Archiving removes public availability but keeps applicants and old references working",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2430,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:41.218Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa6fc78fbb22d799b596-c93211c4cd7d51cedcb2",
+              "file": "05-cms.spec.ts",
+              "line": 52,
+              "column": 7
+            },
+            {
+              "title": "E2E-01 Complete business scenario, steps 1 to 14, with recorded evidence",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 12208,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:19:43.659Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa6fc78fbb22d799b596-e64c38113b54c71b164c",
+              "file": "05-cms.spec.ts",
+              "line": 60,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
       "title": "06-security.spec.ts",
       "file": "06-security.spec.ts",
       "column": 0,
@@ -104,15 +2194,15 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 154,
+                      "duration": 49,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T00:12:55.746Z",
+                      "startTime": "2026-11-13T00:19:55.898Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -138,15 +2228,15 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 76,
+                      "duration": 51,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T00:12:55.936Z",
+                      "startTime": "2026-11-13T00:19:55.954Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -169,7 +2259,7 @@
                   "annotations": [
                     {
                       "type": "note",
-                      "description": "Secure flag=true (false on http://localhost; must be verified on HTTPS production), expires=1794557577.189736"
+                      "description": "Secure flag=true (false on http://localhost; must be verified on HTTPS production), expires=1794557996.839264"
                     }
                   ],
                   "expectedStatus": "passed",
@@ -177,19 +2267,19 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1322,
+                      "duration": 1021,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T00:12:56.081Z",
+                      "startTime": "2026-11-13T00:19:56.012Z",
                       "annotations": [
                         {
                           "type": "note",
-                          "description": "Secure flag=true (false on http://localhost; must be verified on HTTPS production), expires=1794557577.189736"
+                          "description": "Secure flag=true (false on http://localhost; must be verified on HTTPS production), expires=1794557996.839264"
                         }
                       ],
                       "attachments": []
@@ -221,15 +2311,15 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4012,
+                      "duration": 3493,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T00:12:57.411Z",
+                      "startTime": "2026-11-13T00:19:57.041Z",
                       "annotations": [
                         {
                           "type": "matrix",
@@ -260,15 +2350,15 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 27,
+                      "duration": 21,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T00:13:01.430Z",
+                      "startTime": "2026-11-13T00:20:00.541Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -291,7 +2381,7 @@
                   "annotations": [
                     {
                       "type": "note",
-                      "description": "submit status 200 {\"ok\":true,\"reference\":\"TAS-2611-STGT3\"}"
+                      "description": "submit status 200 {\"ok\":true,\"reference\":\"TAS-2611-TDTTD\"}"
                     }
                   ],
                   "expectedStatus": "passed",
@@ -299,19 +2389,19 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2657,
+                      "duration": 2608,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T00:13:01.466Z",
+                      "startTime": "2026-11-13T00:20:00.569Z",
                       "annotations": [
                         {
                           "type": "note",
-                          "description": "submit status 200 {\"ok\":true,\"reference\":\"TAS-2611-STGT3\"}"
+                          "description": "submit status 200 {\"ok\":true,\"reference\":\"TAS-2611-TDTTD\"}"
                         }
                       ],
                       "attachments": []
@@ -338,15 +2428,15 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 324,
+                      "duration": 248,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T00:13:04.132Z",
+                      "startTime": "2026-11-13T00:20:03.184Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -377,15 +2467,15 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 75,
+                      "duration": 88,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T00:13:04.466Z",
+                      "startTime": "2026-11-13T00:20:03.438Z",
                       "annotations": [
                         {
                           "type": "note",
@@ -416,15 +2506,15 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1354,
+                      "duration": 2321,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T00:13:04.549Z",
+                      "startTime": "2026-11-13T00:20:03.533Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -450,15 +2540,15 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 44,
+                      "duration": 39,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T00:13:05.911Z",
+                      "startTime": "2026-11-13T00:20:05.861Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -474,15 +2564,2449 @@
           ]
         }
       ]
+    },
+    {
+      "title": "07-a11y-responsive.spec.ts",
+      "file": "07-a11y-responsive.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Accessibility (NFT-05, WCAG 2.2 AA) and responsive layout (NFT-04)",
+          "file": "07-a11y-responsive.spec.ts",
+          "line": 12,
+          "column": 6,
+          "specs": [
+            {
+              "title": "A11Y axe desktop /",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1696,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:05.951Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-f822affba266515b4d0b",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /courses",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2131,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:07.658Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-13cc85b79e3bd697099c",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /how-to-apply",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1414,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:09.796Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-a5a5bcfa544e764c1557",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /apply?course=personnel-licensing",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1377,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:11.219Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-05c8efa7dabfd89664bd",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /contact",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1390,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:12.602Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-40d7cbf6eb10598b15ff",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /about",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1399,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:14.004Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-6b5b227c2ef297ae3f87",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /track",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1415,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:15.411Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-d1cc22fa82547757960f",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /verify",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1182,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:16.833Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-b9b3fdbcec42c4e49f32",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe desktop /login",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1196,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:18.021Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-92e464e6d9a02631bd86",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1541,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:19.224Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-d133a0122c44ba8f98a5",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /courses",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2173,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:20.772Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-89a054250d336ab462ce",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /how-to-apply",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1394,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:22.952Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-e39c61a7ff817d981ed7",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /apply?course=personnel-licensing",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1332,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:24.353Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-e68b9cd829b21159ed0d",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /contact",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1404,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:25.694Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-dbca6e375b48ceee1e31",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /about",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1431,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:27.107Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-c649666e93d78b15a227",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /track",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1341,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:28.545Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-12181411ed6637a0c44d",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /verify",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1163,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:29.894Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-1d8a9836e5cbb85d78e9",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y axe mobile /login",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1172,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:31.064Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-fa5167f18fc0f13f0a23",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "A11Y staff dashboard pages (axe, desktop)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7916,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:32.244Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-f1eb7f0757c5f05adc12",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 21,
+              "column": 7
+            },
+            {
+              "title": "A11Y keyboard: skip link or logical tab order reaches nav, main content and the form; focus is visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "A|Skip to content|true ; A|Timtom Aviation School, |true ; A|Home|true ; A|About|true ; A|Courses|true ; A|Admissions|true ; A|Gallery|true ; A|Contact|true ; BUTTON|Language|true ; BUTTON|Colour theme|true ; A|My account|true ; A|Apply Now|true ; INPUT||true ; A|Home|true"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 461,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:40.169Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "A|Skip to content|true ; A|Timtom Aviation School, |true ; A|Home|true ; A|About|true ; A|Courses|true ; A|Admissions|true ; A|Gallery|true ; A|Contact|true ; BUTTON|Language|true ; BUTTON|Colour theme|true ; A|My account|true ; A|Apply Now|true ; INPUT||true ; A|Home|true"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-af776eb4cbabb459f7bc",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 27,
+              "column": 7
+            },
+            {
+              "title": "A11Y reduced motion: animations are suppressed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "infinite animations running: 0; unrevealed: 0"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 951,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:40.636Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "infinite animations running: 0; unrevealed: 0"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-492f45a882d85597dead",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 33,
+              "column": 7
+            },
+            {
+              "title": "RESP 360px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 980,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:41.593Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-1319c85138737ed5691f",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 360px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 888,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:42.583Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-0a3a6acd1efa03cb19eb",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 360px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 885,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:43.480Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-2dc1a64c4d4bf5ad0d36",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 390px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1002,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:44.372Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-25c778fbeec74c6034a2",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 390px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 932,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:45.382Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-86befa535a4b2bba8843",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 390px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 861,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:46.322Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-96dfa5c0f9bc5f570996",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 430px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1005,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:47.191Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-8b7b6a3c5aa094118503",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 430px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 932,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:48.202Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-189388a0e4bd0e77964e",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 430px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 874,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:49.141Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-702bebaa541f06e9e73e",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 768px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1216,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:50.022Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-0e3ffd61985b0b16f0c7",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 768px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 943,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:51.248Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-5baa6569536f4dd35b40",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 768px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 873,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:52.200Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-1739c66e3b3ca14f8964",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1024px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1143,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:53.080Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-89ebff72221a4645442b",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1024px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 892,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:54.233Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-54ffdea2eb4104abf03d",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1024px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 866,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:55.132Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-ba5d3ae2e7a87a8a10fc",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1366px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1183,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:56.005Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-454a634f827750d38860",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1366px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 990,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:57.196Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-1fbdb794c727d07d367f",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1366px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 902,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:58.193Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-b96df7700addc89c4f5c",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1920px /: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1209,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:20:59.101Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-9acd522f5c44518e9f84",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1920px /courses: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1003,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:00.317Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-a8c82c1638e432e5ee7c",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            },
+            {
+              "title": "RESP 1920px /apply?course=personnel-licensing: no horizontal scroll, content visible, tap targets >= 24px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 907,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:01.327Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "aeff9a498b4c196e4253-7cbd9d7c04c756388eab",
+              "file": "07-a11y-responsive.spec.ts",
+              "line": 40,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "08-lowbw-misc.spec.ts",
+      "file": "08-lowbw-misc.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Low bandwidth (NFT-06) and remaining requirements",
+          "file": "08-lowbw-misc.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "NFT-06a Home and course pages render usable content on emulated Slow 3G",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "Slow 3G (400 kbps, 400 ms RTT): /: headline visible 1548 ms, 29 KB so far | /courses/personnel-licensing: headline visible 1488 ms, 14 KB so far | /apply?course=personnel-licensing: headline visible 819 ms, 8 KB so far"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8272,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:02.246Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "Slow 3G (400 kbps, 400 ms RTT): /: headline visible 1548 ms, 29 KB so far | /courses/personnel-licensing: headline visible 1488 ms, 14 KB so far | /apply?course=personnel-licensing: headline visible 819 ms, 8 KB so far"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-ea38a1ba78b56e402fc4",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 7,
+              "column": 7
+            },
+            {
+              "title": "NFT-06b Going offline during the application: the form keeps the typed data and reports the failure; resumes when back online",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "save indicator while offline: Not saved. Check your connection. "
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3741,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:10.526Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "save indicator while offline: Not saved. Check your connection. "
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-116b4376ce736cd920bc",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 18,
+              "column": 7
+            },
+            {
+              "title": "NFT-06c Page weight budget: home <= 500 KB transferred, course page <= 400 KB (images lazy)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "/: 274 KB"
+                    },
+                    {
+                      "type": "note",
+                      "description": "/courses/personnel-licensing: 16 KB"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1582,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:14.278Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "/: 274 KB"
+                        },
+                        {
+                          "type": "note",
+                          "description": "/courses/personnel-licensing: 16 KB"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-2f489469132a304cef3a",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "ML-01 Multilingual EN/FR/RW (SRS: language selector)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "status",
+                      "description": "NOT IMPLEMENTED: site is English only; no language selector, no FR/RW translations"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 426,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:15.868Z",
+                      "annotations": [
+                        {
+                          "type": "status",
+                          "description": "NOT IMPLEMENTED: site is English only; no language selector, no FR/RW translations"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-94dcb0835f4191cabd3c",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 30,
+              "column": 7
+            },
+            {
+              "title": "PRV-01 Privacy notice, cookie/consent notice and data-protection contact (Law 058/2021) are published",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "status",
+                      "description": "NOT IMPLEMENTED: no privacy policy page or footer link; legal adequacy is for management/DPO to determine"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 456,
+                      "error": {
+                        "message": "Error: NOT IMPLEMENTED: no privacy policy\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m",
+                        "stack": "Error: NOT IMPLEMENTED: no privacy policy\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n    at /home/user/timtomaviationshool/tests/e2e/08-lowbw-misc.spec.ts:36:273",
+                        "location": {
+                          "file": "/home/user/timtomaviationshool/tests/e2e/08-lowbw-misc.spec.ts",
+                          "column": 273,
+                          "line": 36
+                        },
+                        "snippet": "  34 |   test(\"PRV-01 Privacy notice, cookie/consent notice and data-protection contact (Law 058/2021) are published\", async ({ page }) => {\n  35 |     await page.goto(\"/\"); const text = (await page.locator(\"body\").innerText()).toLowerCase(); const links = await page.locator(\"a[href*='privacy'], a[href*='terms']\").count();\n> 36 |     test.info().annotations.push({ type: \"status\", description: \"NOT IMPLEMENTED: no privacy policy page or footer link; legal adequacy is for management/DPO to determine\" }); expect(links + (text.includes(\"privacy policy\") ? 1 : 0), \"NOT IMPLEMENTED: no privacy policy\").toBeGreaterThan(0);\n     |                                                                                                                                                                                                                                                                                 ^\n  37 |   });\n  38 |   test(\"NFT-10 Animation: every auto-moving element can be paused or respects reduced motion; no content hidden after load\", async ({ page }) => {\n  39 |     await page.goto(\"/\", { waitUntil: \"networkidle\" }); await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); } });"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/user/timtomaviationshool/tests/e2e/08-lowbw-misc.spec.ts",
+                            "column": 273,
+                            "line": 36
+                          },
+                          "message": "Error: NOT IMPLEMENTED: no privacy policy\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\n  34 |   test(\"PRV-01 Privacy notice, cookie/consent notice and data-protection contact (Law 058/2021) are published\", async ({ page }) => {\n  35 |     await page.goto(\"/\"); const text = (await page.locator(\"body\").innerText()).toLowerCase(); const links = await page.locator(\"a[href*='privacy'], a[href*='terms']\").count();\n> 36 |     test.info().annotations.push({ type: \"status\", description: \"NOT IMPLEMENTED: no privacy policy page or footer link; legal adequacy is for management/DPO to determine\" }); expect(links + (text.includes(\"privacy policy\") ? 1 : 0), \"NOT IMPLEMENTED: no privacy policy\").toBeGreaterThan(0);\n     |                                                                                                                                                                                                                                                                                 ^\n  37 |   });\n  38 |   test(\"NFT-10 Animation: every auto-moving element can be paused or respects reduced motion; no content hidden after load\", async ({ page }) => {\n  39 |     await page.goto(\"/\", { waitUntil: \"networkidle\" }); await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); } });\n    at /home/user/timtomaviationshool/tests/e2e/08-lowbw-misc.spec.ts:36:273"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:16.303Z",
+                      "annotations": [
+                        {
+                          "type": "status",
+                          "description": "NOT IMPLEMENTED: no privacy policy page or footer link; legal adequacy is for management/DPO to determine"
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/user/timtomaviationshool/test-results/08-lowbw-misc-Low-bandwidt-b0630--Law-058-2021-are-published/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/user/timtomaviationshool/test-results/08-lowbw-misc-Low-bandwidt-b0630--Law-058-2021-are-published/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/user/timtomaviationshool/tests/e2e/08-lowbw-misc.spec.ts",
+                        "column": 273,
+                        "line": 36
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-771de2caf31ad230a6a0",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 34,
+              "column": 7
+            },
+            {
+              "title": "NFT-10 Animation: every auto-moving element can be paused or respects reduced motion; no content hidden after load",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2917,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:17.200Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-7243a3b73adcd877e974",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 38,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "09-otp-dashboard.spec.ts",
+      "file": "09-otp-dashboard.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Email verification (OTP) and applicant dashboard",
+          "file": "09-otp-dashboard.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "OTP-01 Applying requires a verified email: /apply redirects to /start, the code arrives by email, the wizard then opens with the email locked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1080,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:20.225Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ada82de007f78f68dd4f-8513e3fb3e7046b651d6",
+              "file": "09-otp-dashboard.spec.ts",
+              "line": 7,
+              "column": 7
+            },
+            {
+              "title": "OTP-02 Magic link from the email pre-fills the code; open redirects are refused",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 648,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:21.315Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ada82de007f78f68dd4f-db80d1c9df8a57d3178b",
+              "file": "09-otp-dashboard.spec.ts",
+              "line": 19,
+              "column": 7
+            },
+            {
+              "title": "OTP-03 Abuse controls: wrong codes lock after 5 tries, sending is rate limited per email, submitting without verification is refused",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 420,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:21.972Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ada82de007f78f68dd4f-aa26f9111483b970fdb5",
+              "file": "09-otp-dashboard.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "DASH-01 Applicant dashboard shows the whole process: progress, documents (upload and download), invoices and activity; nobody else's data",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1693,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:22.400Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ada82de007f78f68dd4f-bcd046d8b17b60954638",
+              "file": "09-otp-dashboard.spec.ts",
+              "line": 32,
+              "column": 7
+            },
+            {
+              "title": "DASH-02 Status changes made by staff show on the applicant's dashboard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 768,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:24.101Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ada82de007f78f68dd4f-2e6f247819e822e0329c",
+              "file": "09-otp-dashboard.spec.ts",
+              "line": 50,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "10-ui-i18n.spec.ts",
+      "file": "10-ui-i18n.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Languages, theme and dashboard components",
+          "file": "10-ui-i18n.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "I18N-fr The whole public site follows the chosen language (fr)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5527,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:24.884Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-4834aaa753ccf6cbf3ed",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 6,
+              "column": 53
+            },
+            {
+              "title": "I18N-rw The whole public site follows the chosen language (rw)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5578,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:30.420Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-d35c6deef37dab0d775c",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 6,
+              "column": 53
+            },
+            {
+              "title": "I18N-sw The whole public site follows the chosen language (sw)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5519,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:36.009Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-461eb6af157104f2fa64",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 6,
+              "column": 53
+            },
+            {
+              "title": "I18N-en The whole public site follows the chosen language (en)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5434,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:41.536Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-89e028ae92a9cdbd23cd",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 6,
+              "column": 53
+            },
+            {
+              "title": "I18N-switch The language menu changes the language, remembers it, and does not break the application form",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1459,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:46.977Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-9c3b9634fe567256bde1",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 13,
+              "column": 7
+            },
+            {
+              "title": "THEME-01 Light, dark and automatic themes apply to the public site and dashboards, and persist across pages",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1175,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:48.445Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-4a99775903ee9d8becd0",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 18,
+              "column": 7
+            },
+            {
+              "title": "DT-01 Data table: search, filter, sort, hide columns, pagination, page size and CSV download",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4677,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:49.631Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-e3914c0e5072053a9515",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 27,
+              "column": 7
+            },
+            {
+              "title": "DT-02 Bulk action: stage rules still apply to a whole selection, with clear feedback",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1684,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:54.321Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-6ae89a312ae283d4bba4",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 41,
+              "column": 7
+            },
+            {
+              "title": "SHELL-01 Staff navigation shows only the modules a role may use; the menu collapses and survives reload",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 10844,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.ds-nav a')\nExpected: \u001b[32m11\u001b[39m\nReceived: \u001b[31m12\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.ds-nav a') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('.ds-nav a')\u001b[22m\n\u001b[2m    24 × locator resolved to 12 elements\u001b[22m\n\u001b[2m       - unexpected value \"12\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.ds-nav a')\nExpected: \u001b[32m11\u001b[39m\nReceived: \u001b[31m12\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.ds-nav a') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('.ds-nav a')\u001b[22m\n\u001b[2m    24 × locator resolved to 12 elements\u001b[22m\n\u001b[2m       - unexpected value \"12\"\u001b[22m\n\n    at /home/user/timtomaviationshool/tests/e2e/10-ui-i18n.spec.ts:50:69",
+                        "location": {
+                          "file": "/home/user/timtomaviationshool/tests/e2e/10-ui-i18n.spec.ts",
+                          "column": 69,
+                          "line": 50
+                        },
+                        "snippet": "  48 |   });\n  49 |   test(\"SHELL-01 Staff navigation shows only the modules a role may use; the menu collapses and survives reload\", async ({ page, browser }) => {\n> 50 |     await loginStaff(page); await expect(page.locator(\".ds-nav a\")).toHaveCount(11); await page.getByRole(\"button\", { name: \"Collapse menu\" }).click(); await expect(page.locator(\".ds\")).toHaveAttribute(\"data-collapsed\", \"true\"); await page.reload(); await expect(page.locator(\".ds\")).toHaveAttribute(\"data-collapsed\", \"true\");\n     |                                                                     ^\n  51 |     const ctx = await browser.newContext(); const l = await ctx.newPage(); await loginStaff(l, await staff(\"LECTURER\")); const labels = await l.locator(\".ds-nav a\").allInnerTexts(); expect(labels.map((x) => x.trim())).toEqual([\"Dashboard\", \"Timetable\", \"Attendance\"]); await ctx.close();\n  52 |   });\n  53 |   test(\"SHELL-02 Mobile: the menu is a drawer that opens, closes with Escape and the page does not scroll sideways\", async ({ browser }) => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/user/timtomaviationshool/tests/e2e/10-ui-i18n.spec.ts",
+                            "column": 69,
+                            "line": 50
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.ds-nav a')\nExpected: \u001b[32m11\u001b[39m\nReceived: \u001b[31m12\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.ds-nav a') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('.ds-nav a')\u001b[22m\n\u001b[2m    24 × locator resolved to 12 elements\u001b[22m\n\u001b[2m       - unexpected value \"12\"\u001b[22m\n\n\n  48 |   });\n  49 |   test(\"SHELL-01 Staff navigation shows only the modules a role may use; the menu collapses and survives reload\", async ({ page, browser }) => {\n> 50 |     await loginStaff(page); await expect(page.locator(\".ds-nav a\")).toHaveCount(11); await page.getByRole(\"button\", { name: \"Collapse menu\" }).click(); await expect(page.locator(\".ds\")).toHaveAttribute(\"data-collapsed\", \"true\"); await page.reload(); await expect(page.locator(\".ds\")).toHaveAttribute(\"data-collapsed\", \"true\");\n     |                                                                     ^\n  51 |     const ctx = await browser.newContext(); const l = await ctx.newPage(); await loginStaff(l, await staff(\"LECTURER\")); const labels = await l.locator(\".ds-nav a\").allInnerTexts(); expect(labels.map((x) => x.trim())).toEqual([\"Dashboard\", \"Timetable\", \"Attendance\"]); await ctx.close();\n  52 |   });\n  53 |   test(\"SHELL-02 Mobile: the menu is a drawer that opens, closes with Escape and the page does not scroll sideways\", async ({ browser }) => {\n    at /home/user/timtomaviationshool/tests/e2e/10-ui-i18n.spec.ts:50:69"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:21:56.014Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/user/timtomaviationshool/test-results/10-ui-i18n-Languages-theme-1d688-llapses-and-survives-reload/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/user/timtomaviationshool/test-results/10-ui-i18n-Languages-theme-1d688-llapses-and-survives-reload/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/user/timtomaviationshool/tests/e2e/10-ui-i18n.spec.ts",
+                        "column": 69,
+                        "line": 50
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-8826b20d87e943ef0d38",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 49,
+              "column": 7
+            },
+            {
+              "title": "SHELL-02 Mobile: the menu is a drawer that opens, closes with Escape and the page does not scroll sideways",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4663,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:22:07.286Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-97cd7f792c1f6f360618",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 53,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Staff administration and live data",
+          "file": "10-ui-i18n.spec.ts",
+          "line": 61,
+          "column": 6,
+          "specs": [
+            {
+              "title": "USERS-01 Administrator adds, re-roles, resets and deletes a staff account; others cannot see the page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2432,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:22:12.051Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-04c2cad0f119841b1933",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 62,
+              "column": 7
+            },
+            {
+              "title": "LIVE-01 The staff dashboard refreshes by itself: a new application appears without reloading",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 31152,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:22:14.495Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1d3438990a49f36a30ad-29625fc19cf4b43c3aea",
+              "file": "10-ui-i18n.spec.ts",
+              "line": 72,
+              "column": 7
+            }
+          ]
+        }
+      ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-13T00:12:55.087Z",
-    "duration": 10931.641000000001,
-    "expected": 10,
-    "skipped": 0,
-    "unexpected": 0,
+    "startTime": "2026-11-13T00:18:15.796Z",
+    "duration": 269910.002,
+    "expected": 123,
+    "skipped": 3,
+    "unexpected": 3,
     "flaky": 0
   }
 }
