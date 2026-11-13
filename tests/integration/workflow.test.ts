@@ -36,10 +36,13 @@ describe("admissions workflow rules (SRS 5, ADM-04)", () => {
     const a = await newApplicant(); await db.applicant.update({ where: { id: a.id }, data: { status: "REJECTED" } });
     expect(await advanceApplicant(a.id, "QA")).toMatch(/closed/i); expect(await advanceApplicant("nope", "QA")).toMatch(/not found/i);
   });
-  it("places an enrolled student in the matching class group when one exists", async () => {
-    const a = await newApplicant(); const g = await db.classGroup.create({ data: { name: "QA group " + Date.now(), programmeId: a.programmeId, branchId: a.branchId, intakeId: a.intakeId, session: "WEEKDAY" } });
+  it("places an enrolled student in the one class group for their programme, branch, intake and session (TTB-01)", async () => {
+    const a = await newApplicant(); const where = { programmeId: a.programmeId, branchId: a.branchId, intakeId: a.intakeId, session: "WEEKDAY" as const };
     await db.documentItem.updateMany({ where: { applicantId: a.id }, data: { status: "VERIFIED" } }); for (let i = 0; i < 4; i++) await advanceApplicant(a.id, "QA");
-    expect((await db.applicant.findUniqueOrThrow({ where: { id: a.id } })).classGroupId).toBe(g.id);
+    const done = await db.applicant.findUniqueOrThrow({ where: { id: a.id }, include: { classGroup: true } }); expect(done.status).toBe("ENROLLED");
+    expect([done.classGroup!.programmeId, done.classGroup!.branchId, done.classGroup!.intakeId, done.classGroup!.session]).toEqual([where.programmeId, where.branchId, where.intakeId, "WEEKDAY"]);
+    const before = await db.classGroup.count({ where }); const b2 = await newApplicant(); await db.documentItem.updateMany({ where: { applicantId: b2.id }, data: { status: "VERIFIED" } }); for (let i = 0; i < 4; i++) await advanceApplicant(b2.id, "QA");
+    expect((await db.applicant.findUniqueOrThrow({ where: { id: b2.id } })).classGroupId).toBe(done.classGroupId); expect(await db.classGroup.count({ where })).toBe(before);
   });
 });
 
