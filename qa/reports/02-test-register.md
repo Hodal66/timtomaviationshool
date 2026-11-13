@@ -1,8 +1,8 @@
 # Detailed test register
 
-Date 2026-11-12. Full register with all 15 required fields: `02-test-register.csv` (201 rows).
+Date 2026-11-12. Full register with all 15 required fields: `02-test-register.csv` (235 rows).
 
-Status counts (all rows): BLOCKED 12, FAIL 1, NOT APPLICABLE 1, NOT IMPLEMENTED 5, PASS 182
+Status counts (all rows): BLOCKED 12, FAIL 1, NOT APPLICABLE 1, NOT IMPLEMENTED 4, PASS 217
 
 | Test ID | Category | Req | Status | Defect | Objective |
 |---|---|---|---|---|---|
@@ -115,9 +115,26 @@ Status counts (all rows): BLOCKED 12, FAIL 1, NOT APPLICABLE 1, NOT IMPLEMENTED 
 | NFT-06a | Low bandwidth / misc | NFT-06 | PASS |  | NFT-06a Home and course pages render usable content on emulated Slow 3G |
 | NFT-06b | Low bandwidth / misc | NFT-06 | PASS |  | NFT-06b Going offline during the application: the form keeps the typed data and reports th |
 | NFT-06c | Low bandwidth / misc | NFT-06 | PASS |  | NFT-06c Page weight budget: home <= 500 KB transferred, course page <= 400 KB (images lazy |
-| ML-01 | Low bandwidth / misc | Multilingual EN/FR/RW | NOT IMPLEMENTED | DEF-016 | ML-01 Multilingual EN/FR/RW (SRS: language selector) |
+| ML-01 | Low bandwidth / misc | Multilingual EN/FR/RW/SW | PASS | DEF-016 | ML-01 Multilingual EN/FR/RW (SRS: language selector) |
 | PRV-01 | Low bandwidth / misc | NFT-08, Law 058/2021 | NOT IMPLEMENTED | DEF-017 | PRV-01 Privacy notice, cookie/consent notice and data-protection contact (Law 058/2021) ar |
 | NFT-10 | Low bandwidth / misc | NFT-10 | PASS |  | NFT-10 Animation: every auto-moving element can be paused or respects reduced motion; no c |
+| OTP-01 | Email verification and applicant dashboard | ADM-02, ADM-04 | PASS |  | OTP-01 Applying requires a verified email: /apply redirects to /start, the code arrives by |
+| OTP-02 | Email verification and applicant dashboard | ADM-02, ADM-04 | PASS |  | OTP-02 Magic link from the email pre-fills the code; open redirects are refused |
+| OTP-03 | Email verification and applicant dashboard | ADM-02, ADM-04 | PASS |  | OTP-03 Abuse controls: wrong codes lock after 5 tries, sending is rate limited per email,  |
+| DASH-01 | Email verification and applicant dashboard | ADM-04, ADM-05 | PASS |  | DASH-01 Applicant dashboard shows the whole process: progress, documents (upload and downl |
+| DASH-02 | Email verification and applicant dashboard | ADM-04, ADM-05 | PASS |  | DASH-02 Status changes made by staff show on the applicant's dashboard |
+| I18N-fr | Languages, themes, tables and dashboards | Multilingual EN/FR/RW/SW | PASS |  | I18N-fr The whole public site follows the chosen language (fr) |
+| I18N-rw | Languages, themes, tables and dashboards | Multilingual EN/FR/RW/SW | PASS |  | I18N-rw The whole public site follows the chosen language (rw) |
+| I18N-sw | Languages, themes, tables and dashboards | Multilingual EN/FR/RW/SW | PASS |  | I18N-sw The whole public site follows the chosen language (sw) |
+| I18N-en | Languages, themes, tables and dashboards | Multilingual EN/FR/RW/SW | PASS |  | I18N-en The whole public site follows the chosen language (en) |
+| I18N-switch | Languages, themes, tables and dashboards | Multilingual EN/FR/RW/SW | PASS |  | I18N-switch The language menu changes the language, remembers it, and does not break the a |
+| THEME-01 | Languages, themes, tables and dashboards | UX (dashboards) | PASS |  | THEME-01 Light, dark and automatic themes apply to the public site and dashboards, and per |
+| DT-01 | Languages, themes, tables and dashboards | UX (dashboards) | PASS |  | DT-01 Data table: search, filter, sort, hide columns, pagination, page size and CSV downlo |
+| DT-02 | Languages, themes, tables and dashboards | UX (dashboards) | PASS |  | DT-02 Bulk action: stage rules still apply to a whole selection, with clear feedback |
+| SHELL-01 | Languages, themes, tables and dashboards | UX (dashboards) | PASS |  | SHELL-01 Staff navigation shows only the modules a role may use; the menu collapses and su |
+| SHELL-02 | Languages, themes, tables and dashboards | UX (dashboards) | PASS |  | SHELL-02 Mobile: the menu is a drawer that opens, closes with Escape and the page does not |
+| USERS-01 | Languages, themes, tables and dashboards | SYS (user administration) | PASS |  | USERS-01 Administrator adds, re-roles, resets and deletes a staff account; others cannot s |
+| LIVE-01 | Languages, themes, tables and dashboards | UX (dashboards) | PASS |  | LIVE-01 The staff dashboard refreshes by itself: a new application appears without reloadi |
 | NFT-03 | Not executable here |  | BLOCKED |  | Cross-browser: Firefox and Safari/WebKit |
 | NFT-03b | Not executable here |  | BLOCKED |  | Real mobile devices (iOS Safari, Android Chrome) |
 | NFT-01b | Not executable here |  | BLOCKED |  | Performance on a real Rwandan mobile network |
@@ -132,4 +149,4 @@ Status counts (all rows): BLOCKED 12, FAIL 1, NOT APPLICABLE 1, NOT IMPLEMENTED 
 | PROD-01 | Not executable here |  | BLOCKED |  | Testing of the deployed production site |
 | CI-01 | Not executable here |  | BLOCKED |  | CI workflow (GitHub Actions) execution |
 
-Plus 76 unit/integration tests (rows UT-001 onward in the CSV), all PASS unless listed above.
+Plus 93 unit/integration tests (rows UT-001 onward in the CSV), all PASS unless listed above.

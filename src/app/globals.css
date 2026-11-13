@@ -88,3 +88,4 @@ th.sort{cursor:pointer;user-select:none}th.sort:hover{color:var(--blue)}
 .ds-burger{display:none}@media(max-width:900px){.ds-burger{display:grid}}
 td{white-space:nowrap;max-width:340px;overflow:hidden;text-overflow:ellipsis}td .wrapok,td form{white-space:normal}
 select,input{max-width:100%}.panel{min-width:0}.dt-bar select{max-width:240px}form.panel select{max-width:min(100%,320px)}
+.i18n-pending body{visibility:hidden}

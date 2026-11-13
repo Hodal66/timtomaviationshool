@@ -1,4 +1,6 @@
 import { db } from "@/lib/db";
+import { unstable_cache } from "next/cache";
+const getBranches = unstable_cache(() => db.branch.findMany({ orderBy: { code: "asc" }, select: { name: true } }), ["branches"], { revalidate: 300, tags: ["catalogue"] });
 import { asFaqs, asModules, categoryLabel, MODE_TEXT, themeOf } from "@/lib/catalogue";
 import { areaLabel, areaOf } from "@/lib/areas";
 import { DOC_KINDS } from "@/lib/apply";
@@ -23,7 +25,7 @@ export function aboutBody(summary: string | null, description: string | null) {
 
 export async function CourseView({ p, preview = false }: { p: Programme; preview?: boolean }) {
   const t = themeOf(p.visualTheme);
-  const [cat, branches] = await Promise.all([getCatalogue(), db.branch.findMany({ orderBy: { code: "asc" }, select: { name: true } })]);
+  const [cat, branches] = await Promise.all([getCatalogue(), getBranches()]);
   const starts = upcomingIntakes(4);
   const area = areaOf(p), mods = asModules(p.modules), faqs = asFaqs(p.faqs), about = aboutBody(p.summary, p.description);
   const related = cat.courses.filter((c) => c.areaId === area && c.id !== p.id).slice(0, 3);

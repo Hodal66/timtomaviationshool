@@ -19,7 +19,7 @@ MAP = {
  "ST-01": "SYS (authentication)", "ST-02": "ADM-05, REP-*", "ST-03": "FIN-01", "ST-04": "ADM-05", "ST-05": "ADM-01",
  "ST-06": "ADM-04, NTF-*", "ST-07": "ADM-04, NTF-*", "ST-08": "REP-*", "E2E-01": "CMS-02, ADM-02..05, FIN-01 (14-step scenario)",
  "SEC-": "SYS (security), ASVS L2", "A11Y": "WCAG 2.2 AA", "RESP": "NFT-04", "NFT-06": "NFT-06", "NFT-09": "NFT-09, WEB-01", "NFT-10": "NFT-10",
- "ML-01": "Multilingual EN/FR/RW", "PRV-01": "NFT-08, Law 058/2021",
+ "ML-01": "Multilingual EN/FR/RW/SW", "OTP-": "ADM-02, ADM-04", "DASH-": "ADM-04, ADM-05", "I18N": "Multilingual EN/FR/RW/SW", "THEME": "UX (dashboards)", "DT-": "UX (dashboards)", "SHELL": "UX (dashboards)", "USERS": "SYS (user administration)", "LIVE": "UX (dashboards)", "PRV-01": "NFT-08, Law 058/2021",
 }
 def reqs(tid):
     for k in sorted(MAP, key=len, reverse=True):
@@ -51,7 +51,9 @@ DEFECTS = [
   "Self-host fonts (next/font) and size/prioritise the hero image. Accept: Lighthouse mobile LCP <= 2.5 s on these four pages, confirmed on the deployed site."),
  ("DEF-014", "CSP allows inline scripts ('unsafe-inline')", "Low", "OPEN", "SEC-08 review", "Next.js inline bootstrap scripts without a nonce.", "Move to nonce-based CSP in middleware. Accept: CSP without 'unsafe-inline' for script-src and all journeys still pass."),
  ("DEF-015", "Rate-limit counters live in server memory, so they are per instance", "Medium", "OPEN", "SEC-09 review", "No shared store.", "Back the limiter with a shared store (Redis/Upstash or a database table). Accept: lockout holds across instances."),
- ("DEF-016", "Multilingual EN/FR/RW not implemented", "High", "OPEN - NOT IMPLEMENTED", "ML-01", "Not built; SRS requires three languages.", "Language selector, translated UI and content for FR and RW. Accept: ML-01 passes and key journeys pass in each language."),
+ ("DEF-016", "Multilingual support missing (SRS: EN/FR/RW; requested: EN, Kinyarwanda, Kiswahili, French)", "High", "FIXED - verified (see DEF-020)", "ML-01", "Not built.", "Language menu on every page, four dictionaries, runtime translation, page language attribute. Accept: I18N-fr/rw/sw/en and ML-01 pass."),
+ ("DEF-020", "Translations are not yet reviewed by native speakers; programme names and descriptions (database content) and parts of the staff screens stay in English", "Medium", "OPEN", "I18N review", "Interface text was translated by the author; course content lives in the database in English only.", "Native-speaker review of the French, Kinyarwanda and Kiswahili dictionaries (src/lib/i18n), and a decision on translating programme content. Accept: reviewers sign off; chosen course fields editable per language."),
+ ("DEF-021", "Public pages are static English HTML; the language is applied in the browser, so search engines index English only and a hidden-page moment (up to 2.5 s) can occur on slow devices", "Low", "OPEN", "Design review", "Chosen to keep pages cached (about 1,000 requests per second instead of 110).", "If SEO per language matters, move to language URLs (/fr/...). Accept: crawlers receive translated HTML."),
  ("DEF-017", "No privacy notice, consent/cookie notice or data-protection contact", "High", "OPEN - NOT IMPLEMENTED", "PRV-01", "Not built.", "Publish privacy policy and DPO contact, consent wording on the application form, retention rules. Legal adequacy for Law 058/2021 is for management and the DPO, not for automated tests."),
  ("DEF-018", "Catalogue filters by delivery mode, duration, branch and intake do not exist (only area and search)", "Medium", "OPEN - NOT IMPLEMENTED", "FT-008c", "Not built.", "Add the four filters. Accept: FT-008c passes."),
  ("DEF-019", "CMS manages programme content and the media gallery, but not news or events", "Medium", "OPEN - PARTLY IMPLEMENTED", "FT-036", "News/events content types not built (gallery added with the Cloudinary media library, not yet covered by automated tests).", "Add news and events and test the media library end to end. Accept: FT-036 passes."),
@@ -82,9 +84,9 @@ def walk(s, trail):
     for c in s.get("suites", []): walk(c, trail)
 for s in e2e["suites"]: walk(s, [])
 
-CAT = lambda f, t: ("Functional - public site" if f.startswith("01") and not t.startswith(("NFT", "SEC")) else "SEO (NFT-09)" if t.startswith("NFT-09") else "Functional - catalogue" if f.startswith("02") else "Functional - application journey" if f.startswith("03") else "Functional - staff and dashboards" if f.startswith("04") else "Functional - course lifecycle / CMS" if f.startswith("05") else "Security (NFT-07)" if f.startswith("06") else "Accessibility (NFT-05)" if t.startswith("A11Y") else "Responsive (NFT-04)" if t.startswith("RESP") else "Low bandwidth / misc")
+CAT = lambda f, t: ("Functional - public site" if f.startswith("01") and not t.startswith(("NFT", "SEC")) else "SEO (NFT-09)" if t.startswith("NFT-09") else "Functional - catalogue" if f.startswith("02") else "Functional - application journey" if f.startswith("03") else "Functional - staff and dashboards" if f.startswith("04") else "Functional - course lifecycle / CMS" if f.startswith("05") else "Email verification and applicant dashboard" if f.startswith("09") else "Languages, themes, tables and dashboards" if f.startswith("10") else "Security (NFT-07)" if f.startswith("06") else "Accessibility (NFT-05)" if t.startswith("A11Y") else "Responsive (NFT-04)" if t.startswith("RESP") else "Low bandwidth / misc")
 DEFECT_OF = {"FT-021b": "DEF-001", "SEC-04": "DEF-002", "SEC-08": "DEF-003", "SEC-09": "DEF-004", "FT-011b": "DEF-005", "NFT-09e": "DEF-006", "FT-007": "DEF-007", "NFT-09a": "DEF-012", "ML-01": "DEF-016", "PRV-01": "DEF-017", "FT-008c": "DEF-018", "FT-036": "DEF-019", "FT-012": ""}
-FIXED_TESTS = {"FT-021b", "SEC-04", "SEC-08", "SEC-09", "FT-011b", "NFT-09e", "FT-007"}
+FIXED_TESTS = {"ML-01", "FT-021b", "SEC-04", "SEC-08", "SEC-09", "FT-011b", "NFT-09e", "FT-007"}
 SEVERITY = {d[0]: d[2] for d in DEFECTS}
 
 reg = []
@@ -95,7 +97,7 @@ for r in rows:
     if r["title"].startswith("A11Y") and not r["title"].startswith("A11Y axe"): tid = "A11Y-" + re.sub(r"\W+", "-", r["title"][5:35]).strip("-")
     base = tid.split("-")[0] + "-" + tid.split("-")[1] if "-" in tid else tid
     st = {"passed": "PASS", "failed": "FAIL", "skipped": "SKIPPED"}.get(r["status"], r["status"])
-    if "NOT IMPLEMENTED" in r["ann"].get("status", "") or "NOT IMPLEMENTED" in r["error"]: st = "NOT IMPLEMENTED"
+    if st != "PASS" and ("NOT IMPLEMENTED" in r["ann"].get("status", "") or "NOT IMPLEMENTED" in r["error"]): st = "NOT IMPLEMENTED"
     if r["title"].startswith("FT-012"): st = "NOT APPLICABLE"  # product-owner decision: registration is open all year, so no seat or availability display
     did = DEFECT_OF.get(tid.rstrip("0123456789abc") if False else tid, DEFECT_OF.get(base, ""))
     if st == "PASS" and tid in FIXED_TESTS: note = f"Initially FAILED (see {did}); fixed and retested: PASS"
@@ -279,7 +281,7 @@ Date {DATE}. This is a QA recommendation for the product owner, based only on th
  ["No open Critical defects", "PASS (none found)", "07-defect-backlog.md"],
  ["No open High defects", f"FAIL ({len(open_high)} open: " + ", ".join(d[0] for d in open_high) + ")", "07-defect-backlog.md"],
  ["Core functional journeys pass", "PASS (all tested journeys, including the 14-step scenario)", "02-test-register.csv, E2E-01"],
- ["Must requirements implemented", "FAIL (multilingual, privacy notice, catalogue filters, news/events, payment gateway not implemented; most SRS modules not built)", "03-rtm.md"],
+ ["Must requirements implemented", "FAIL (privacy notice, catalogue filters, news/events, payment gateway not implemented; most SRS modules not built)", "03-rtm.md"],
  ["80% coverage of core logic", f"PASS (statements {covs['statements']}%, branches {covs['branches']}%)", "qa/reports/coverage"],
  ["Core Web Vitals (LCP < 2.5 s, CLS <= 0.1)", "FAIL in lab for mobile LCP on 4 pages (CLS passes)", "04-performance-report.md"],
  ["Accessibility: no serious/critical axe issues", "PASS (manual review not done)", "06-accessibility-report.md"],
@@ -288,7 +290,7 @@ Date {DATE}. This is a QA recommendation for the product owner, based only on th
  ["Privacy (Law 058/2021)", "OPEN: for management/DPO; no privacy notice exists", "DEF-017"]])}
 ## What would move this to READY WITH APPROVED LIMITATIONS
 1. Publish a privacy notice and consent wording, with DPO sign-off (DEF-017).
-2. Either implement EN/FR/RW (DEF-016) or have the product owner formally approve English-only at launch.
+2. Native-speaker review of the four languages (DEF-020).
 3. Fix mobile LCP (DEF-013) and re-measure on the deployed site.
 4. Merge or rename duplicate programmes (DEF-012).
 5. Run the suite against a staging deployment with HTTPS, and complete the BLOCKED items that can be done there (Firefox/Safari, real devices, secure cookie, ZAP).
@@ -313,7 +315,8 @@ The tested journeys work and several serious problems were found and fixed durin
 2. **Parallel duplicate submissions created several applications** (DEF-001, High). Fixed and retested.
 3. **Course pages could handle only about 100 requests per second and timed out under 250 simultaneous visitors** (DEF-011, High). Fixed: about 950 requests per second, no errors up to 500 connections locally.
 4. Missing security headers, no sign-in lockout or API throttling, accessibility contrast and alt-text problems, a stale sitemap and a layout shift on the apply page were found and fixed.
-5. **Still open:** no EN/FR/RW languages (High), no privacy notice or consent wording (High), mobile loading speed slightly above the 2.5 s target in the lab, duplicate programme names in the catalogue, missing catalogue filters, no news/events in the CMS.
+5. **Added and tested in the second phase:** email verification with a 6-digit code before applying; an applicant dashboard (progress, documents upload and download, invoices, activity, profile); a new gradient dashboard shell with light and dark themes; data tables with search, filters, sorting, column choice, pagination, CSV export and bulk actions; staff account management; live refresh; four languages (English, Kinyarwanda, Kiswahili, French).
+6. **Still open:** no privacy notice or consent wording (High); translations need native-speaker review (Medium), mobile loading speed slightly above the 2.5 s target in the lab, duplicate programme names in the catalogue, missing catalogue filters, no news/events in the CMS.
 
 ## Honest limits of this report
 Lab results from one sandbox machine are indicative only. Cross-browser, real-device, real-network, real-user, full penetration and legal-compliance questions are outside what was demonstrated. All numbers in these reports are generated from stored results by `qa/tools/build_reports.py`.

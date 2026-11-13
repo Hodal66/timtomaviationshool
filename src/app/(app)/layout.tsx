@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
 import { getSession, destroySession } from "@/lib/session";
 import { can } from "@/lib/perm";
-import { getT } from "@/lib/i18n/server";
+import { getT, dictFor } from "@/lib/i18n/server";
+import { I18nProvider } from "@/lib/i18n/client";
 import { Shell, type NavItem } from "@/components/dash/Shell";
 
 async function logout() { "use server"; await destroySession(); redirect("/login"); }
@@ -10,7 +11,7 @@ const ROLE: Record<string, string> = { ADMIN: "Administrator", ADMISSIONS: "Admi
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const s = await getSession();
   if (!s) redirect("/login");
-  const { t } = await getT(); const r = s.role;
+  const { t, lang } = await getT(); const r = s.role;
   const nav: (NavItem | false)[] = [
     { href: "/dashboard", label: t("Dashboard"), icon: "home" }, can.reports(r) && { href: "/executive", label: t("Executive"), icon: "chart" },
     can.viewApplicants(r) && { href: "/admissions", label: t("Admissions"), icon: "users" }, can.enquiries(r) && { href: "/enquiries", label: t("Enquiries"), icon: "mail" },
@@ -18,5 +19,5 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     r === "ADMIN" && { href: "/admin/users", label: t("Staff"), icon: "user" }, can.editContent(r) && { href: "/media", label: t("Media"), icon: "image" }, can.viewApplicants(r) && { href: "/payments", label: t("Payments"), icon: "card" },
     can.reports(r) && { href: "/certificates", label: t("Certificates"), icon: "award" }, { href: "/timetable", label: t("Timetable"), icon: "cal" }, { href: "/attendance", label: t("Attendance"), icon: "check" },
   ];
-  return <Shell brand="TAS-One" nav={nav.filter(Boolean) as NavItem[]} user={{ name: s.name, sub: t(ROLE[r] ?? r) }} logout={logout}>{children}</Shell>;
+  return <I18nProvider lang={lang} dict={dictFor(lang)}><Shell brand="TAS-One" nav={nav.filter(Boolean) as NavItem[]} user={{ name: s.name, sub: t(ROLE[r] ?? r) }} logout={logout}>{children}</Shell></I18nProvider>;
 }

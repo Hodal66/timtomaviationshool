@@ -29,7 +29,7 @@ test.describe("Low bandwidth (NFT-06) and remaining requirements", () => {
   });
   test("ML-01 Multilingual EN/FR/RW (SRS: language selector)", async ({ page }) => {
     await page.goto("/"); const hasSwitch = await page.locator("[aria-label*='anguage'], a[hreflang], select[name*=lang]").count();
-    test.info().annotations.push({ type: "status", description: "NOT IMPLEMENTED: site is English only; no language selector, no FR/RW translations" }); expect(hasSwitch, "NOT IMPLEMENTED: no language selector").toBeGreaterThan(0);
+    if (!hasSwitch) test.info().annotations.push({ type: "status", description: "NOT IMPLEMENTED: no language selector" }); expect(hasSwitch, "NOT IMPLEMENTED: no language selector").toBeGreaterThan(0);
   });
   test("PRV-01 Privacy notice, cookie/consent notice and data-protection contact (Law 058/2021) are published", async ({ page }) => {
     await page.goto("/"); const text = (await page.locator("body").innerText()).toLowerCase(); const links = await page.locator("a[href*='privacy'], a[href*='terms']").count();

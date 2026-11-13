@@ -1,4 +1,5 @@
 import { db } from "./db";
+import { unstable_cache } from "next/cache";
 import { AREAS, areaLabel, areaOf } from "./areas";
 import { photoFor } from "./images";
 import type { CardCourse } from "@/components/CourseCard";
@@ -6,7 +7,9 @@ import type { CardCourse } from "@/components/CourseCard";
 const num = (code: string) => Number(code.replace(/\D/g, "")) || 9999;
 
 /** Published programmes only. This is the single read path for the public catalogue. */
-export async function getCatalogue() {
+/** Cached for a minute (and refreshed at once when staff change a course), because language is read per request and pages are rendered dynamically. */
+export const getCatalogue = unstable_cache(loadCatalogue, ["catalogue-list"], { revalidate: 60, tags: ["catalogue"] });
+async function loadCatalogue() {
   const rows = await db.programme.findMany({ where: { status: "PUBLISHED", slug: { not: null } },
     select: { id: true, slug: true, code: true, name: true, summary: true, durationMonths: true, heroImage: true, visualTheme: true, type: true } });
   rows.sort((a, b) => num(a.code) - num(b.code));

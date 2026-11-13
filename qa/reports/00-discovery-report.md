@@ -7,7 +7,6 @@ Public site (home, about, catalogue with area filter and search, course pages wi
 Stack: Next.js 15 (App Router, server actions), React 19, Prisma 6 on PostgreSQL (Neon in production), Vercel hosting.
 
 ## What is incomplete or missing
-- DEF-016 Multilingual EN/FR/RW not implemented
 - DEF-017 No privacy notice, consent/cookie notice or data-protection contact
 - DEF-018 Catalogue filters by delivery mode, duration, branch and intake do not exist (only area and search)
 - DEF-019 CMS manages programme content and the media gallery, but not news or events

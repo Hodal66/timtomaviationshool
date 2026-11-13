@@ -25,9 +25,9 @@ Date 2026-11-12. **Environment:** local production build (`next start`) on a sha
 
 Emulated Slow 3G (400 kbps, 400 ms round trip), time until the page headline is visible:
 
-- /: headline visible 1702 ms, 22 KB so far
-- /courses/personnel-licensing: headline visible 925 ms, 9 KB so far
-- /apply?course=personnel-licensing: headline visible 994 ms, 7 KB so far
+- /: headline visible 1555 ms, 23 KB so far
+- /courses/personnel-licensing: headline visible 1422 ms, 9 KB so far
+- /apply?course=personnel-licensing: headline visible 965 ms, 8 KB so far
 
 Page weight budgets (home <= 500 KB, course <= 400 KB, images lazy loaded): PASS. Going offline mid-application keeps the typed data and resumes saving when back online: PASS (NFT-06b). Real Rwandan network tests: BLOCKED.
 

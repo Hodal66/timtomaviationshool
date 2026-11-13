@@ -7,16 +7,16 @@ Date 2026-11-12. Source of requirement IDs: the SRS v2.0 requirement table (201 
 | Requirement | SRS title | Priority | Tests | Result |
 |---|---|---|---|---|
 | ADM-01 | Capture every enquiry (website, WhatsApp, Facebook, Instagram, | Must P1 | FT-035, ST-05 | PASS |
-| ADM-02 | One online application wizard for all programmes, completable on a | Must P1 | E2E-01, FT-017, FT-018, FT-019, FT-020, FT-021a, FT-021b | PASS |
+| ADM-02 | One online application wizard for all programmes, completable on a | Must P1 | E2E-01, FT-017, FT-018, FT-019, FT-020, FT-021a, FT-021b, OTP-01 ... | PASS |
 | ADM-03 | Upload A2 certificate, transcripts, ID/passport and photos from the | Must P1 | FT-020, FT-023 | PASS |
-| ADM-04 | Status tracker (Submitted → Documents verified → Registration paid → | Must P1 | FT-020, FT-025b, FT-027, FT-028, ST-06, ST-07 | PASS |
-| ADM-05 | Admissions board (kanban) per branch with filters, bulk actions, notes | Must P1 | FT-026, ST-02, ST-04 | PASS |
+| ADM-04 | Status tracker (Submitted → Documents verified → Registration paid → | Must P1 | DASH-01, DASH-02, FT-020, FT-025b, FT-027, FT-028, OTP-01, OTP-02 ... | PASS |
+| ADM-05 | Admissions board (kanban) per branch with filters, bulk actions, notes | Must P1 | DASH-01, DASH-02, FT-026, ST-02, ST-04 | PASS |
 | CMS-01 | Headless CMS: pages, news, events, gallery, FAQs editable by staff | Must P1 | FT-031, FT-036 | PARTIAL (some tests NOT IMPLEMENTED) |
 | CMS-02 | Course pages generated from the catalogue with live fees, intakes and | Must P1 | E2E-01, FT-007, FT-008a, FT-008b, FT-008c, FT-009, FT-010, FT-011 ... | PARTIAL (some tests NOT IMPLEMENTED) |
 | CMS-03 | Campaign landing pages with UTM tracking feeding ADM-01 | Must P1 | FT-035 | PASS |
 | FIN-01 | Automatic invoices: registration fee (paid before classes start), trai | Must P1 | E2E-01, ST-03 | PASS |
 | Law 058/2021 |  |   | PRV-01 | NOT IMPLEMENTED |
-| Multilingual EN/FR/RW |  |   | ML-01 | NOT IMPLEMENTED |
+| Multilingual EN/FR/RW/SW |  |   | I18N-en, I18N-fr, I18N-rw, I18N-sw, I18N-switch, ML-01 | PASS |
 | NFT-04 |  |   | RESP-1024px-/, RESP-1024px-/apply?course=personnel-licensing, RESP-1024px-/courses, RESP-1366px-/, RESP-1366px-/apply?course=personnel-licensing, RESP-1366px-/courses, RESP-1920px-/, RESP-1920px-/apply?course=personnel-licensing ... | PASS |
 | NFT-06 |  |   | NFT-06a, NFT-06b, NFT-06c | PASS |
 | NFT-08 |  |   | PRV-01 | NOT IMPLEMENTED |

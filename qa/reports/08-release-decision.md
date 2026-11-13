@@ -8,10 +8,10 @@ Date 2026-11-12. This is a QA recommendation for the product owner, based only o
 | Gate | Result | Evidence |
 |---|---|---|
 | No open Critical defects | PASS (none found) | 07-defect-backlog.md |
-| No open High defects | FAIL (2 open: DEF-016, DEF-017) | 07-defect-backlog.md |
+| No open High defects | FAIL (1 open: DEF-017) | 07-defect-backlog.md |
 | Core functional journeys pass | PASS (all tested journeys, including the 14-step scenario) | 02-test-register.csv, E2E-01 |
-| Must requirements implemented | FAIL (multilingual, privacy notice, catalogue filters, news/events, payment gateway not implemented; most SRS modules not built) | 03-rtm.md |
-| 80% coverage of core logic | PASS (statements 99.74%, branches 90.65%) | qa/reports/coverage |
+| Must requirements implemented | FAIL (privacy notice, catalogue filters, news/events, payment gateway not implemented; most SRS modules not built) | 03-rtm.md |
+| 80% coverage of core logic | PASS (statements 99.18%, branches 90.42%) | qa/reports/coverage |
 | Core Web Vitals (LCP < 2.5 s, CLS <= 0.1) | FAIL in lab for mobile LCP on 4 pages (CLS passes) | 04-performance-report.md |
 | Accessibility: no serious/critical axe issues | PASS (manual review not done) | 06-accessibility-report.md |
 | Security baseline | PASS for tested areas after fixes; production HTTPS settings and full penetration test not verified | 05-security-report.md |
@@ -20,7 +20,7 @@ Date 2026-11-12. This is a QA recommendation for the product owner, based only o
 
 ## What would move this to READY WITH APPROVED LIMITATIONS
 1. Publish a privacy notice and consent wording, with DPO sign-off (DEF-017).
-2. Either implement EN/FR/RW (DEF-016) or have the product owner formally approve English-only at launch.
+2. Native-speaker review of the four languages (DEF-020).
 3. Fix mobile LCP (DEF-013) and re-measure on the deployed site.
 4. Merge or rename duplicate programmes (DEF-012).
 5. Run the suite against a staging deployment with HTTPS, and complete the BLOCKED items that can be done there (Firefox/Safari, real devices, secure cookie, ZAP).

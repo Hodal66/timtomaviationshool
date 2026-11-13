@@ -1,6 +1,6 @@
 # Defect backlog
 
-Date 2026-11-12. 19 defects: 11 fixed and retested, 8 open.
+Date 2026-11-12. 21 defects: 12 fixed and retested, 9 open.
 
 ## Critical (0)
 
@@ -26,11 +26,11 @@ None found.
 - **Root cause:** Dynamic route without generateStaticParams was rendered on every request (Cache-Control: no-store).
 - **Fix / acceptance criteria:** generateStaticParams returning [] enables ISR. Re-run: ~950 req/s, 0 errors up to 500 connections.
 
-### DEF-016 Multilingual EN/FR/RW not implemented
-- **Status:** OPEN - NOT IMPLEMENTED
+### DEF-016 Multilingual support missing (SRS: EN/FR/RW; requested: EN, Kinyarwanda, Kiswahili, French)
+- **Status:** FIXED - verified (see DEF-020)
 - **Found by:** ML-01
-- **Root cause:** Not built; SRS requires three languages.
-- **Fix / acceptance criteria:** Language selector, translated UI and content for FR and RW. Accept: ML-01 passes and key journeys pass in each language.
+- **Root cause:** Not built.
+- **Fix / acceptance criteria:** Language menu on every page, four dictionaries, runtime translation, page language attribute. Accept: I18N-fr/rw/sw/en and ML-01 pass.
 
 ### DEF-017 No privacy notice, consent/cookie notice or data-protection contact
 - **Status:** OPEN - NOT IMPLEMENTED
@@ -38,7 +38,7 @@ None found.
 - **Root cause:** Not built.
 - **Fix / acceptance criteria:** Publish privacy policy and DPO contact, consent wording on the application form, retention rules. Legal adequacy for Law 058/2021 is for management and the DPO, not for automated tests.
 
-## Medium (11)
+## Medium (12)
 
 ### DEF-003 No HTTP security headers
 - **Status:** FIXED - verified
@@ -94,6 +94,12 @@ None found.
 - **Root cause:** No shared store.
 - **Fix / acceptance criteria:** Back the limiter with a shared store (Redis/Upstash or a database table). Accept: lockout holds across instances.
 
+### DEF-020 Translations are not yet reviewed by native speakers; programme names and descriptions (database content) and parts of the staff screens stay in English
+- **Status:** OPEN
+- **Found by:** I18N review
+- **Root cause:** Interface text was translated by the author; course content lives in the database in English only.
+- **Fix / acceptance criteria:** Native-speaker review of the French, Kinyarwanda and Kiswahili dictionaries (src/lib/i18n), and a decision on translating programme content. Accept: reviewers sign off; chosen course fields editable per language.
+
 ### DEF-018 Catalogue filters by delivery mode, duration, branch and intake do not exist (only area and search)
 - **Status:** OPEN - NOT IMPLEMENTED
 - **Found by:** FT-008c
@@ -106,7 +112,7 @@ None found.
 - **Root cause:** News/events content types not built (gallery added with the Cloudinary media library, not yet covered by automated tests).
 - **Fix / acceptance criteria:** Add news and events and test the media library end to end. Accept: FT-036 passes.
 
-## Low (3)
+## Low (4)
 
 ### DEF-006 No default Open Graph or Twitter card metadata on the home page and site-wide
 - **Status:** FIXED - verified
@@ -125,6 +131,12 @@ None found.
 - **Found by:** SEC-08 review
 - **Root cause:** Next.js inline bootstrap scripts without a nonce.
 - **Fix / acceptance criteria:** Move to nonce-based CSP in middleware. Accept: CSP without 'unsafe-inline' for script-src and all journeys still pass.
+
+### DEF-021 Public pages are static English HTML; the language is applied in the browser, so search engines index English only and a hidden-page moment (up to 2.5 s) can occur on slow devices
+- **Status:** OPEN
+- **Found by:** Design review
+- **Root cause:** Chosen to keep pages cached (about 1,000 requests per second instead of 110).
+- **Fix / acceptance criteria:** If SEO per language matters, move to language URLs (/fr/...). Accept: crawlers receive translated HTML.
 
 ## Not defects, but tracked
 - INT-02 Real payment gateway (MTN MoMo / Airtel / bank): **NOT IMPLEMENTED**. Payments are recorded and verified manually by Finance; no gateway integration exists (FIN-02, FIN-03).
