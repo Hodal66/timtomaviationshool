@@ -4,7 +4,7 @@ const PORT = Number(process.env.QA_PORT ?? 3100);
 process.env.DATABASE_URL ??= "postgresql://postgres@localhost:5544/tas_qa";
 process.env.DATABASE_URL_UNPOOLED ??= process.env.DATABASE_URL;
 process.env.DATABASE_URL_UNPOOLED ??= process.env.DATABASE_URL;
-process.env.AUTH_SECRET ??= "qa-secret-not-for-production";
+process.env.AUTH_SECRET ??= "qa-only-secret-not-for-production-0123456789abcdef";
 
 export default defineConfig({
   testDir: "tests/e2e", timeout: 90_000, expect: { timeout: 10_000 }, workers: 1, retries: 0, fullyParallel: false,

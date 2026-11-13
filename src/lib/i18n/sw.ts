@@ -467,6 +467,10 @@ const d: Dict = {
   "Live": "Moja kwa moja",
   "Paused": "Imesitishwa",
   "Refresh automatically every 30 seconds": "Onyesha upya kila sekunde 30",
+  "Download admission letter": "Pakua barua ya udahili",
+  "Record an enquiry from another channel": "Rekodi swali kutoka njia nyingine",
+  "General question": "Swali la jumla",
+  "What they asked": "Walichouliza",
   "My account": "Akaunti yangu",
 };
 export default d;

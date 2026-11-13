@@ -26,6 +26,16 @@ async function addNote(fd: FormData) {
   if (m) await db.applicationEvent.create({ data: { applicantId: id, type: "NOTE", actorName: s.name, message: m } });
   back(id);
 }
+/** ADM-06: the officer confirms each entry requirement of the programme; admission is blocked until all are confirmed. */
+async function setRequirements(fd: FormData) {
+  "use server";
+  const s = await guard(); const id = String(fd.get("id"));
+  const a = await db.applicant.findUnique({ where: { id }, include: { programme: { select: { entryRequirements: true } } } }); if (!a) return;
+  const met = a.programme.entryRequirements.filter((r, i) => fd.get("req" + i) === "on");
+  await db.applicant.update({ where: { id }, data: { requirementsMet: met } });
+  await db.applicationEvent.create({ data: { applicantId: id, type: "SYSTEM", actorName: s.name, message: `Entry requirements confirmed: ${met.length} of ${a.programme.entryRequirements.length}.` } });
+  back(id);
+}
 async function assign(fd: FormData) {
   "use server";
   const s = await guard(); const id = String(fd.get("id")), uid = String(fd.get("uid")) || null;
@@ -95,6 +105,12 @@ export default async function Detail({ params }: { params: Promise<{ id: string 
         <select name="session" defaultValue={a.session} aria-label="Schedule"><option value="WEEKDAY">Weekday</option><option value="WEEKEND">Weekend</option></select>
         <select name="start" defaultValue="keep" aria-label="Intake"><option value="keep">Keep {a.intake.label}</option>{upcomingIntakes(6).map((x) => <option key={x.key} value={x.key}>{x.label}</option>)}</select>
         <button type="submit">Update placement</button></form>{void intakes}</div>
+    <div className="panel" style={{ marginBottom: 16 }}><h2>Entry requirements</h2>
+      {a.programme.entryRequirements.length === 0 ? <p style={{ margin: 0, color: "var(--muted)" }}>This programme has no entry requirements set. Add them on the course page if needed.</p>
+      : <form action={setRequirements} style={{ display: "grid", gap: 6 }}><input type="hidden" name="id" value={a.id} />
+        {a.programme.entryRequirements.map((r, i) => <label key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}><input type="checkbox" name={"req" + i} defaultChecked={a.requirementsMet.includes(r)} style={{ minHeight: 0, width: 18, height: 18, padding: 0, marginTop: 2 }} /><span>{r}</span></label>)}
+        <div style={{ display: "flex", gap: 10, alignItems: "center", marginTop: 6 }}><button type="submit">Save requirements</button><span className={`pill ${a.programme.entryRequirements.every((r) => a.requirementsMet.includes(r)) ? "ok" : "warn"}`}>{a.programme.entryRequirements.filter((r) => a.requirementsMet.includes(r)).length} of {a.programme.entryRequirements.length} confirmed</span></div></form>}
+      {["ADMITTED", "ENROLLED"].includes(a.status) && <p style={{ margin: "12px 0 0" }}><a className="btn-p" style={{ display: "inline-block", padding: "8px 14px", borderRadius: 10, textDecoration: "none" }} href={`/api/letters/${a.reference}`}>Download admission letter (PDF)</a></p>}</div>
     <div className="panel tbl" style={{ marginBottom: 16 }}><h2>Documents</h2><table><thead><tr><th>Document</th><th>Status</th><th>Action</th></tr></thead><tbody>
       {a.documents.map((d) => <tr key={d.id}><td>{d.kind}{d.note && <small style={{ display: "block", color: "var(--muted)" }}>{d.note}</small>}{a.uploads.filter((u) => u.kind === d.kind).map((u) => <small key={u.id} style={{ display: "block" }}><a href={`/api/documents/${u.id}`} target="_blank" rel="noreferrer">View {u.filename}</a> ({Math.max(1, Math.round(u.size / 1024))} KB)</small>)}</td><td><span className={`pill ${d.status === "VERIFIED" ? "ok" : d.status === "MISSING" ? "bad" : "warn"}`}>{label(d.status)}</span></td>
         <td><form style={{ display: "flex", gap: 4 }}><input type="hidden" name="id" value={a.id} /><input type="hidden" name="docId" value={d.id} /><input name="note" placeholder="Note" aria-label="Note" style={{ width: 150 }} />

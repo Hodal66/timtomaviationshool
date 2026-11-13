@@ -443,6 +443,10 @@ const d: Dict = {
   "Live": "En direct",
   "Paused": "En pause",
   "Refresh automatically every 30 seconds": "Actualiser automatiquement toutes les 30 secondes",
+  "Download admission letter": "Télécharger la lettre d'admission",
+  "Record an enquiry from another channel": "Enregistrer une demande venue d'un autre canal",
+  "General question": "Question générale",
+  "What they asked": "Leur question",
   "My account": "Mon compte",
 };
 export default d;

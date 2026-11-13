@@ -466,6 +466,10 @@ const d: Dict = {
   "Live": "Bikora ako kanya",
   "Paused": "Byahagaritswe",
   "Refresh automatically every 30 seconds": "Kuvugurura buri masegonda 30",
+  "Download admission letter": "Manura ibaruwa yo kwemererwa",
+  "Record an enquiry from another channel": "Andika ikibazo cyaturutse ahandi",
+  "General question": "Ikibazo rusange",
+  "What they asked": "Icyo babajije",
   "My account": "Konti yanjye",
 };
 export default d;

@@ -141,6 +141,8 @@ model Intake {
 }
 
 model Applicant {
+  requirementsMet String[]           @default([])
+  admittedAt      DateTime?
   emailVerifiedAt DateTime?
   id              String             @id @default(cuid())
   fullName        String
