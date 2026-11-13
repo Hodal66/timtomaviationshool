@@ -33,7 +33,7 @@ test.describe("Email verification (OTP) and applicant dashboard", () => {
     await db.programme.update({ where: { slug: "personnel-licensing" }, data: { registrationFeeRwf: 25000 } });
     const email = uniqueEmail(); const a = await apiApply(page.request, { email, fullName: "Dash Board QA" }); expect(a.body.ok, JSON.stringify(a.body)).toBe(true); const ref = a.body.reference as string;
     await page.goto("/me"); await expect(page.locator(".hero h1")).toContainText("Dash"); await expect(page.locator(".hero")).toContainText(email);
-    await expect(page.locator(".panel", { hasText: ref })).toContainText("Personnel"); await expect(page.locator(".steps li")).toHaveCount(5); await expect(page.locator(".steps li.now")).toContainText("Submitted");
+    await expect(page.locator(".panel", { has: page.locator(".steps") }).filter({ hasText: ref })).toContainText("Personnel"); await expect(page.locator(".steps li")).toHaveCount(5); await expect(page.locator(".steps li.now")).toContainText("Submitted");
     await page.getByRole("tab", { name: "Documents" }).click(); await expect(page.locator("tbody tr")).toHaveCount(3);
     const [fc] = await Promise.all([page.waitForEvent("filechooser"), page.locator("tbody tr").first().getByRole("button", { name: /Upload|Replace/ }).click()]); await fc.setFiles(FIX("id.jpg"));
     await expect(page.locator(".toast")).toContainText("Uploaded"); await expect(page.locator("tbody tr").first().locator("a")).toContainText("id.jpg");
@@ -50,7 +50,7 @@ test.describe("Email verification (OTP) and applicant dashboard", () => {
   test("DASH-02 Status changes made by staff show on the applicant's dashboard", async ({ page, browser }) => {
     const email = uniqueEmail(); const a = await apiApply(page.request, { email }); const ref = a.body.reference as string; const rec = await db.applicant.findFirstOrThrow({ where: { reference: ref } });
     await db.applicant.update({ where: { id: rec.id }, data: { status: "DOCUMENTS_VERIFIED" } }); await db.applicationEvent.create({ data: { applicantId: rec.id, type: "STATUS", actorName: "QA Officer", message: "Documents verified by QA." } });
-    await page.goto("/me"); await expect(page.locator(".steps li.now")).toContainText("Documents verified"); await expect(page.locator(".panel", { hasText: ref })).toContainText("Pay the registration fee");
+    await page.goto("/me"); await expect(page.locator(".steps li.now")).toContainText("Documents verified"); await expect(page.locator(".panel", { has: page.locator(".steps") }).filter({ hasText: ref })).toContainText("Pay the registration fee");
     await page.getByRole("tab", { name: "Activity" }).click(); await expect(page.locator("tbody")).toContainText("Documents verified by QA.");
   });
 });

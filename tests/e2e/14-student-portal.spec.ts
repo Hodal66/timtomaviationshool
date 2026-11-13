@@ -1,0 +1,65 @@
+import { test, expect } from "@playwright/test";
+import { db, loginStaff, staff, apiApply, uniqueEmail, signIn, FIX, getState, setState } from "./helpers";
+
+const S = () => getState("portal", () => ({ email: "", aid: "", ref: "", name: "Portal Student " + Date.now() })) as { email: string; aid: string; ref: string; name: string };
+/** Signs in once per run and reuses the session cookie afterwards (the code limit is 5 per email per hour, as for a real student). */
+async function session(page: import("@playwright/test").Page, email: string) { const st = S() as { cookie?: string }; if (st.cookie) { await page.context().addCookies([{ name: "tas_me", value: st.cookie, url: "http://localhost:3100" }]); return; } await signIn(page.request, email); const c = (await page.context().cookies()).find((x) => x.name === "tas_me"); if (c) setState("portal", { cookie: c.value }); }
+const toast = (p: import("@playwright/test").Page) => p.locator(".toast");
+test.describe("Student portal (STU-01..06, STU-11, STU-12)", () => {
+  test("PORTAL-00 set up an enrolled student with a class today and an invoice", async ({ page }) => {
+    await db.programme.update({ where: { slug: "personnel-licensing" }, data: { registrationFeeRwf: 0, entryRequirements: [], feeRwf: 300000 } });
+    const email = uniqueEmail(); const a = await apiApply(page.request, { email, fullName: S().name }); const rec = await db.applicant.findFirstOrThrow({ where: { reference: a.body.reference } });
+    await db.documentItem.updateMany({ where: { applicantId: rec.id }, data: { status: "VERIFIED" } }); await db.applicant.update({ where: { id: rec.id }, data: { status: "REGISTRATION_PAID" } });
+    const { advanceApplicant } = await import("../../src/lib/admissions"); expect(await advanceApplicant(rec.id, "QA")).toBeNull(); expect(await advanceApplicant(rec.id, "QA")).toBeNull();
+    const done = await db.applicant.findUniqueOrThrow({ where: { id: rec.id } }); expect(done.status).toBe("ENROLLED"); const { kigaliDow } = await import("../../src/lib/teaching"); const lect = await staff("LECTURER"); const lu = await db.user.findUniqueOrThrow({ where: { email: lect.email } });
+    const room = await db.room.create({ data: { name: "Portal Room " + Date.now(), branchId: done.branchId } }); await db.timetableSlot.deleteMany({ where: { lecturerId: lu.id } }); await db.timetableSlot.create({ data: { groupId: done.classGroupId!, roomId: room.id, lecturerId: lu.id, dayOfWeek: kigaliDow(), startMin: 1, endMin: 1439, subject: "Portal Subject" } });
+    setState("portal", { email, aid: rec.id, ref: a.body.reference });
+  });
+  test("STU-01 Home screen shows today's class, the next payment and announcements for the student's group", async ({ page, browser }) => {
+    const { email, aid } = S(); const ctx = await browser.newContext(); const sp = await ctx.newPage(); await loginStaff(sp); await sp.goto("/support"); const title = "Exam week notice " + Date.now();
+    await sp.fill("input[name=title]", title); await sp.fill("form.panel textarea[name=body]", "Bring your ID card on Monday."); await sp.getByRole("button", { name: "Post announcement" }).click(); await sp.waitForURL(/ok=1/); await ctx.close();
+    await session(page, email); await page.goto("/me"); const today = page.locator(".panel", { hasText: "Today" }).first(); await expect(today).toContainText("Portal Subject"); await expect(today).toContainText("Next payment"); await expect(today).toContainText("RWF 300,000");
+    await expect(page.locator(".panel", { hasText: "Announcements" })).toContainText(title); expect(aid).toBeTruthy();
+  });
+  test("STU-02 Profile: contact details save at once; a photo can be added; bad input is refused", async ({ page }) => {
+    const { email, aid } = S(); await session(page, email); await page.goto("/me"); await page.getByRole("tab", { name: "Profile" }).click();
+    await page.fill("#pf-en", "Mukamana Jeanne"); await page.getByRole("button", { name: "Save", exact: true }).click(); await expect(toast(page)).toContainText("both the name and the phone");
+    await page.fill("#pf-ep", "+250788999000"); await page.getByRole("button", { name: "Save", exact: true }).click(); await expect(toast(page)).toContainText("Saved"); const a = await db.applicant.findUniqueOrThrow({ where: { id: aid } }); expect([a.emergencyName, a.emergencyPhone]).toEqual(["Mukamana Jeanne", "+250788999000"]);
+    const [fc] = await Promise.all([page.waitForEvent("filechooser"), page.getByRole("button", { name: "Add my photo" }).click()]); await fc.setFiles(FIX("photo.png")); await expect(toast(page)).toContainText("Photo updated"); expect(await db.upload.count({ where: { applicantId: aid, kind: "Profile photo" } })).toBe(1);
+    const bad = await page.request.post("/api/me/photo", { multipart: { applicantId: aid, file: { name: "x.png", mimeType: "image/png", buffer: Buffer.from("not an image") } } }); expect(bad.status()).toBe(415);
+  });
+  test("STU-03/06 Requests: a letter and a schedule change are sent, staff approve one and refuse the other, the student sees the result and downloads the letter", async ({ page, browser }) => {
+    const { email, aid } = S(); await session(page, email); await page.goto("/me"); await page.getByRole("tab", { name: "Requests" }).click();
+    await page.selectOption("#rq-letter", "VISA"); await page.fill("#rq-to", "Embassy of Kenya"); await page.fill("#rq-r", "Study visit in March"); await page.getByRole("button", { name: "Send request" }).click(); await expect(toast(page)).toContainText("Request sent");
+    await page.selectOption("#rq-type", "SESSION_CHANGE"); await page.selectOption("#rq-s", "WEEKEND"); await page.fill("#rq-r", "I started a weekday job"); await page.getByRole("button", { name: "Send request" }).click(); await expect(page.locator(".pill", { hasText: "Waiting for a decision" })).toHaveCount(2);
+    expect((await page.request.get(`/api/me/doc?a=${aid}&kind=letter&id=${(await db.studentRequest.findFirstOrThrow({ where: { applicantId: aid, type: "LETTER" } })).id}`)).status(), "no letter before approval").toBe(409);
+    const ctx = await browser.newContext(); const sp = await ctx.newPage(); await loginStaff(sp, await staff("ADMISSIONS")); await sp.goto("/requests"); const letter = sp.locator("[data-request]", { hasText: "Visa support letter" }).filter({ hasText: S().name }), sess = sp.locator("[data-request]", { hasText: "schedule weekday → weekend" }).filter({ hasText: S().name });
+    await expect(letter).toContainText("Embassy of Kenya"); await letter.getByRole("button", { name: "Approve" }).click(); await sp.waitForURL(/ok=1/);
+    await sess.getByRole("button", { name: "Refuse" }).click(); await sp.waitForURL(/e=/); await expect(sp.locator(".err")).toContainText("reason"); await sess.locator("input[name=note]").fill("The weekend group is full this intake"); await sess.getByRole("button", { name: "Refuse" }).click(); await sp.waitForURL(/ok=1/);
+    const lp = await ctx.newPage(); await loginStaff(lp, await staff("LECTURER")); await lp.goto("/requests"); await expect(lp, "lecturers cannot decide requests").toHaveURL(/dashboard/); await ctx.close();
+    expect((await db.applicant.findUniqueOrThrow({ where: { id: aid } })).session).toBe("WEEKDAY"); await page.reload(); await page.getByRole("tab", { name: "Requests" }).click(); await expect(page.locator(".panel", { hasText: "My requests" })).toContainText("The weekend group is full"); await expect(page.locator(".pill", { hasText: /^Approved$/ })).toHaveCount(1);
+    const [dl] = await Promise.all([page.waitForEvent("download"), page.locator(".panel", { hasText: "My requests" }).getByRole("link", { name: "Download" }).click()]); expect(dl.suggestedFilename()).toMatch(/^Visa-support-letter-.*\.pdf$/);
+  });
+  test("STU-05 Documents: instant PDFs and one ZIP; a document's QR code verifies on the public page; another student cannot fetch them", async ({ page, browser }) => {
+    const { email, aid, ref } = S(); await session(page, email); await page.goto("/me"); await page.getByRole("tab", { name: "Documents" }).click(); const box = page.locator(".panel", { hasText: "Official documents" });
+    for (const name of ["Admission letter", "Confirmation of enrolment", "Statement of account", "Visa support letter"]) await expect(box.getByRole("link", { name })).toBeVisible();
+    const pdf = await page.request.get(`/api/me/doc?a=${aid}&kind=enrolment`); expect([pdf.status(), pdf.headers()["content-type"]]).toEqual([200, "application/pdf"]); expect((await pdf.body()).subarray(0, 5).toString()).toBe("%PDF-");
+    const [dl] = await Promise.all([page.waitForEvent("download"), box.getByRole("link", { name: "Download everything (ZIP)" }).click()]); expect(dl.suggestedFilename()).toBe(`My-documents-${ref}.zip`); const { unzipSync } = await import("fflate"); const names = Object.keys(unzipSync(new Uint8Array(await (await import("node:fs")).promises.readFile(await dl.path())))); expect(names.length).toBeGreaterThanOrEqual(5); expect(names.some((n) => n.startsWith("uploaded/"))).toBe(true);
+    const other = await browser.newContext(); await signIn(other.request, uniqueEmail()); expect((await other.request.get(`/api/me/doc?a=${aid}&kind=enrolment`)).status()).toBe(403); expect((await other.request.get(`/api/me/zip?a=${aid}`)).status()).toBe(403);
+    const { docCode } = await import("../../src/lib/docs"); const v = await other.newPage(); await v.goto(`/verify?doc=ENR-${ref}&k=${docCode("ENR-" + ref)}`); await expect(v.locator(".pill.ok", { hasText: "Genuine" })).toBeVisible(); await expect(v.locator("body")).toContainText("currently enrolled"); await v.goto(`/verify?doc=ENR-${ref}&k=000000000000`); await expect(v.locator(".err")).toContainText("Not confirmed"); await other.close();
+  });
+  test("STU-11 Support: the student asks, staff answer, the student rates and the ticket closes", async ({ page, browser }) => {
+    const { email, aid } = S(); await session(page, email); await page.goto("/me"); await page.getByRole("tab", { name: "Support" }).click(); const subject = "Timetable question " + Date.now();
+    await page.selectOption("#tk-c", "Academic"); await page.fill("#tk-s", subject); await page.fill("#tk-b", "Can I see last week's recording?"); await page.getByRole("button", { name: "Send", exact: true }).first().click(); await expect(toast(page)).toContainText("question was sent"); const mine = page.locator("[data-ticket]", { hasText: subject }); await expect(mine).toContainText("Waiting for an answer");
+    const ctx = await browser.newContext(); const sp = await ctx.newPage(); await loginStaff(sp, await staff("ACADEMIC")); await sp.goto("/support"); const tk = sp.locator("[data-ticket]", { hasText: subject }); await tk.locator("textarea[name=body]").fill("Yes, it is under your class resources."); await tk.getByRole("button", { name: "Send answer" }).click(); await sp.waitForURL(/ok=1/); await ctx.close();
+    await page.reload(); await page.getByRole("tab", { name: "Support" }).click(); await expect(mine).toContainText("Yes, it is under your class resources."); await mine.getByRole("button", { name: "5 out of 5" }).click(); await expect(toast(page)).toContainText("Thank you for your rating"); await expect(mine).toContainText("Closed · 5/5");
+    const t = await db.ticket.findFirstOrThrow({ where: { applicantId: aid, subject } }); expect([t.status, t.rating]).toEqual(["CLOSED", 5]);
+  });
+  test("STU-12 Digital ID: the card shows a QR; scanning it confirms a current student; the lecturer marks attendance from it; a forged link fails", async ({ page, browser }) => {
+    const { email, aid, ref } = S(); await session(page, email); await page.goto("/me"); await page.getByRole("tab", { name: "ID card" }).click(); await expect(page.locator(".idcard")).toContainText(S().name); await expect(page.locator(".idcard")).toContainText(ref); await expect(page.locator(".idcard-q svg")).toBeVisible(); await expect(page.locator(".idcard-b img")).toBeVisible();
+    const { idToken } = await import("../../src/lib/student"); const tok = idToken(aid); const pub = await browser.newContext(); const pp = await pub.newPage(); await pp.goto(`/id/${tok}`); await expect(pp.locator(".pill.ok")).toContainText("Valid student ID"); await expect(pp.locator("body")).toContainText(S().name); await expect(pp.getByRole("button", { name: /Mark present/ })).toHaveCount(0);
+    expect((await pub.request.post(`/api/id/${tok}/mark`)).status()).toBe(403); expect((await pub.request.get(`/api/id/${tok}/photo`)).status()).toBe(200); await pp.goto(`/id/${aid}.0000000000000000`); await expect(pp.locator(".err")).toContainText("Not a valid student ID"); await pub.close();
+    const lctx = await browser.newContext(); const lp = await lctx.newPage(); await loginStaff(lp, await staff("LECTURER")); await lp.goto(`/id/${tok}`); await lp.getByRole("button", { name: /Mark present/ }).click(); await expect(lp.locator("#idmark-msg")).toContainText(/Marked (present|late) for Portal Subject/); await lctx.close();
+    const rec = await db.attendance.findFirstOrThrow({ where: { applicantId: aid } }); expect(rec.method).toBe("QR");
+  });
+});

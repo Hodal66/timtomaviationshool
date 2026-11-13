@@ -1,12 +1,15 @@
 import { db } from "@/lib/db";
 import { letterCodeOk, LETTER_STAGES } from "@/lib/letter";
 import { label } from "@/lib/format";
+import { docCodeOk } from "@/lib/docs";
+import { describeDoc } from "@/lib/student-docs";
 export const dynamic = "force-dynamic";
 
-export default async function Verify({ searchParams }: { searchParams: Promise<{ n?: string; letter?: string; k?: string }> }) {
+export default async function Verify({ searchParams }: { searchParams: Promise<{ n?: string; letter?: string; k?: string; doc?: string }> }) {
   const sp = await searchParams; const n = sp.n?.trim().toUpperCase();
   const lref = sp.letter?.trim().toUpperCase(), lk = sp.k?.trim() ?? "";
   const la = lref && letterCodeOk(lref, lk) ? await db.applicant.findUnique({ where: { reference: lref }, include: { programme: true, branch: true, intake: true } }) : null;
+  const docId = sp.doc?.trim() ?? ""; const docText = docId && docCodeOk(docId, lk) ? await describeDoc(docId) : null;
   const letterOk = !!la && LETTER_STAGES.includes(la.status);
   const c = n ? await db.certificate.findUnique({ where: { number: n }, include: { holder: true, programme: true } }) : null;
   return (<div className="center"><div className="box" style={{ maxWidth: 480 }}>
@@ -16,6 +19,7 @@ export default async function Verify({ searchParams }: { searchParams: Promise<{
     {n && !c && <p className="err"><b>Not found.</b> Check the number on the certificate or scan its QR code.</p>}
     {c && c.status === "VALID" && <p><span className="pill ok">Valid</span><br /><b>{c.number}</b> was issued to {c.holder.fullName} for {c.programme.name} by {c.issuer} on {c.issuedOn.toISOString().slice(0, 10)}.</p>}
     {c && c.status === "REVOKED" && <p className="err"><b>Revoked.</b> This certificate must not be accepted.</p>}
+    {docId && (docText ? <p><span className="pill ok">Genuine</span><br />Document <b>{docId}</b>: {docText}</p> : <p className="err"><b>Not confirmed.</b> The reference and code do not match a document issued by the School.</p>)}
     <hr style={{ width: "100%", border: 0, borderTop: "1px solid var(--line)" }} />
     <h2 style={{ fontSize: 16 }}>Verify an admission letter</h2>
     <form style={{ display: "grid", gap: 8 }}><input name="letter" defaultValue={lref ?? ""} placeholder="TAS-2611-ABCDE" aria-label="Application reference" /><input name="k" defaultValue={lk} placeholder="Verification code" aria-label="Verification code" /><button className="p" type="submit">Verify letter</button></form>

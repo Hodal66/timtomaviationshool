@@ -94,3 +94,10 @@ select,input{max-width:100%}.panel{min-width:0}.dt-bar select{max-width:240px}fo
 .tt-t{font-size:12px;color:var(--muted);padding:6px 4px;text-align:right}.tt-c{min-height:64px;border:1px dashed var(--line);border-radius:10px;padding:4px;display:grid;gap:4px;align-content:start}.tt-c.over{border-color:var(--orange);background:var(--blue-soft)}
 .tt-s{background:var(--grad);color:#fff;border-radius:10px;padding:8px;display:grid;gap:2px;cursor:grab;box-shadow:var(--sh)}.tt-s small{opacity:.92;font-size:11px}.tt-s:active{cursor:grabbing}
 .tt-a,.tt-m{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}.tt-s .s{background:rgba(255,255,255,.18);color:#fff;border-color:transparent;min-height:26px;padding:2px 8px;font-size:12px}.tt-m select,.tt-m input{min-height:28px;padding:2px 6px;font-size:12px}
+/* Student ID card */
+.idcard{width:min(380px,100%);border-radius:18px;overflow:hidden;background:#fff;color:#0A2240;box-shadow:var(--sh);border:1px solid var(--line)}
+.idcard-h{background:var(--grad);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}.idcard-b{display:flex;gap:14px;padding:16px;align-items:center}
+.idcard-b img,.idcard-ph{width:84px;height:84px;border-radius:14px;object-fit:cover;flex:none}.idcard-ph{background:#EAF2FC;display:grid;place-items:center;font:600 28px Poppins,sans-serif;color:#0B4DA2}
+.idcard-q{display:grid;place-items:center;padding:0 16px 16px}.idcard-q svg{width:150px;height:150px}
+@media print{.ds-side,.ds-top,.tabs,.hero,.kpis,.totop,.toast{display:none!important}.ds{display:block}}
+textarea{width:100%}

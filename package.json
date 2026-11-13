@@ -16,6 +16,7 @@
   "dependencies": {
     "@prisma/client": "6.19.0",
     "bcryptjs": "2.4.3",
+    "fflate": "^0.8.3",
     "jose": "5.9.6",
     "next": "^15.5.29",
     "nodemailer": "^6.9.16",

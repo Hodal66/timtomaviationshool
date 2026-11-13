@@ -141,6 +141,10 @@ model Intake {
 }
 
 model Applicant {
+  emergencyName     String?
+  emergencyPhone    String?
+  requests          StudentRequest[]
+  tickets           Ticket[]
   attendanceAlertAt DateTime?
   requirementsMet   String[]           @default([])
   admittedAt        DateTime?
@@ -481,4 +485,56 @@ model ExchangeRate {
   rwfPerUnit Float
   updatedBy  String?
   updatedAt  DateTime @default(now()) @updatedAt
+}
+
+/// A request from a student that staff approve or refuse: profile change, session change, or an official letter.
+model StudentRequest {
+  id          String    @id @default(cuid())
+  applicantId String
+  applicant   Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  type        String
+  detail      Json      @default("{}")
+  reason      String?
+  status      String    @default("PENDING")
+  note        String?
+  decidedBy   String?
+  decidedAt   DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([status])
+}
+
+model Ticket {
+  id          String          @id @default(cuid())
+  applicantId String
+  applicant   Applicant       @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  subject     String
+  category    String          @default("General")
+  status      String          @default("OPEN")
+  rating      Int?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @default(now())
+  messages    TicketMessage[]
+
+  @@index([status])
+}
+
+model TicketMessage {
+  id        String   @id @default(cuid())
+  ticketId  String
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  fromStaff Boolean  @default(false)
+  author    String
+  body      String
+  createdAt DateTime @default(now())
+}
+
+/// A notice to all students or to one class group.
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  body      String
+  groupId   String?
+  createdBy String
+  createdAt DateTime @default(now())
 }

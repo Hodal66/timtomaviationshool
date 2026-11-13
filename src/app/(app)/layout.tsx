@@ -15,7 +15,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const nav: (NavItem | false)[] = [
     { href: "/dashboard", label: t("Dashboard"), icon: "home" }, can.reports(r) && { href: "/executive", label: t("Executive"), icon: "chart" },
     can.viewApplicants(r) && { href: "/admissions", label: t("Admissions"), icon: "users" }, can.enquiries(r) && { href: "/enquiries", label: t("Enquiries"), icon: "mail" },
-    can.admissions(r) && { href: "/messages", label: t("Messages"), icon: "mail" }, can.editContent(r) && { href: "/admin/courses", label: t("Courses"), icon: "book" },
+    can.admissions(r) && { href: "/requests", label: t("Requests"), icon: "file" }, can.reports(r) && { href: "/support", label: t("Support"), icon: "mail" }, can.admissions(r) && { href: "/messages", label: t("Messages"), icon: "mail" }, can.editContent(r) && { href: "/admin/courses", label: t("Courses"), icon: "book" },
     r === "ADMIN" && { href: "/admin/users", label: t("Staff"), icon: "user" }, can.editContent(r) && { href: "/media", label: t("Media"), icon: "image" }, can.viewApplicants(r) && { href: "/payments", label: t("Payments"), icon: "card" },
     can.reports(r) && { href: "/certificates", label: t("Certificates"), icon: "award" }, { href: "/timetable", label: t("Timetable"), icon: "cal" }, { href: "/attendance", label: t("Attendance"), icon: "check" },
   ];

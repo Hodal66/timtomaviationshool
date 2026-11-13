@@ -1,0 +1,48 @@
+import { describe, it, expect, beforeAll } from "vitest";
+import { PDFDocument } from "pdf-lib";
+import { unzipSync } from "fflate";
+import { db, uniquePhone } from "./db";
+import { updateProfile, createRequest, decideRequest, openTicket, replyTicket, rateTicket, idToken, readIdToken } from "@/lib/student";
+import { studentDoc, allStudentDocs, describeDoc } from "@/lib/student-docs";
+import { docCode, docCodeOk } from "@/lib/docs";
+import { zipSync } from "fflate";
+
+let n = 0; const u = () => `${Date.now().toString(36)}${n++}`;
+async function student(status = "ENROLLED") {
+  const prog = await db.programme.create({ data: { code: "STU" + u(), name: "Student Test " + u(), type: "CERTIFICATE", status: "DRAFT", feeRwf: 90000 } }); const br = await db.branch.findFirstOrThrow({ orderBy: { code: "asc" } }); const it = await db.intake.findFirstOrThrow();
+  return db.applicant.create({ data: { fullName: "Stu Dent", email: `s${u()}@example.com`, phone: uniquePhone(), reference: "TAS-S-" + u().toUpperCase(), status: status as never, session: "WEEKDAY", admittedAt: new Date(), programmeId: prog.id, branchId: br.id, intakeId: it.id } });
+}
+describe("student portal", () => {
+  beforeAll(() => { process.env.AUTH_SECRET ??= "integration-secret"; });
+  it("ID tokens are signed: a changed id or signature is rejected (STU-12)", () => { const t = idToken("abc123"); expect(readIdToken(t)).toBe("abc123"); expect(readIdToken(t.replace("abc123", "abc124"))).toBeNull(); expect(readIdToken("abc123.0000000000000000")).toBeNull(); expect(readIdToken("")).toBeNull(); expect(readIdToken("abc123")).toBeNull(); });
+  it("contact details update at once, with validation (STU-02)", async () => { const a = await student();
+    expect(await updateProfile(a.id, { phone: "123" })).toMatch(/too short/); expect(await updateProfile(a.id, { emergencyName: "Mum" })).toMatch(/both the name and the phone/); expect(await updateProfile(a.id, { emergencyName: "Mum", emergencyPhone: "12" })).toMatch(/too short/);
+    expect(await updateProfile(a.id, { phone: "0788 111 222", emergencyName: " Mukamana ", emergencyPhone: "+250 788 333 444" })).toBeNull(); const x = await db.applicant.findUniqueOrThrow({ where: { id: a.id } }); expect([x.phone, x.emergencyName, x.emergencyPhone]).toEqual(["0788111222", "Mukamana", "+250788333444"]); });
+  it("name changes need approval and only apply when approved; refusing needs a reason (STU-02)", async () => { const a = await student();
+    expect(await createRequest(a.id, { type: "PROFILE_CHANGE" })).toMatch(/new name or date/); expect(await createRequest(a.id, { type: "PROFILE_CHANGE", fullName: "Stu Denton" })).toMatch(/why/); expect(await createRequest(a.id, { type: "PROFILE_CHANGE", dob: "31/01/2000", reason: "x" })).toMatch(/date of birth/);
+    expect(await createRequest(a.id, { type: "PROFILE_CHANGE", fullName: "Stu Denton", dob: "2001-05-06", reason: "Spelling on my ID" })).toBeNull(); expect(await createRequest(a.id, { type: "PROFILE_CHANGE", fullName: "Other", reason: "again" })).toMatch(/already have a request/);
+    expect((await db.applicant.findUniqueOrThrow({ where: { id: a.id } })).fullName).toBe("Stu Dent"); const r = await db.studentRequest.findFirstOrThrow({ where: { applicantId: a.id } });
+    expect(await decideRequest(r.id, false, "Officer")).toMatch(/reason/); expect(await decideRequest(r.id, true, "Officer")).toBeNull(); const x = await db.applicant.findUniqueOrThrow({ where: { id: a.id } }); expect([x.fullName, x.dateOfBirth?.toISOString().slice(0, 10)]).toEqual(["Stu Denton", "2001-05-06"]); expect(await decideRequest(r.id, true, "Officer")).toMatch(/already decided/); });
+  it("a schedule change moves the student to the right class group when approved, and not when refused (STU-03)", async () => { const a = await student(); const b = await student();
+    expect(await createRequest(a.id, { type: "SESSION_CHANGE", session: "WEEKDAY", reason: "x" })).toMatch(/different schedule/); expect(await createRequest(a.id, { type: "SESSION_CHANGE", session: "WEEKEND" })).toMatch(/why/); expect(await createRequest(a.id, { type: "SESSION_CHANGE", branchId: "nope", reason: "x" })).toMatch(/branch/);
+    expect(await createRequest(a.id, { type: "SESSION_CHANGE", session: "WEEKEND", reason: "New job" })).toBeNull(); expect(await createRequest(b.id, { type: "SESSION_CHANGE", session: "WEEKEND", reason: "Prefer it" })).toBeNull();
+    const [ra, rb] = await Promise.all([db.studentRequest.findFirstOrThrow({ where: { applicantId: a.id } }), db.studentRequest.findFirstOrThrow({ where: { applicantId: b.id } })]); expect(await decideRequest(ra.id, true, "Officer")).toBeNull(); expect(await decideRequest(rb.id, false, "Officer", "The weekend group is full")).toBeNull();
+    const x = await db.applicant.findUniqueOrThrow({ where: { id: a.id }, include: { classGroup: true } }); expect(x.session).toBe("WEEKEND"); expect(x.classGroup!.session).toBe("WEEKEND"); expect(x.classGroup!.programmeId).toBe(a.programmeId); expect((await db.applicant.findUniqueOrThrow({ where: { id: b.id } })).session).toBe("WEEKDAY");
+    expect((await db.studentRequest.findUniqueOrThrow({ where: { id: rb.id } })).note).toBe("The weekend group is full"); });
+  it("requests are for enrolled students only", async () => { const a = await student("ADMITTED"); expect(await createRequest(a.id, { type: "LETTER", letter: "VISA", reason: "Travel" })).toMatch(/once you are enrolled/); expect(await createRequest("nope", { type: "LETTER" })).toMatch(/not found/); });
+  it("letters download only after approval; enrolment confirmation and statement are instant; all are valid PDFs with a checkable code (STU-05, STU-06)", async () => { const a = await student(); await db.invoice.create({ data: { reference: "TUI-" + a.reference + "-1", applicantId: a.id, kind: "TUITION", description: "Tuition", amountMinor: 90000 } });
+    expect(await createRequest(a.id, { type: "LETTER", letter: "NOPE", reason: "x" })).toMatch(/kind of letter/); expect(await createRequest(a.id, { type: "LETTER", letter: "VISA", addressedTo: "Embassy of Kenya", reason: "Study trip" })).toBeNull(); const r = await db.studentRequest.findFirstOrThrow({ where: { applicantId: a.id } });
+    expect(await studentDoc(a.id, "letter", r.id)).toMatch(/not approved yet/); expect(await describeDoc("LTR-" + r.id)).toBeNull(); await decideRequest(r.id, true, "Registrar");
+    for (const [kind, id] of [["letter", r.id], ["enrolment"], ["statement"], ["admission"]] as [string, string?][]) { const d = await studentDoc(a.id, kind, id); if (typeof d === "string") throw new Error(kind + ": " + d); expect(d.name).toMatch(/\.pdf$/); expect((await PDFDocument.load(d.bytes)).getPageCount()).toBeGreaterThanOrEqual(1); }
+    expect(await describeDoc("LTR-" + r.id)).toContain("Visa support letter issued for Stu Dent"); expect(await describeDoc("ENR-" + a.reference)).toContain("currently enrolled"); expect(await describeDoc("ENR-TAS-NOPE")).toBeNull(); expect(await describeDoc("XYZ-1")).toBeNull();
+    expect(docCodeOk("ENR-" + a.reference, docCode("ENR-" + a.reference))).toBe(true); expect(docCodeOk("ENR-" + a.reference, docCode("ENR-OTHER"))).toBe(false); expect(await studentDoc(a.id, "nonsense")).toBe("Unknown document.");
+    const files = await allStudentDocs(a.id); expect(files.map((f) => f.name.split("-")[0]).sort()).toEqual(["Admission", "Enrolment", "Statement", "Visa"]); const zip = unzipSync(zipSync(Object.fromEntries(files.map((f) => [f.name, f.bytes])))); expect(Object.keys(zip)).toHaveLength(4);
+    const b = await student("ADMITTED"); expect(await studentDoc(b.id, "enrolment")).toMatch(/once you are enrolled/); expect(await studentDoc(b.id, "statement")).toMatch(/no invoices/); });
+  it("support: a student asks, staff answer, the student replies and rates; others cannot touch the ticket (STU-11)", async () => { const a = await student(), other = await student();
+    expect(await openTicket(a.id, "Hi", "General", "?", "Stu")).toMatch(/subject and your question/); expect(await openTicket(a.id, "Fees question", "Sports", "How do I pay?", "Stu")).toMatch(/category/); expect(await openTicket(a.id, "Fees question", "Finance", "How do I pay by MoMo?", "Stu Dent")).toBeNull();
+    const t = await db.ticket.findFirstOrThrow({ where: { applicantId: a.id } }); expect(t.status).toBe("OPEN"); expect(await rateTicket(t.id, a.id, 5)).toMatch(/once the School has answered/); expect(await replyTicket(t.id, "hack", { applicantId: other.id, name: "X" })).toMatch(/not found/i);
+    expect(await replyTicket(t.id, "Use the reference on your invoice.", { staff: "Finance Officer" })).toBeNull(); expect((await db.ticket.findUniqueOrThrow({ where: { id: t.id } })).status).toBe("ANSWERED"); expect(await replyTicket(t.id, "Thank you, one more thing", { applicantId: a.id, name: "Stu Dent" })).toBeNull(); expect((await db.ticket.findUniqueOrThrow({ where: { id: t.id } })).status).toBe("OPEN");
+    await replyTicket(t.id, "Sure.", { staff: "Finance Officer" }); expect(await rateTicket(t.id, other.id, 5)).toMatch(/not found/i); expect(await rateTicket(t.id, a.id, 9)).toMatch(/1 to 5/); expect(await rateTicket(t.id, a.id, 4)).toBeNull();
+    const done = await db.ticket.findUniqueOrThrow({ where: { id: t.id }, include: { messages: true } }); expect([done.status, done.rating, done.messages.length]).toEqual(["CLOSED", 4, 4]); expect(await replyTicket(t.id, "more", { applicantId: a.id, name: "Stu" })).toMatch(/closed/);
+    for (let i = 0; i < 5; i++) await openTicket(other.id, "Question " + i, "General", "Body " + i, "O"); expect(await openTicket(other.id, "Question 6", "General", "Body 6", "O")).toMatch(/5 open/); });
+});
