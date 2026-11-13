@@ -4,6 +4,8 @@ import { buildAdmissionLetter, LETTER_STAGES } from "./letter";
 import { balanceOf, paidOn } from "./finance";
 import { money } from "./format";
 import { SITE } from "./site";
+import { resultsFor } from "./assessment";
+import { buildCertificate } from "./certificates";
 
 const full = (id: string) => db.applicant.findUnique({ where: { id }, include: { programme: true, branch: true, intake: true, classGroup: true, invoices: { include: { payments: true }, orderBy: { createdAt: "asc" } }, requests: { where: { type: "LETTER", status: "APPROVED" } } } });
 type A = NonNullable<Awaited<ReturnType<typeof full>>>;
@@ -30,18 +32,26 @@ export async function studentDoc(applicantId: string, kind: string, id?: string)
   if (kind === "enrolment") { if (a.status !== "ENROLLED") return "Available once you are enrolled."; return { name: `Enrolment-confirmation-${a.reference}.pdf`, bytes: await enrolmentLetter(a) }; }
   if (kind === "statement") { if (!a.invoices.length) return "You have no invoices yet."; return { name: `Statement-${a.reference}.pdf`, bytes: await statement(a) }; }
   if (kind === "letter") { const r = a.requests.find((x) => x.id === id); if (!r) return "That letter is not approved yet."; return { name: `${(LETTER_TYPES[(r.detail as { letter: LetterType }).letter] ?? "Letter").replace(/\s+/g, "-")}-${a.reference}.pdf`, bytes: await requestedLetter(a, r) }; }
+  if (kind === "transcript") { const r = await resultsFor(a.id); if (!r || !r.rows.some((x) => x.grade)) return "No published results yet.";
+    return { name: `Transcript-${a.reference}.pdf`, bytes: await buildDoc({ docId: `TRN-${a.reference}`, title: r.result.complete ? "Academic transcript" : "Provisional transcript", office: "Academic Office", signatory: "Head of Academics", date: new Date(), paragraphs: [`Student: ${a.fullName} (${a.reference}). Programme: ${a.programme.name}. Branch: ${a.branch.name}. Intake: ${a.intake.label}.`],
+      table: { head: ["Assessment", "Part of the final mark", "Date", "Score", "%"], widths: [190, 150, 62, 55, 42], rows: r.rows.filter((x) => x.grade).map((x) => [x.title, x.component, x.heldOn?.toISOString().slice(0, 10) ?? "-", `${x.grade!.score} / ${x.maxScore}`, String(Math.round((x.grade!.score / x.maxScore) * 1000) / 10)]) },
+      footer: r.parts_text + ` ${r.result.complete ? `Final mark: ${r.result.overall}%. Pass mark: ${r.scheme.passMark}%. Result: ${r.result.passed ? "PASS" : "NOT PASSED"}.` : `Provisional mark so far: ${r.result.overall ?? "-"}%. Not every part of the grading scheme has a published result yet.`}` }) }; }
+  if (kind === "certificate") { const c = await db.certificate.findFirst({ where: { number: id ?? "", holderId: a.id, status: "VALID" }, include: { programme: true } }); if (!c) return "Certificate not found.";
+    return { name: `Certificate-${c.number}.pdf`, bytes: await buildCertificate({ number: c.number, kind: c.kind, holder: a.fullName, programme: c.programme.name, issuedOn: c.issuedOn, finalMark: c.finalMark, replacesNumber: c.replacesNumber }) }; }
   return "Unknown document.";
 }
 export async function allStudentDocs(applicantId: string): Promise<DocFile[]> {
   const a = await full(applicantId); if (!a) return []; const out: DocFile[] = [];
-  for (const [k, id] of [["admission"], ["enrolment"], ["statement"], ...a.requests.map((r) => ["letter", r.id])] as [string, string?][]) { const d = await studentDoc(applicantId, k, id); if (typeof d !== "string") out.push(d); }
+  const certs = await db.certificate.findMany({ where: { holderId: a.id, status: "VALID" }, select: { number: true } });
+  for (const [k, id] of [["admission"], ["enrolment"], ["statement"], ["transcript"], ...certs.map((c) => ["certificate", c.number]), ...a.requests.map((r) => ["letter", r.id])] as [string, string?][]) { const d = await studentDoc(applicantId, k, id); if (typeof d !== "string") out.push(d); }
   const ups = await db.upload.findMany({ where: { applicantId } }); for (const u of ups) out.push({ name: `uploaded/${u.kind.replace(/[^\w]+/g, "-")}-${u.filename}`, bytes: new Uint8Array(u.data) });
   return out;
 }
 /** For /verify: what a document code confirms. */
 export async function describeDoc(docId: string): Promise<string | null> {
-  const m = docId.match(/^(ENR|STM|LTR)-(.+)$/); if (!m) return null;
+  const m = docId.match(/^(ENR|STM|LTR|TRN)-(.+)$/); if (!m) return null;
   if (m[1] === "LTR") { const r = await db.studentRequest.findUnique({ where: { id: m[2] }, include: { applicant: { include: { programme: true } } } }); if (!r || r.status !== "APPROVED" || r.type !== "LETTER") return null; return `${LETTER_TYPES[(r.detail as { letter: LetterType }).letter] ?? "Letter"} issued for ${r.applicant.fullName}, student of ${r.applicant.programme.name}, approved on ${day(r.decidedAt ?? r.createdAt)}.`; }
   const a = await db.applicant.findUnique({ where: { reference: m[2] }, include: { programme: true, branch: true } }); if (!a) return null;
+  if (m[1] === "TRN") return `Transcript for ${a.fullName} (${a.reference}), ${a.programme.name}. Ask the student for a fresh copy to see current results.`;
   return m[1] === "ENR" ? (a.status === "ENROLLED" ? `${a.fullName} is currently enrolled in ${a.programme.name}, ${a.branch.name} branch.` : `${a.fullName} is not currently enrolled.`) : `Statement of account for ${a.fullName} (${a.reference}). Ask the student for a fresh copy: balances change as payments are confirmed.`;
 }

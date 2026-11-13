@@ -98,6 +98,7 @@ model User {
 }
 
 model Programme {
+  gradingScheme      Json?
   id                 String           @id @default(cuid())
   code               String           @unique
   name               String
@@ -141,6 +142,9 @@ model Intake {
 }
 
 model Applicant {
+  grades            Grade[]
+  submissions       Submission[]
+  exams             ExternalExam[]
   emergencyName     String?
   emergencyPhone    String?
   requests          StudentRequest[]
@@ -238,6 +242,7 @@ model Room {
 }
 
 model ClassGroup {
+  assessments Assessment[]
   id          String          @id @default(cuid())
   name        String          @unique
   programmeId String
@@ -279,15 +284,22 @@ model ClassSession {
 }
 
 model Certificate {
-  id          String            @id @default(cuid())
-  number      String            @unique
-  holderId    String
-  holder      Applicant         @relation(fields: [holderId], references: [id])
-  programmeId String
-  programme   Programme         @relation(fields: [programmeId], references: [id])
-  issuer      String            @default("Timtom Aviation School")
-  status      CertificateStatus @default(VALID)
-  issuedOn    DateTime
+  kind           String            @default("Certificate")
+  finalMark      Float?
+  issuedBy       String?
+  revokedAt      DateTime?
+  revokedBy      String?
+  revokeReason   String?
+  replacesNumber String?
+  id             String            @id @default(cuid())
+  number         String            @unique
+  holderId       String
+  holder         Applicant         @relation(fields: [holderId], references: [id])
+  programmeId    String
+  programme      Programme         @relation(fields: [programmeId], references: [id])
+  issuer         String            @default("Timtom Aviation School")
+  status         CertificateStatus @default(VALID)
+  issuedOn       DateTime
 }
 
 enum ContentStatus {
@@ -537,4 +549,96 @@ model Announcement {
   groupId   String?
   createdBy String
   createdAt DateTime @default(now())
+}
+
+/// A test, assignment or exam for one class group. Grades are visible to students only when status is PUBLISHED.
+model Assessment {
+  id                 String       @id @default(cuid())
+  groupId            String
+  group              ClassGroup   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  title              String
+  component          String
+  maxScore           Float        @default(100)
+  heldOn             DateTime?
+  instructions       String?
+  dueOn              DateTime?
+  acceptsSubmissions Boolean      @default(false)
+  status             String       @default("DRAFT")
+  createdBy          String
+  createdById        String?
+  submittedBy        String?
+  approvedBy         String?
+  reviewNote         String?
+  publishedAt        DateTime?
+  createdAt          DateTime     @default(now())
+  grades             Grade[]
+  submissions        Submission[]
+
+  @@index([groupId])
+}
+
+model Grade {
+  id           String     @id @default(cuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  applicantId  String
+  applicant    Applicant  @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  score        Float
+  feedback     String?
+  updatedBy    String?
+  updatedAt    DateTime   @default(now())
+  appeals      Appeal[]
+
+  @@unique([assessmentId, applicantId])
+}
+
+model Submission {
+  id           String     @id @default(cuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  applicantId  String
+  applicant    Applicant  @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  filename     String
+  mime         String
+  size         Int
+  data         Bytes
+  note         String?
+  submittedAt  DateTime   @default(now())
+
+  @@unique([assessmentId, applicantId])
+}
+
+model Appeal {
+  id          String    @id @default(cuid())
+  gradeId     String
+  grade       Grade     @relation(fields: [gradeId], references: [id], onDelete: Cascade)
+  applicantId String
+  reason      String
+  status      String    @default("PENDING")
+  oldScore    Float?
+  newScore    Float?
+  note        String?
+  decidedBy   String?
+  decidedAt   DateTime?
+  createdAt   DateTime  @default(now())
+}
+
+/// An IATA or ICAO exam taken through the School. Certificates here are issued by IATA/ICAO, not by the School.
+model ExternalExam {
+  id                    String    @id @default(cuid())
+  applicantId           String
+  applicant             Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  body                  String
+  examName              String
+  status                String    @default("REQUESTED")
+  feeAmount             Int?
+  feeCurrency           String    @default("USD")
+  feePaidToBodyOn       DateTime?
+  examDate              DateTime?
+  result                String?
+  certificateNo         String?
+  certificateReceivedOn DateTime?
+  updatedBy             String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @default(now())
 }

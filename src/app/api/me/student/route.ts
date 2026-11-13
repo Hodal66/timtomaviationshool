@@ -1,5 +1,7 @@
 import { myApplication } from "@/lib/me";
 import { updateProfile, createRequest, openTicket, replyTicket, rateTicket } from "@/lib/student";
+import { lodgeAppeal } from "@/lib/assessment";
+import { requestExam } from "@/lib/certificates";
 import { limited, clientIp } from "@/lib/ratelimit";
 /** Student self-service actions. Each one is checked against the signed-in student's own record. */
 export async function POST(req: Request) {
@@ -11,5 +13,7 @@ export async function POST(req: Request) {
   else if (act === "ticket") err = await openTicket(a.id, b.subject, b.category, b.body, a.fullName);
   else if (act === "reply") err = await replyTicket(String(b.ticketId), b.body, { applicantId: a.id, name: a.fullName });
   else if (act === "rate") err = await rateTicket(String(b.ticketId), a.id, Number(b.rating));
+  else if (act === "appeal") err = await lodgeAppeal(a.id, String(b.gradeId), b.reason);
+  else if (act === "exam") err = await requestExam(a.id, String(b.body), b.examName);
   return Response.json(err ? { ok: false, error: err } : { ok: true }, { status: err ? 400 : 200 });
 }

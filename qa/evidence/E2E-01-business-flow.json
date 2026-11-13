@@ -1,27 +1,27 @@
 {
-  "executedAt": "2026-11-13T06:02:20.028Z",
+  "executedAt": "2026-11-13T06:22:18.391Z",
   "steps": [
     {
       "step": 1,
       "what": "Administrator creates a test course",
       "expected": "Draft record exists",
       "actual": {
-        "programmeId": "cmwekkqoa009g7dpziu3bmnbf",
+        "programmeId": "cmwelad2h009h7d8qsbjau9rl",
         "status": "DRAFT"
       },
       "ok": true,
-      "at": "2026-11-13T06:02:11.503Z"
+      "at": "2026-11-13T06:22:06.949Z"
     },
     {
       "step": 2,
       "what": "Course saved in the central database",
       "expected": "name, fee stored",
       "actual": {
-        "name": "QA E2E Programme 1794549730446",
+        "name": "QA E2E Programme 1794550925829",
         "feeRwf": 250000
       },
       "ok": true,
-      "at": "2026-11-13T06:02:11.504Z"
+      "at": "2026-11-13T06:22:06.950Z"
     },
     {
       "step": 3,
@@ -29,7 +29,7 @@
       "expected": "Status APPROVED",
       "actual": "APPROVED",
       "ok": true,
-      "at": "2026-11-13T06:02:13.925Z"
+      "at": "2026-11-13T06:22:09.580Z"
     },
     {
       "step": 4,
@@ -37,7 +37,7 @@
       "expected": "Status PUBLISHED",
       "actual": "PUBLISHED",
       "ok": true,
-      "at": "2026-11-13T06:02:14.895Z"
+      "at": "2026-11-13T06:22:10.564Z"
     },
     {
       "step": 5,
@@ -45,26 +45,26 @@
       "expected": "1 card",
       "actual": 1,
       "ok": true,
-      "at": "2026-11-13T06:02:15.855Z"
+      "at": "2026-11-13T06:22:11.553Z"
     },
     {
       "step": 6,
       "what": "Course page shows correct information",
       "expected": "title and fee",
       "actual": {
-        "h1": "QA E2E Programme 1794549730446",
-        "url": "http://localhost:3100/courses/qa-e2e-programme-1794549730446"
+        "h1": "QA E2E Programme 1794550925829",
+        "url": "http://localhost:3100/courses/qa-e2e-programme-1794550925829"
       },
       "ok": true,
-      "at": "2026-11-13T06:02:16.048Z"
+      "at": "2026-11-13T06:22:11.752Z"
     },
     {
       "step": 7,
       "what": "Apply Now selects the correct programme",
-      "expected": "qa-e2e-programme-1794549730446",
-      "actual": "qa-e2e-programme-1794549730446",
+      "expected": "qa-e2e-programme-1794550925829",
+      "actual": "qa-e2e-programme-1794550925829",
       "ok": true,
-      "at": "2026-11-13T06:02:16.244Z"
+      "at": "2026-11-13T06:22:11.928Z"
     },
     {
       "step": 8,
@@ -75,14 +75,14 @@
         "status": 200,
         "response": {
           "ok": true,
-          "reference": "TAS-2611-9GHQ4"
+          "reference": "TAS-2611-PMUBQ"
         },
-        "applicationId": "cmwekkv4k00a07dpzua8u58y1"
+        "applicationId": "cmwelajpu00a17d8qqx9brzic"
       },
       "ok": true,
-      "at": "2026-11-13T06:02:17.236Z",
-      "programmeId": "cmwekkqoa009g7dpziu3bmnbf",
-      "applicationId": "cmwekkv4k00a07dpzua8u58y1"
+      "at": "2026-11-13T06:22:15.514Z",
+      "programmeId": "cmwelad2h009h7d8qsbjau9rl",
+      "applicationId": "cmwelajpu00a17d8qqx9brzic"
     },
     {
       "step": 9,
@@ -90,7 +90,7 @@
       "expected": "card visible",
       "actual": 1,
       "ok": true,
-      "at": "2026-11-13T06:02:17.314Z"
+      "at": "2026-11-13T06:22:15.608Z"
     },
     {
       "step": 10,
@@ -98,7 +98,7 @@
       "expected": "3 VERIFIED",
       "actual": 3,
       "ok": true,
-      "at": "2026-11-13T06:02:19.051Z"
+      "at": "2026-11-13T06:22:17.407Z"
     },
     {
       "step": 11,
@@ -106,15 +106,15 @@
       "expected": "DOCUMENTS_VERIFIED",
       "actual": "DOCUMENTS_VERIFIED",
       "ok": true,
-      "at": "2026-11-13T06:02:19.845Z"
+      "at": "2026-11-13T06:22:18.217Z"
     },
     {
       "step": 12,
       "what": "Applicant sees the updated status",
       "expected": "Documents verified",
-      "actual": "QA E2E Programme 1794549730446\n\nStart January 2027 · Goma · Weekday · Ref TAS-2611-9GHQ4\n\nNext: Your documents are verif",
+      "actual": "QA E2E Programme 1794550925829\n\nStart January 2027 · Goma · Weekday · Ref TAS-2611-PMUBQ\n\nNext: Your documents are verif",
       "ok": true,
-      "at": "2026-11-13T06:02:19.926Z"
+      "at": "2026-11-13T06:22:18.301Z"
     },
     {
       "step": 13,
@@ -125,7 +125,7 @@
         "utmCampaign": "e2e-01"
       },
       "ok": true,
-      "at": "2026-11-13T06:02:19.927Z"
+      "at": "2026-11-13T06:22:18.302Z"
     },
     {
       "step": 14,
@@ -133,7 +133,7 @@
       "expected": "qa-source listed",
       "actual": "visible",
       "ok": true,
-      "at": "2026-11-13T06:02:20.027Z"
+      "at": "2026-11-13T06:22:18.390Z"
     }
   ]
 }

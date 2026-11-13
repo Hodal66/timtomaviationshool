@@ -12,6 +12,7 @@ import QRCode from "qrcode";
 import { idToken } from "@/lib/student";
 import { LETTER_TYPES } from "@/lib/docs";
 import { kigaliDow } from "@/lib/teaching";
+import { resultsFor } from "@/lib/assessment";
 import { MeDashboard, type MeApp } from "@/components/MeDashboard";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "My dashboard | Timtom Aviation School", robots: { index: false } };
@@ -46,7 +47,15 @@ export default async function Me() {
     canPlan: ["ADMITTED", "ENROLLED"].includes(a.status) && a.invoices.some((i) => i.kind === "TUITION") && !a.invoices.some((i) => i.kind === "TUITION" && i.payments.length > 0), plan: a.invoices.filter((i) => i.kind === "TUITION").length,
     events: a.events.map((e) => ({ at: e.createdAt.toISOString().slice(0, 16).replace("T", " "), message: e.message, actor: e.actorName })),
   }));
-  const services = { portal, branches, letterTypes: Object.entries(LETTER_TYPES).map(([k, v]) => ({ k, label: t(v) })), announcements: notes.map((n) => ({ id: n.id, title: n.title, body: n.body, at: n.createdAt.toISOString().slice(0, 10) })),
+  const [certs, exams, openWork, mySubs] = await Promise.all([db.certificate.findMany({ where: { holderId: { in: ids }, status: "VALID" }, include: { programme: true } }), db.externalExam.findMany({ where: { applicantId: { in: ids } }, orderBy: { createdAt: "desc" } }),
+    db.assessment.findMany({ where: { groupId: { in: gids }, acceptsSubmissions: true }, orderBy: { createdAt: "desc" }, take: 30 }), db.submission.findMany({ where: { applicantId: { in: ids } }, select: { assessmentId: true, applicantId: true, filename: true } })]);
+  const study = Object.fromEntries(await Promise.all(rows.map(async (a) => { const r = a.classGroupId ? await resultsFor(a.id) : null; const d = (x: Date | null | undefined) => x?.toISOString().slice(0, 10) ?? "";
+    return [a.id, { passMark: r?.scheme.passMark ?? 0, overall: r?.result.overall ?? null, complete: r?.result.complete ?? false, passed: r?.result.passed ?? null, parts: r?.result.parts ?? [],
+      rows: (r?.rows ?? []).map((x) => ({ id: x.id, title: x.title, component: x.component, max: x.maxScore, date: d(x.heldOn), score: x.grade?.score ?? null, feedback: x.grade?.feedback ?? "", gradeId: x.grade?.id ?? "", appeal: x.grade?.appeals[0] ? { status: x.grade.appeals[0].status, note: x.grade.appeals[0].note ?? "" } : null })),
+      work: openWork.filter((w) => w.groupId === a.classGroupId).map((w) => ({ id: w.id, title: w.title, due: d(w.dueOn), instructions: w.instructions ?? "", open: w.status === "DRAFT", file: mySubs.find((s) => s.assessmentId === w.id && s.applicantId === a.id)?.filename ?? "" })),
+      transcript: r?.rows.some((x) => x.grade) ? `/api/me/doc?a=${a.id}&kind=transcript` : "", certs: certs.filter((c) => c.holderId === a.id).map((c) => ({ number: c.number, kind: c.kind, programme: c.programme.name, href: `/api/me/doc?a=${a.id}&kind=certificate&id=${c.number}` })),
+      exams: exams.filter((e) => e.applicantId === a.id).map((e) => ({ id: e.id, body: e.body, name: e.examName, status: e.status, date: d(e.examDate), result: e.result ?? "", cert: e.certificateNo ?? "", feePaid: d(e.feePaidToBodyOn) })) }]; })));
+  const services = { study, portal, branches, letterTypes: Object.entries(LETTER_TYPES).map(([k, v]) => ({ k, label: t(v) })), announcements: notes.map((n) => ({ id: n.id, title: n.title, body: n.body, at: n.createdAt.toISOString().slice(0, 10) })),
     tickets: tix.map((k) => ({ id: k.id, applicantId: k.applicantId, subject: k.subject, category: k.category, status: k.status, rating: k.rating, messages: k.messages.map((m) => ({ id: m.id, staff: m.fromStaff, author: m.fromStaff ? m.author : t("You"), body: m.body, at: m.createdAt.toISOString().slice(0, 16).replace("T", " ") })) })) };
   return <MeDashboard email={email} apps={apps} stages={STAGES.map((s) => ({ key: s, label: t(label(s)) }))} services={services} />;
 }

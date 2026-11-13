@@ -4,14 +4,14 @@ import { useRouter } from "next/navigation";
 import { DataTable, type Col, type Row } from "@/components/dash/DataTable";
 import { Icon } from "@/components/dash/icons";
 import { useT } from "@/lib/i18n/client";
-import { TodayPanel, DocDownloads, IdCard, ProfileEditor, Requests, Support, type Services } from "@/components/StudentServices";
+import { StudyPanel, TodayPanel, DocDownloads, IdCard, ProfileEditor, Requests, Support, type Services } from "@/components/StudentServices";
 
 export type MeApp = { id: string; reference: string; programme: string; slug: string; branch: string; intake: string; session: string; status: string; statusLabel: string; next: string; at: string; name: string; phone: string; dob: string; verified: boolean;
   docs: { id: string; kind: string; status: string; note: string; file: { id: string; filename: string; size: number } | null }[]; invoices: { id: string; reference: string; description: string; amount: string; value: number; status: string; paid: string; due: string; overdue: boolean; left: number; leftText: string; kind: string; reported: number }[]; group: string; calendar: string; attendance: number | null; sessions: number; classes: { id: string; day: string; dow: number; time: string; subject: string; room: string; lecturer: string }[]; money: { billed: string; paid: string; balance: string; due: number }; canPlan: boolean; plan: number; events: { at: string; message: string; actor: string }[] };
 const tone = (s: string) => (["VERIFIED", "PAID", "ENROLLED", "ADMITTED"].includes(s) ? "ok" : ["MISSING", "REJECTED"].includes(s) ? "bad" : ["RECEIVED", "PENDING", "SUBMITTED", "DOCUMENTS_VERIFIED", "REGISTRATION_PAID"].includes(s) ? "warn" : "");
 
 export function MeDashboard({ email, apps, stages, services }: { email: string; apps: MeApp[]; stages: { key: string; label: string }[]; services: Services }) {
-  const t = useT(); const router = useRouter(); const [tab, setTab] = useState<"overview" | "timetable" | "documents" | "payments" | "requests" | "support" | "id" | "activity" | "profile">("overview"); const [toast, setToast] = useState(""); const [busy, setBusy] = useState("");
+  const t = useT(); const router = useRouter(); const [tab, setTab] = useState<"overview" | "timetable" | "results" | "documents" | "payments" | "requests" | "support" | "id" | "activity" | "profile">("overview"); const [toast, setToast] = useState(""); const [busy, setBusy] = useState("");
   const input = useRef<HTMLInputElement>(null); const target = useRef<{ ref: string; kind: string } | null>(null);
   const say = (m: string) => { setToast(m); setTimeout(() => setToast(""), 3500); };
   const L = (s: string) => t(s.replace(/_/g, " ").toLowerCase().replace(/^\w/, (c) => c.toUpperCase()));
@@ -34,7 +34,7 @@ export function MeDashboard({ email, apps, stages, services }: { email: string; 
   const evRows: Row[] = apps.flatMap((a) => a.events.map((e, i) => ({ id: a.id + i, v: { at: e.at, ref: a.reference, msg: e.message, by: e.actor } })));
   const ecols: Col[] = [{ key: "at", label: t("When") }, { key: "ref", label: t("Reference"), filter: true }, { key: "msg", label: t("What happened") }, { key: "by", label: t("By") }];
   const main = apps.find((a) => a.status === "ENROLLED") ?? apps[0]; // the record the student services act on
-  const TABS = [["overview", "Overview"], ["timetable", "Timetable"], ["documents", "Documents"], ["payments", "Payments"], ["requests", "Requests"], ["support", "Support"], ["id", "ID card"], ["activity", "Activity"], ["profile", "Profile"]] as const;
+  const TABS = [["overview", "Overview"], ["timetable", "Timetable"], ["results", "Results"], ["documents", "Documents"], ["payments", "Payments"], ["requests", "Requests"], ["support", "Support"], ["id", "ID card"], ["activity", "Activity"], ["profile", "Profile"]] as const;
   const unpaid = apps.reduce((n, a) => n + a.invoices.filter((i) => i.status !== "PAID").length, 0); const missing = apps.reduce((n, a) => n + a.docs.filter((d) => d.status === "MISSING" || (!d.file && d.status === "PENDING")).length, 0);
   return (<>
     <div className="hero"><h1>{t("Welcome, {name}", { name: (apps[0]?.name ?? email.split("@")[0]).split(" ")[0] })}</h1><p>{t("Everything about your application in one place: progress, documents, payments and messages.")}</p>
@@ -56,6 +56,7 @@ export function MeDashboard({ email, apps, stages, services }: { email: string; 
       <div className="tbl" tabIndex={0} role="region" aria-label={t("Timetable")} style={{ marginTop: 10 }}><table><thead><tr><th>{t("Day")}</th><th>{t("Time")}</th><th>{t("Subject")}</th><th>{t("Room")}</th><th>{t("Lecturer")}</th></tr></thead><tbody>{a.classes.map((c) => <tr key={c.id}><td>{c.day}</td><td>{c.time}</td><td><b>{c.subject}</b></td><td>{c.room}</td><td>{c.lecturer}</td></tr>)}</tbody></table></div>
       <p style={{ margin: "12px 0 0", display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}><a className="btn-p" style={{ padding: "6px 14px", borderRadius: 10, textDecoration: "none" }} href={a.calendar.replace(/^https?:/, "webcal:")}>{t("Add to my phone calendar")}</a><a className="s" style={{ padding: "5px 12px", border: "1px solid var(--line)", borderRadius: 10, textDecoration: "none" }} href={`https://calendar.google.com/calendar/r?cid=${encodeURIComponent(a.calendar.replace(/^https?:/, "webcal:"))}`} target="_blank" rel="noopener noreferrer">Google Calendar</a><button className="s" onClick={() => { navigator.clipboard?.writeText(a.calendar); say(t("Link copied")); }}>{t("Copy calendar link")}</button></p>
       <small style={{ color: "var(--muted)" }}>{t("Your calendar updates by itself when the timetable changes.")}</small></div>)}</div>)}
+    {tab === "results" && (main ? <StudyPanel app={main} st={services.study[main.id]} enrolled={services.portal[main.id].enrolled} say={say} /> : <div className="panel empty">{t("You have not applied yet.")}</div>)}
     {tab === "documents" && main && <DocDownloads p={services.portal[main.id]} />}
     {tab === "requests" && (main ? <Requests app={main} p={services.portal[main.id]} s={services} say={say} /> : <div className="panel empty">{t("You have not applied yet.")}</div>)}
     {tab === "support" && (main ? <Support app={main} s={services} say={say} /> : <div className="panel empty">{t("You have not applied yet.")}</div>)}

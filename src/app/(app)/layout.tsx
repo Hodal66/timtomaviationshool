@@ -17,7 +17,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     can.viewApplicants(r) && { href: "/admissions", label: t("Admissions"), icon: "users" }, can.enquiries(r) && { href: "/enquiries", label: t("Enquiries"), icon: "mail" },
     can.admissions(r) && { href: "/requests", label: t("Requests"), icon: "file" }, can.reports(r) && { href: "/support", label: t("Support"), icon: "mail" }, can.admissions(r) && { href: "/messages", label: t("Messages"), icon: "mail" }, can.editContent(r) && { href: "/admin/courses", label: t("Courses"), icon: "book" },
     r === "ADMIN" && { href: "/admin/users", label: t("Staff"), icon: "user" }, can.editContent(r) && { href: "/media", label: t("Media"), icon: "image" }, can.viewApplicants(r) && { href: "/payments", label: t("Payments"), icon: "card" },
-    can.reports(r) && { href: "/certificates", label: t("Certificates"), icon: "award" }, { href: "/timetable", label: t("Timetable"), icon: "cal" }, { href: "/attendance", label: t("Attendance"), icon: "check" },
+    ["ADMIN", "ACADEMIC", "LECTURER"].includes(r) && { href: "/assessments", label: t("Assessments"), icon: "chart" }, ["ADMIN", "ACADEMIC", "ADMISSIONS"].includes(r) && { href: "/exams", label: t("Exams"), icon: "file" }, can.reports(r) && { href: "/certificates", label: t("Certificates"), icon: "award" }, { href: "/timetable", label: t("Timetable"), icon: "cal" }, { href: "/attendance", label: t("Attendance"), icon: "check" },
   ];
   return <I18nProvider lang={lang} dict={dictFor(lang)}><Shell brand="TAS-One" nav={nav.filter(Boolean) as NavItem[]} user={{ name: s.name, sub: t(ROLE[r] ?? r) }} logout={logout}>{children}</Shell></I18nProvider>;
 }
