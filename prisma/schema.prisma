@@ -141,48 +141,49 @@ model Intake {
 }
 
 model Applicant {
-  requirementsMet String[]           @default([])
-  admittedAt      DateTime?
-  emailVerifiedAt DateTime?
-  id              String             @id @default(cuid())
-  fullName        String
-  email           String?
-  phone           String?
-  dateOfBirth     DateTime?
-  source          String             @default("Web")
-  status          ApplicationStatus  @default(SUBMITTED)
-  session         Session            @default(WEEKDAY)
-  branchId        String
-  branch          Branch             @relation(fields: [branchId], references: [id])
-  programmeId     String
-  programme       Programme          @relation(fields: [programmeId], references: [id])
-  intakeId        String
-  intake          Intake             @relation(fields: [intakeId], references: [id])
-  classGroupId    String?
-  classGroup      ClassGroup?        @relation(fields: [classGroupId], references: [id])
-  reference       String?            @unique
-  leadSource      String?
-  utmSource       String?
-  utmMedium       String?
-  utmCampaign     String?
-  language        String?
-  guardianName    String?
-  guardianPhone   String?
-  educationLevel  String?
-  institution     String?
-  completionYear  Int?
-  uploads         Upload[]
-  assignedToId    String?
-  assignedTo      User?              @relation("Assigned", fields: [assignedToId], references: [id])
-  events          ApplicationEvent[]
-  documents       DocumentItem[]
-  invoices        Invoice[]
-  createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @updatedAt
-  payments        Payment[]
-  attendance      Attendance[]
-  certificates    Certificate[]
-  notifications   Notification[]
+  attendanceAlertAt DateTime?
+  requirementsMet   String[]           @default([])
+  admittedAt        DateTime?
+  emailVerifiedAt   DateTime?
+  id                String             @id @default(cuid())
+  fullName          String
+  email             String?
+  phone             String?
+  dateOfBirth       DateTime?
+  source            String             @default("Web")
+  status            ApplicationStatus  @default(SUBMITTED)
+  session           Session            @default(WEEKDAY)
+  branchId          String
+  branch            Branch             @relation(fields: [branchId], references: [id])
+  programmeId       String
+  programme         Programme          @relation(fields: [programmeId], references: [id])
+  intakeId          String
+  intake            Intake             @relation(fields: [intakeId], references: [id])
+  classGroupId      String?
+  classGroup        ClassGroup?        @relation(fields: [classGroupId], references: [id])
+  reference         String?            @unique
+  leadSource        String?
+  utmSource         String?
+  utmMedium         String?
+  utmCampaign       String?
+  language          String?
+  guardianName      String?
+  guardianPhone     String?
+  educationLevel    String?
+  institution       String?
+  completionYear    Int?
+  uploads           Upload[]
+  assignedToId      String?
+  assignedTo        User?              @relation("Assigned", fields: [assignedToId], references: [id])
+  events            ApplicationEvent[]
+  documents         DocumentItem[]
+  invoices          Invoice[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  payments          Payment[]
+  attendance        Attendance[]
+  certificates      Certificate[]
+  notifications     Notification[]
 
   @@index([status])
   @@index([branchId])
@@ -209,6 +210,8 @@ model Payment {
 }
 
 model Attendance {
+  method      String           @default("ROLL")
+  markedAt    DateTime         @default(now())
   id          String           @id @default(cuid())
   applicantId String
   applicant   Applicant        @relation(fields: [applicantId], references: [id])

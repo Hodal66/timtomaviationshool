@@ -13,7 +13,7 @@ export async function advanceApplicant(id: string, actor: string): Promise<strin
   if (next === "DOCUMENTS_VERIFIED" && a.documents.some((d) => d.status !== "VERIFIED")) return "Verify every required document first.";
   if (next === "REGISTRATION_PAID" && a.invoices.some((v) => v.status !== "PAID" && v.status !== "CANCELLED")) return "The registration invoice is not paid. Finance must verify the payment.";
   if (next === "ADMITTED") { const missing = a.programme.entryRequirements.filter((r) => !a.requirementsMet.includes(r)); if (missing.length) return `Confirm the entry requirements first (${missing.length} not yet confirmed).`; }
-  const group = next === "ENROLLED" ? await db.classGroup.findFirst({ where: { programmeId: a.programmeId, branchId: a.branchId, intakeId: a.intakeId, session: a.session } }) : null;
+  const group = next === "ENROLLED" ? await (await import("./teaching")).ensureGroup(a) : null; // TTB-01: one click places the student in the right class group
   await db.applicant.update({ where: { id }, data: { status: next, ...(next === "ADMITTED" ? { admittedAt: new Date() } : {}), ...(group ? { classGroupId: group.id } : {}),
     events: { create: { type: "STATUS", actorName: actor, message: `Status changed to ${next.replace(/_/g, " ").toLowerCase()}.${group ? ` Placed in ${group.name}.` : ""}` } } } });
   await notifyApplicant(id, (a) => COPY.status(a, next));

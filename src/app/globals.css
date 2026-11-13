@@ -89,3 +89,8 @@ th.sort{cursor:pointer;user-select:none}th.sort:hover{color:var(--blue)}
 td{white-space:nowrap;max-width:340px;overflow:hidden;text-overflow:ellipsis}td .wrapok,td form{white-space:normal}
 select,input{max-width:100%}.panel{min-width:0}.dt-bar select{max-width:240px}form.panel select{max-width:min(100%,320px)}
 .i18n-pending body{visibility:hidden}
+/* Timetable grid */
+.tt{display:grid;gap:4px;overflow-x:auto;padding-bottom:6px}.tt-h{font:600 12px Inter;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:6px;text-align:center;position:sticky;top:0;background:var(--surface)}
+.tt-t{font-size:12px;color:var(--muted);padding:6px 4px;text-align:right}.tt-c{min-height:64px;border:1px dashed var(--line);border-radius:10px;padding:4px;display:grid;gap:4px;align-content:start}.tt-c.over{border-color:var(--orange);background:var(--blue-soft)}
+.tt-s{background:var(--grad);color:#fff;border-radius:10px;padding:8px;display:grid;gap:2px;cursor:grab;box-shadow:var(--sh)}.tt-s small{opacity:.92;font-size:11px}.tt-s:active{cursor:grabbing}
+.tt-a,.tt-m{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}.tt-s .s{background:rgba(255,255,255,.18);color:#fff;border-color:transparent;min-height:26px;padding:2px 8px;font-size:12px}.tt-m select,.tt-m input{min-height:28px;padding:2px 6px;font-size:12px}
