@@ -4,8 +4,7 @@
       "/opt/node22/bin/node",
       "/home/user/timtomaviationshool/node_modules/.bin/playwright",
       "test",
-      "tests/e2e/03-apply.spec.ts",
-      "tests/e2e/04-staff.spec.ts"
+      "tests/e2e/06-security.spec.ts"
     ],
     "configFile": "/home/user/timtomaviationshool/playwright.config.ts",
     "rootDir": "/home/user/timtomaviationshool/tests/e2e",
@@ -80,20 +79,20 @@
   },
   "suites": [
     {
-      "title": "03-apply.spec.ts",
-      "file": "03-apply.spec.ts",
+      "title": "06-security.spec.ts",
+      "file": "06-security.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Application journey",
-          "file": "03-apply.spec.ts",
-          "line": 6,
+          "title": "Security (NFT-07, OWASP ASVS L2 selection)",
+          "file": "06-security.spec.ts",
+          "line": 8,
           "column": 6,
           "specs": [
             {
-              "title": "FT-017 One central application route works without extra navigation",
+              "title": "SEC-01 Every staff page and staff API refuses an unauthenticated visitor",
               "ok": true,
               "tags": [],
               "tests": [
@@ -108,12 +107,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 543,
+                      "duration": 154,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T23:45:36.062Z",
+                      "startTime": "2026-11-13T00:12:55.746Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -121,13 +120,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "f97bfb9311732518896a-7729e626fd6f3809c01e",
-              "file": "03-apply.spec.ts",
-              "line": 8,
+              "id": "7ed5e4431b90e83c8382-b1da2fbc60428d158b35",
+              "file": "06-security.spec.ts",
+              "line": 9,
               "column": 7
             },
             {
-              "title": "FT-018 Manual selection and Apply Now from a course use the same wizard and the same programme value",
+              "title": "SEC-02 Forged, tampered, unsigned and expired session cookies are rejected",
               "ok": true,
               "tags": [],
               "tests": [
@@ -142,12 +141,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 798,
+                      "duration": 76,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T23:45:36.708Z",
+                      "startTime": "2026-11-13T00:12:55.936Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -155,520 +154,30 @@
                   "status": "expected"
                 }
               ],
-              "id": "f97bfb9311732518896a-89ee83dea6b567fc5a3e",
-              "file": "03-apply.spec.ts",
-              "line": 11,
-              "column": 7
-            },
-            {
-              "title": "FT-019 Validation: empty form, invalid email, invalid phone, missing fields, invalid dates",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 13349,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#e-phone')\nExpected substring: \u001b[32m\"too short\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('#e-phone') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#e-phone')\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#e-phone')\nExpected substring: \u001b[32m\"too short\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('#e-phone') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#e-phone')\u001b[22m\n\n    at /home/user/timtomaviationshool/tests/e2e/03-apply.spec.ts:22:44",
-                        "location": {
-                          "file": "/home/user/timtomaviationshool/tests/e2e/03-apply.spec.ts",
-                          "column": 44,
-                          "line": 22
-                        },
-                        "snippet": "  20 |     await page.click(\"button:has-text('Continue')\"); await expect(page.locator(\"#e-fullName\")).toContainText(\"full name\"); await expect(page.locator(\"#e-dob\")).toBeVisible();\n  21 |     await page.fill(\"#f-fullName\", \"X\"); await page.fill(\"#f-phone\", \"123\"); await page.fill(\"#f-dob\", \"1900-01-01\"); await page.click(\"button:has-text('Continue')\");\n> 22 |     await expect(page.locator(\"#e-phone\")).toContainText(\"too short\"); await expect(page.locator(\"#e-dob\")).toContainText(\"Check your date\");\n     |                                            ^\n  23 |     await page.fill(\"#f-dob\", \"2012-01-01\"); await page.waitForSelector(\"#f-guardianName\"); await page.fill(\"#f-phone\", \"+250788000111\"); await page.click(\"button:has-text('Continue')\"); await expect(page.locator(\"#e-guardianName\")).toBeVisible();\n  24 |     await expect(page.locator(\".prog .meta\")).toContainText(\"Step 2 of 5\");\n  25 |   });"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/home/user/timtomaviationshool/tests/e2e/03-apply.spec.ts",
-                            "column": 44,
-                            "line": 22
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#e-phone')\nExpected substring: \u001b[32m\"too short\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('#e-phone') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#e-phone')\u001b[22m\n\n\n  20 |     await page.click(\"button:has-text('Continue')\"); await expect(page.locator(\"#e-fullName\")).toContainText(\"full name\"); await expect(page.locator(\"#e-dob\")).toBeVisible();\n  21 |     await page.fill(\"#f-fullName\", \"X\"); await page.fill(\"#f-phone\", \"123\"); await page.fill(\"#f-dob\", \"1900-01-01\"); await page.click(\"button:has-text('Continue')\");\n> 22 |     await expect(page.locator(\"#e-phone\")).toContainText(\"too short\"); await expect(page.locator(\"#e-dob\")).toContainText(\"Check your date\");\n     |                                            ^\n  23 |     await page.fill(\"#f-dob\", \"2012-01-01\"); await page.waitForSelector(\"#f-guardianName\"); await page.fill(\"#f-phone\", \"+250788000111\"); await page.click(\"button:has-text('Continue')\"); await expect(page.locator(\"#e-guardianName\")).toBeVisible();\n  24 |     await expect(page.locator(\".prog .meta\")).toContainText(\"Step 2 of 5\");\n  25 |   });\n    at /home/user/timtomaviationshool/tests/e2e/03-apply.spec.ts:22:44"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:45:37.521Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/home/user/timtomaviationshool/test-results/03-apply-Application-journ-6b5ce-issing-fields-invalid-dates/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/home/user/timtomaviationshool/test-results/03-apply-Application-journ-6b5ce-issing-fields-invalid-dates/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/home/user/timtomaviationshool/tests/e2e/03-apply.spec.ts",
-                        "column": 44,
-                        "line": 22
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f97bfb9311732518896a-ffd16ec26e51bec5a687",
-              "file": "03-apply.spec.ts",
-              "line": 16,
-              "column": 7
-            },
-            {
-              "title": "FT-020 Valid application through the UI creates exactly one correct record (with FT-022, FT-023, FT-024, FT-025)",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 9480,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:45:51.365Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f97bfb9311732518896a-adcae1edf18aae0e4700",
-              "file": "03-apply.spec.ts",
-              "line": 26,
-              "column": 7
-            },
-            {
-              "title": "FT-021a Rapid repeated clicks on Submit create only one application",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 3862,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:46:00.946Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f97bfb9311732518896a-63bfe0ef642dd874e743",
-              "file": "03-apply.spec.ts",
-              "line": 54,
-              "column": 7
-            },
-            {
-              "title": "FT-021b Retrying the same submission token and double POSTs create only one application",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 728,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:46:04.819Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f97bfb9311732518896a-7ef55a4607184d47d6de",
-              "file": "03-apply.spec.ts",
-              "line": 62,
-              "column": 7
-            },
-            {
-              "title": "FT-023 Document upload: oversized, unsupported, corrupted, empty and disguised files are rejected safely",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 258,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:46:05.559Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f97bfb9311732518896a-704de9967233e2cbeb6d",
-              "file": "03-apply.spec.ts",
-              "line": 69,
-              "column": 7
-            },
-            {
-              "title": "FT-025b Confirmation survives a refresh and the reference works for tracking",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 648,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:46:05.826Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f97bfb9311732518896a-f0ac39118e6f90302623",
-              "file": "03-apply.spec.ts",
-              "line": 83,
-              "column": 7
-            },
-            {
-              "title": "FT-026 The application appears in the admissions dashboard with programme, applicant, intake, branch, source and submission details",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1290,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:46:06.484Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f97bfb9311732518896a-f44bf4c6a11ac298fd09",
-              "file": "03-apply.spec.ts",
-              "line": 86,
-              "column": 7
-            },
-            {
-              "title": "FT-027 Staff status changes reach the applicant, with email and WhatsApp messages",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 2005,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:46:07.787Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f97bfb9311732518896a-cf51ee63f8c917ca89b2",
-              "file": "03-apply.spec.ts",
-              "line": 93,
-              "column": 7
-            },
-            {
-              "title": "FT-028 Applicants cannot reach other applicants' records",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 619,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:46:09.804Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f97bfb9311732518896a-37969ddf5d1bd944f8de",
-              "file": "03-apply.spec.ts",
-              "line": 102,
-              "column": 7
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "04-staff.spec.ts",
-      "file": "04-staff.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Staff workflows and dashboard connectivity",
-          "file": "04-staff.spec.ts",
-          "line": 4,
-          "column": 6,
-          "specs": [
-            {
-              "title": "ST-01 Sign in: wrong password and unknown user are refused with the same message; correct sign-in works; sign-out is not required for the session to end after cookie removal",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 11860,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Today' })\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Today' }) with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Today' })\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Today' })\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Today' }) with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Today' })\u001b[22m\n\n    at /home/user/timtomaviationshool/tests/e2e/04-staff.spec.ts:8:88",
-                        "location": {
-                          "file": "/home/user/timtomaviationshool/tests/e2e/04-staff.spec.ts",
-                          "column": 88,
-                          "line": 8
-                        },
-                        "snippet": "   6 |     await page.goto(\"/login\"); await page.fill(\"#email\", ADMIN.email); await page.fill(\"#password\", \"wrong\"); await page.click(\"button[type=submit]\"); await expect(page.locator(\".err\")).toContainText(\"incorrect\");\n   7 |     await page.fill(\"#email\", \"nobody@test.local\"); await page.fill(\"#password\", \"wrong\"); await page.click(\"button[type=submit]\"); await expect(page.locator(\".err\")).toContainText(\"incorrect\");\n>  8 |     await loginStaff(page); await expect(page.getByRole(\"heading\", { name: \"Today\" })).toBeVisible(); await context.clearCookies(); await page.goto(\"/dashboard\"); await expect(page).toHaveURL(/\\/login/);\n     |                                                                                        ^\n   9 |   });\n  10 |   test(\"ST-02 Dashboard queue counts equal the database\", async ({ page }) => {\n  11 |     await loginStaff(page); const text = (await page.locator(\".kpis\").innerText()).replace(/\\s+/g, \" \");"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/home/user/timtomaviationshool/tests/e2e/04-staff.spec.ts",
-                            "column": 88,
-                            "line": 8
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Today' })\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Today' }) with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Today' })\u001b[22m\n\n\n   6 |     await page.goto(\"/login\"); await page.fill(\"#email\", ADMIN.email); await page.fill(\"#password\", \"wrong\"); await page.click(\"button[type=submit]\"); await expect(page.locator(\".err\")).toContainText(\"incorrect\");\n   7 |     await page.fill(\"#email\", \"nobody@test.local\"); await page.fill(\"#password\", \"wrong\"); await page.click(\"button[type=submit]\"); await expect(page.locator(\".err\")).toContainText(\"incorrect\");\n>  8 |     await loginStaff(page); await expect(page.getByRole(\"heading\", { name: \"Today\" })).toBeVisible(); await context.clearCookies(); await page.goto(\"/dashboard\"); await expect(page).toHaveURL(/\\/login/);\n     |                                                                                        ^\n   9 |   });\n  10 |   test(\"ST-02 Dashboard queue counts equal the database\", async ({ page }) => {\n  11 |     await loginStaff(page); const text = (await page.locator(\".kpis\").innerText()).replace(/\\s+/g, \" \");\n    at /home/user/timtomaviationshool/tests/e2e/04-staff.spec.ts:8:88"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:46:10.437Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/home/user/timtomaviationshool/test-results/04-staff-Staff-workflows-a-fc48d-to-end-after-cookie-removal/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/home/user/timtomaviationshool/test-results/04-staff-Staff-workflows-a-fc48d-to-end-after-cookie-removal/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/home/user/timtomaviationshool/tests/e2e/04-staff.spec.ts",
-                        "column": 88,
-                        "line": 8
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f0eba5d410743ea255a0-09815a46faafa5da20c6",
-              "file": "04-staff.spec.ts",
-              "line": 5,
-              "column": 7
-            },
-            {
-              "title": "ST-02 Dashboard queue counts equal the database",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1369,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:46:22.821Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f0eba5d410743ea255a0-7643eadc2cb33db89e09",
-              "file": "04-staff.spec.ts",
-              "line": 10,
-              "column": 7
-            },
-            {
-              "title": "ST-03 Finance cycle: raise invoice, verify payment, status and applicant view and messages follow",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 3183,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:46:24.296Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f0eba5d410743ea255a0-12c9db3200680739cdb7",
-              "file": "04-staff.spec.ts",
+              "id": "7ed5e4431b90e83c8382-bd487126c51bec439f5c",
+              "file": "06-security.spec.ts",
               "line": 15,
               "column": 7
             },
             {
-              "title": "ST-04 Stage rules cannot be bypassed from the board",
+              "title": "SEC-03 Session cookie flags and logout",
               "ok": true,
               "tags": [],
               "tests": [
                 {
                   "timeout": 90000,
-                  "annotations": [],
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "Secure flag=true (false on http://localhost; must be verified on HTTPS production), expires=1794557577.189736"
+                    }
+                  ],
                   "expectedStatus": "passed",
                   "projectId": "",
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 2,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
                       "duration": 1322,
@@ -676,21 +185,70 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T23:46:27.498Z",
-                      "annotations": [],
+                      "startTime": "2026-11-13T00:12:56.081Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "Secure flag=true (false on http://localhost; must be verified on HTTPS production), expires=1794557577.189736"
+                        }
+                      ],
                       "attachments": []
                     }
                   ],
                   "status": "expected"
                 }
               ],
-              "id": "f0eba5d410743ea255a0-328148ebb7185b69370f",
-              "file": "04-staff.spec.ts",
-              "line": 28,
+              "id": "7ed5e4431b90e83c8382-0fe520f2bf45e445b980",
+              "file": "06-security.spec.ts",
+              "line": 24,
               "column": 7
             },
             {
-              "title": "ST-05 Enquiries: website question reaches staff, is actionable and updates the dashboard",
+              "title": "SEC-04 Role-based access: non-authorised roles cannot read protected data or act",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "matrix",
+                      "description": "LECTURER /payments -> 200 /dashboard no data | LECTURER /admissions -> 200 /dashboard no data | ACADEMIC /admissions -> 200 /dashboard no data | MARKETING /payments -> 200 /dashboard no data | LECTURER /certificates -> 200 /dashboard no data | LECTURER /admin/courses -> 200 /admin/courses no data"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4012,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:12:57.411Z",
+                      "annotations": [
+                        {
+                          "type": "matrix",
+                          "description": "LECTURER /payments -> 200 /dashboard no data | LECTURER /admissions -> 200 /dashboard no data | ACADEMIC /admissions -> 200 /dashboard no data | MARKETING /payments -> 200 /dashboard no data | LECTURER /certificates -> 200 /dashboard no data | LECTURER /admin/courses -> 200 /admin/courses no data"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7ed5e4431b90e83c8382-e368aceba55485dbfa86",
+              "file": "06-security.spec.ts",
+              "line": 30,
+              "column": 7
+            },
+            {
+              "title": "SEC-05 Applicant documents and assets: IDs are unguessable and staff-only; tracking needs reference AND contact",
               "ok": true,
               "tags": [],
               "tests": [
@@ -702,15 +260,15 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 2,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 5758,
+                      "duration": 27,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T23:46:28.840Z",
+                      "startTime": "2026-11-13T00:13:01.430Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -718,111 +276,57 @@
                   "status": "expected"
                 }
               ],
-              "id": "f0eba5d410743ea255a0-9400402eb3a23be13a6a",
-              "file": "04-staff.spec.ts",
-              "line": 32,
-              "column": 7
-            },
-            {
-              "title": "ST-06 WhatsApp queue: links are correct, sending marks done",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 90000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "",
-                  "projectName": "",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1972,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-12T23:46:34.614Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f0eba5d410743ea255a0-7877debeed63609aa573",
-              "file": "04-staff.spec.ts",
+              "id": "7ed5e4431b90e83c8382-25d05f995fe0ce21e05d",
+              "file": "06-security.spec.ts",
               "line": 41,
               "column": 7
             },
             {
-              "title": "ST-07 Email: sent from the school address with reference and tracking link; staff inbox alerted",
-              "ok": false,
+              "title": "SEC-06 Injection: SQLi and XSS payloads in forms are stored inert and never executed",
+              "ok": true,
               "tags": [],
               "tests": [
                 {
                   "timeout": 90000,
-                  "annotations": [],
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "submit status 200 {\"ok\":true,\"reference\":\"TAS-2611-STGT3\"}"
+                    }
+                  ],
                   "expectedStatus": "passed",
                   "projectId": "",
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 2,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 834,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected substring: \u001b[32m\"TAS-2611-8MR9Q\"\u001b[39m\nReceived string:    \u001b[31m\"From: Timtom Aviation School <timtomaviationschool@gmail.com>·\u001b[39m\n\u001b[31mTo: mail.1794527196613@example.com·\u001b[39m\n\u001b[31mReply-To: timtomaviationschool@gmail.com·\u001b[39m\n\u001b[31mSubject: Your Timtom Aviation School verification code: 314249·\u001b[39m\n\u001b[31mMessage-ID: <bc4fe311-af20-4dcc-ee9a-d330301cff24@gmail.com>·\u001b[39m\n\u001b[31mContent-Transfer-Encoding: quoted-printable·\u001b[39m\n\u001b[31mDate: Thu, 12 Nov 2026 23:46:36 +0000·\u001b[39m\n\u001b[31mMIME-Version: 1.0·\u001b[39m\n\u001b[31mContent-Type: text/plain; charset=utf-8···\u001b[39m\n\u001b[31mYour verification code is 314249.···\u001b[39m\n\u001b[31mIt is valid for 10 minutes. Enter it on the page, or open this link to continue:·\u001b[39m\n\u001b[31mhttp://localhost:3100/start?email=mail.1794527196613%40example.com&code=314249···\u001b[39m\n\u001b[31mIf you did not ask for this code, you can ignore this email.···\u001b[39m\n\u001b[31mTimtom Aviation School\"\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected substring: \u001b[32m\"TAS-2611-8MR9Q\"\u001b[39m\nReceived string:    \u001b[31m\"From: Timtom Aviation School <timtomaviationschool@gmail.com>·\u001b[39m\n\u001b[31mTo: mail.1794527196613@example.com·\u001b[39m\n\u001b[31mReply-To: timtomaviationschool@gmail.com·\u001b[39m\n\u001b[31mSubject: Your Timtom Aviation School verification code: 314249·\u001b[39m\n\u001b[31mMessage-ID: <bc4fe311-af20-4dcc-ee9a-d330301cff24@gmail.com>·\u001b[39m\n\u001b[31mContent-Transfer-Encoding: quoted-printable·\u001b[39m\n\u001b[31mDate: Thu, 12 Nov 2026 23:46:36 +0000·\u001b[39m\n\u001b[31mMIME-Version: 1.0·\u001b[39m\n\u001b[31mContent-Type: text/plain; charset=utf-8···\u001b[39m\n\u001b[31mYour verification code is 314249.···\u001b[39m\n\u001b[31mIt is valid for 10 minutes. Enter it on the page, or open this link to continue:·\u001b[39m\n\u001b[31mhttp://localhost:3100/start?email=mail.1794527196613%40example.com&code=314249···\u001b[39m\n\u001b[31mIf you did not ask for this code, you can ignore this email.···\u001b[39m\n\u001b[31mTimtom Aviation School\"\u001b[39m\n    at /home/user/timtomaviationshool/tests/e2e/04-staff.spec.ts:49:84",
-                        "location": {
-                          "file": "/home/user/timtomaviationshool/tests/e2e/04-staff.spec.ts",
-                          "column": 84,
-                          "line": 49
-                        },
-                        "snippet": "  47 |   test(\"ST-07 Email: sent from the school address with reference and tracking link; staff inbox alerted\", async ({ request }) => {\n  48 |     const mail = `mail.${Date.now()}@example.com`; const a = await apiApply(request, { fullName: \"QA Email\", email: mail }); await new Promise((r) => setTimeout(r, 600)); const m = readMail();\n> 49 |     const toApp = m.find((x) => x.rcpt.join().includes(mail)); expect(toApp?.text).toContain(a.body.reference); expect(toApp?.text).toMatch(/timtomaviationschool@gmail\\.com/); expect(toApp?.text).toContain(\"/track?ref=\");\n     |                                                                                    ^\n  50 |     expect(m.some((x) => x.rcpt.join().includes(\"timtomaviationschool@gmail.com\") && x.text.includes(`New application ${a.body.reference}`))).toBe(true);\n  51 |   });\n  52 |   test(\"ST-08 Executive dashboard and CSV export reflect submitted applications and campaigns\", async ({ page, context }) => {"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/home/user/timtomaviationshool/tests/e2e/04-staff.spec.ts",
-                            "column": 84,
-                            "line": 49
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected substring: \u001b[32m\"TAS-2611-8MR9Q\"\u001b[39m\nReceived string:    \u001b[31m\"From: Timtom Aviation School <timtomaviationschool@gmail.com>·\u001b[39m\n\u001b[31mTo: mail.1794527196613@example.com·\u001b[39m\n\u001b[31mReply-To: timtomaviationschool@gmail.com·\u001b[39m\n\u001b[31mSubject: Your Timtom Aviation School verification code: 314249·\u001b[39m\n\u001b[31mMessage-ID: <bc4fe311-af20-4dcc-ee9a-d330301cff24@gmail.com>·\u001b[39m\n\u001b[31mContent-Transfer-Encoding: quoted-printable·\u001b[39m\n\u001b[31mDate: Thu, 12 Nov 2026 23:46:36 +0000·\u001b[39m\n\u001b[31mMIME-Version: 1.0·\u001b[39m\n\u001b[31mContent-Type: text/plain; charset=utf-8···\u001b[39m\n\u001b[31mYour verification code is 314249.···\u001b[39m\n\u001b[31mIt is valid for 10 minutes. Enter it on the page, or open this link to continue:·\u001b[39m\n\u001b[31mhttp://localhost:3100/start?email=mail.1794527196613%40example.com&code=314249···\u001b[39m\n\u001b[31mIf you did not ask for this code, you can ignore this email.···\u001b[39m\n\u001b[31mTimtom Aviation School\"\u001b[39m\n\n  47 |   test(\"ST-07 Email: sent from the school address with reference and tracking link; staff inbox alerted\", async ({ request }) => {\n  48 |     const mail = `mail.${Date.now()}@example.com`; const a = await apiApply(request, { fullName: \"QA Email\", email: mail }); await new Promise((r) => setTimeout(r, 600)); const m = readMail();\n> 49 |     const toApp = m.find((x) => x.rcpt.join().includes(mail)); expect(toApp?.text).toContain(a.body.reference); expect(toApp?.text).toMatch(/timtomaviationschool@gmail\\.com/); expect(toApp?.text).toContain(\"/track?ref=\");\n     |                                                                                    ^\n  50 |     expect(m.some((x) => x.rcpt.join().includes(\"timtomaviationschool@gmail.com\") && x.text.includes(`New application ${a.body.reference}`))).toBe(true);\n  51 |   });\n  52 |   test(\"ST-08 Executive dashboard and CSV export reflect submitted applications and campaigns\", async ({ page, context }) => {\n    at /home/user/timtomaviationshool/tests/e2e/04-staff.spec.ts:49:84"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 2657,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T23:46:36.603Z",
-                      "annotations": [],
-                      "attachments": [
+                      "startTime": "2026-11-13T00:13:01.466Z",
+                      "annotations": [
                         {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/home/user/timtomaviationshool/test-results/04-staff-Staff-workflows-a-acf3f-ng-link-staff-inbox-alerted/error-context.md"
+                          "type": "note",
+                          "description": "submit status 200 {\"ok\":true,\"reference\":\"TAS-2611-STGT3\"}"
                         }
                       ],
-                      "errorLocation": {
-                        "file": "/home/user/timtomaviationshool/tests/e2e/04-staff.spec.ts",
-                        "column": 84,
-                        "line": 49
-                      }
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
-              "id": "f0eba5d410743ea255a0-ddaa969be3071a646366",
-              "file": "04-staff.spec.ts",
+              "id": "7ed5e4431b90e83c8382-1602f9000571496b23ae",
+              "file": "06-security.spec.ts",
               "line": 47,
               "column": 7
             },
             {
-              "title": "ST-08 Executive dashboard and CSV export reflect submitted applications and campaigns",
+              "title": "SEC-07 Uploads cannot be attached to someone else's application or draft; stored files are served inert",
               "ok": true,
               "tags": [],
               "tests": [
@@ -834,15 +338,15 @@
                   "projectName": "",
                   "results": [
                     {
-                      "workerIndex": 3,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1089,
+                      "duration": 324,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T23:46:37.967Z",
+                      "startTime": "2026-11-13T00:13:04.132Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -850,9 +354,121 @@
                   "status": "expected"
                 }
               ],
-              "id": "f0eba5d410743ea255a0-1c581d18d7c75bca5d8c",
-              "file": "04-staff.spec.ts",
-              "line": 52,
+              "id": "7ed5e4431b90e83c8382-3b36b43a98a9e5a0cb29",
+              "file": "06-security.spec.ts",
+              "line": 63,
+              "column": 7
+            },
+            {
+              "title": "SEC-08 Security headers on public and staff pages",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "missing: "
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 75,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:13:04.466Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "missing: "
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7ed5e4431b90e83c8382-b158f8a8a46838adb9eb",
+              "file": "06-security.spec.ts",
+              "line": 72,
+              "column": 7
+            },
+            {
+              "title": "SEC-09 Rate limiting: repeated wrong passwords are locked out, and bulk API calls return 429",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1354,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:13:04.549Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7ed5e4431b90e83c8382-a69d2312f276f8be31cf",
+              "file": "06-security.spec.ts",
+              "line": 79,
+              "column": 7
+            },
+            {
+              "title": "SEC-10 Errors do not leak internals",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 44,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T00:13:05.911Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7ed5e4431b90e83c8382-edb879eb74e4ba8d6669",
+              "file": "06-security.spec.ts",
+              "line": 87,
               "column": 7
             }
           ]
@@ -862,11 +478,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-12T23:45:35.371Z",
-    "duration": 63853.785,
-    "expected": 16,
+    "startTime": "2026-11-13T00:12:55.087Z",
+    "duration": 10931.641000000001,
+    "expected": 10,
     "skipped": 0,
-    "unexpected": 3,
+    "unexpected": 0,
     "flaky": 0
   }
 }

@@ -31,7 +31,7 @@ test.describe("Homepage, navigation and content", () => {
     test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     test("FT-004 Mobile menu opens, closes with Escape, navigates and survives scrolling", async ({ page }) => {
       await page.goto("/"); await expect(page.locator("header nav")).toBeHidden(); const burger = page.getByRole("button", { name: "Open menu" }); await burger.tap();
-      await expect(page.locator("#drawer")).toBeVisible(); await expect(page.locator("#drawer a")).toHaveCount(7); await page.keyboard.press("Escape"); await expect(page.locator("#drawer")).toBeHidden();
+      await expect(page.locator("#drawer")).toBeVisible(); await expect(page.locator("#drawer a")).toHaveCount(8); await page.keyboard.press("Escape"); await expect(page.locator("#drawer")).toBeHidden();
       await page.evaluate(() => scrollTo({ top: 900, behavior: "instant" })); await page.getByRole("button", { name: "Open menu" }).tap(); await expect(page.locator("#drawer")).toBeVisible();
       await page.locator("#drawer").getByRole("link", { name: "Courses" }).tap(); await expect(page).toHaveURL(/\/courses$/); await expect(page.locator("#drawer")).toBeHidden(); await expectNoHorizontalScroll(page);
     });

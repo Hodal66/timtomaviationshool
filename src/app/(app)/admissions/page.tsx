@@ -22,8 +22,10 @@ async function advanceMany(ids: string[]) {
   "use server";
   const s = await getSession();
   if (!s || !can.admissions(s.role)) throw new Error("Not allowed");
-  for (const id of ids.slice(0, 100)) await advanceApplicant(String(id), s.name);
+  let moved = 0; const blocked: string[] = [];
+  for (const id of ids.slice(0, 100)) { const err = await advanceApplicant(String(id), s.name); if (err) blocked.push(err); else moved++; }
   revalidatePath("/admissions");
+  return `${moved} moved to the next stage` + (blocked.length ? `, ${blocked.length} blocked: ${[...new Set(blocked)].slice(0, 2).join(" ")}` : ".");
 }
 
 export default async function Admissions({ searchParams }: { searchParams: Promise<{ view?: string; q?: string; branch?: string; course?: string; intake?: string; e?: string }> }) {
@@ -44,7 +46,7 @@ export default async function Admissions({ searchParams }: { searchParams: Promi
     return { id: a.id, v: { ref: a.reference ?? "", name: a.fullName, programme: a.programme.name, branch: a.branch.name, intake: a.intake.label, session: a.session === "WEEKDAY" ? "Weekday" : "Weekend", status: label(a.status), docs: `${verified}/${a.documents.length}`, pay, officer: a.assignedTo?.name ?? "", email: a.email ?? "", phone: a.phone ?? "", applied: a.createdAt.toISOString().slice(0, 10) },
       c: { name: <a href={`/admissions/${a.id}`}><b>{a.fullName}</b></a>, status: <span className={`pill ${a.status === "ENROLLED" ? "ok" : a.status === "REJECTED" ? "bad" : ""}`}>{label(a.status)}</span>, docs: <span className={`pill ${a.documents.length && verified === a.documents.length ? "ok" : "warn"}`}>{verified}/{a.documents.length}</span>, pay: <span className={`pill ${!inv ? "" : inv.status === "PAID" ? "ok" : "warn"}`}>{pay}</span>,
         act: <span style={{ display: "flex", gap: 6 }}><a className="s" style={{ padding: "4px 10px", border: "1px solid var(--line)", borderRadius: 10, textDecoration: "none" }} href={`/admissions/${a.id}`}>{t("Open")}</a>{a.status !== "ENROLLED" && a.status !== "REJECTED" && <form action={advance}><input type="hidden" name="id" value={a.id} /><button className="s" type="submit">{t("Next stage")}</button></form>}</span> } }; });
-  const tabs = (<div className="tabs" role="tablist"><a href="?view=table"><button role="tab" aria-selected={!board}>{t("Table")}</button></a><a href="?view=board"><button role="tab" aria-selected={board}>{t("Board")}</button></a></div>);
+  const tabs = (<nav className="tabs" aria-label={t("View")}><a href="?view=table" aria-current={!board ? "page" : undefined}>{t("Table")}</a><a href="?view=board" aria-current={board ? "page" : undefined}>{t("Board")}</a></nav>);
   return (<><div className="top"><div><h1>{t("Admissions")}</h1><p>{t("Applications from the website arrive here automatically. Open a record for documents, notes and the decision.")}</p></div></div>
     <form className="panel" style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
       <input type="hidden" name="view" value={board ? "board" : "table"} />

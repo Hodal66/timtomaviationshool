@@ -1,4 +1,5 @@
 "use client";
+import { LangMenu, ThemeMenu } from "@/components/dash/ThemeLang";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -22,11 +23,13 @@ export function SiteNav({ items }: { items: Item[] }) {
     <header className={`hd${solid || open ? " solid" : ""}`}><div className="wrap">
       <a href="/" className="logo" aria-label="Timtom Aviation School, home"><img src="/images/site/logo.png" alt="Timtom Aviation School" width={156} height={54} /></a>
       <nav aria-label="Main"><ul>{items.map((i) => <li key={i.href}><a href={i.href} aria-current={active(path, i.href) ? "page" : undefined}>{i.label}</a></li>)}</ul></nav>
+      <div className="tools"><LangMenu /><ThemeMenu /></div><a className="acct" href="/me">My account</a>
       <a className="btn cta sm" href="/apply">Apply Now</a>
       <button className="burger" aria-expanded={open} aria-controls="drawer" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}><i /></button>
     </div></header>
     <div id="drawer" className={`drawer${open ? " open" : ""}`} hidden={!open} role="dialog" aria-modal="true" aria-label="Menu">
       {items.map((i, n) => <a key={i.href} ref={n === 0 ? first : undefined} className="l" href={i.href} aria-current={active(path, i.href) ? "page" : undefined}>{i.label}</a>)}
+      <div className="tools"><LangMenu /><ThemeMenu /></div><a className="l" href="/me">My account</a>
       <a className="btn cta" href="/apply">Apply Now</a>
     </div>
   </>);

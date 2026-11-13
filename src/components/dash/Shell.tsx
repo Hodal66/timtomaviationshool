@@ -23,7 +23,7 @@ export function Shell({ brand, nav, user, logout, children }: { brand: string; n
     </aside>
     <div className="ds-back" onClick={() => setOpen(false)} />
     <div className="ds-main">
-      <header className="ds-top"><button className="ico burger" aria-label={t("Open menu")} aria-expanded={open} onClick={() => setOpen(!open)}><Icon n={open ? "x" : "menu"} /></button>
+      <header className="ds-top"><button className="ico ds-burger" aria-label={t("Open menu")} aria-expanded={open} onClick={() => setOpen(!open)}><Icon n={open ? "x" : "menu"} /></button>
         <div className="grow">{cur?.label ?? brand}</div><LangMenu /><ThemeMenu />
         <div className="chip hide-m"><i aria-hidden>{initials}</i><span style={{ lineHeight: 1.2 }}><b style={{ display: "block", fontSize: 13 }}>{user.name}</b><small style={{ color: "var(--muted)" }}>{user.sub}</small></span></div></header>
       <main className="ds-content" id="main">{children}</main>

@@ -38,6 +38,7 @@ export function Wizard({ programmes, branches, starts, initial, verifiedEmail }:
   const [ref, setRef] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const head = useRef<HTMLHeadingElement>(null);
+  const touched = useRef(new Set<string>()); // fields the person has edited; a late draft restore never overwrites these
   const tokenRef = useRef<string | null>(null); tokenRef.current = token;
 
   // Restore a saved draft (link or this browser), but let the URL choose the programme.
@@ -49,7 +50,7 @@ export function Wizard({ programmes, branches, starts, initial, verifiedEmail }:
         if (r?.ok) {
           const d = await r.json(); setToken(t);
           // Values the person already typed while the draft was loading win over the saved ones.
-          setData((cur) => ({ ...d.data, ...Object.fromEntries(Object.entries(cur).filter(([, v]) => v)), ...(initial.course ? { course: initial.course } : {}), start: cur.start && starts.some((x) => x.key === cur.start) ? cur.start : starts.some((x) => x.key === d.data.start) ? d.data.start : starts[0]?.key }));
+          setData((cur) => { const mine = Object.fromEntries(Object.entries(cur).filter(([k]) => touched.current.has(k))); const start = (mine.start as string | undefined) ?? d.data.start; return { ...cur, ...d.data, ...mine, ...(initial.course ? { course: initial.course } : {}), start: starts.some((x) => x.key === start) ? start : starts[0]?.key }; });
           setStep(Math.min(Number(d.step) || 0, 4)); setUploads(Object.fromEntries((d.uploads as { kind: string; filename: string; size: number }[]).map((u) => [u.kind, { filename: u.filename, size: u.size }])));
         }
       }
@@ -71,7 +72,7 @@ export function Wizard({ programmes, branches, starts, initial, verifiedEmail }:
   }, []);
   useEffect(() => { if (!ready || ref) return; const id = setTimeout(() => { if (Object.values(data).some(Boolean)) persist(data, step); }, 700); return () => clearTimeout(id); }, [data, step, ready, ref, persist]);
 
-  const set = (k: keyof ApplyData, v: string) => { setData((d) => ({ ...d, [k]: v })); setErrors((e) => ({ ...e, [k]: undefined })); };
+  const set = (k: keyof ApplyData, v: string) => { touched.current.add(k); setData((d) => ({ ...d, [k]: v })); setErrors((e) => ({ ...e, [k]: undefined })); };
   const go = (n: number) => { if (n > step) setSubmitErr(""); setStep(n); setTimeout(() => { head.current?.focus(); scrollTo({ top: 0, behavior: "smooth" }); }, 30); };
   const focusField = (k: string) => setTimeout(() => document.getElementById(`f-${k}`)?.focus(), 40);
   const next = () => {

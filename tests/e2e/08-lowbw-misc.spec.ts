@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
 import fs from "node:fs";
-import { FIX } from "./helpers";
+import { FIX, signIn, uniqueEmail } from "./helpers";
 
 const NOTE = (t: string) => test.info().annotations.push({ type: "note", description: t });
 test.describe("Low bandwidth (NFT-06) and remaining requirements", () => {
   test("NFT-06a Home and course pages render usable content on emulated Slow 3G", async ({ browser }) => {
-    const ctx = await browser.newContext(); const page = await ctx.newPage(); const cdp = await ctx.newCDPSession(page);
+    const ctx = await browser.newContext(); const page = await ctx.newPage(); await signIn(ctx.request, uniqueEmail()); const cdp = await ctx.newCDPSession(page);
     await cdp.send("Network.enable"); await cdp.send("Network.emulateNetworkConditions", { offline: false, latency: 400, downloadThroughput: (400 * 1024) / 8, uploadThroughput: (400 * 1024) / 8 });
     const out: string[] = [];
     for (const p of ["/", "/courses/personnel-licensing", "/apply?course=personnel-licensing"]) {
@@ -16,7 +16,7 @@ test.describe("Low bandwidth (NFT-06) and remaining requirements", () => {
     NOTE("Slow 3G (400 kbps, 400 ms RTT): " + out.join(" | ")); fs.writeFileSync("qa/perf/slow3g.txt", out.join("\n")); await ctx.close();
   });
   test("NFT-06b Going offline during the application: the form keeps the typed data and reports the failure; resumes when back online", async ({ browser }) => {
-    const ctx = await browser.newContext(); const page = await ctx.newPage(); await page.goto("/apply?course=personnel-licensing"); await page.waitForSelector("#f-course");
+    const ctx = await browser.newContext(); const page = await ctx.newPage(); await signIn(ctx.request, uniqueEmail()); await page.goto("/apply?course=personnel-licensing"); await page.waitForSelector("#f-course");
     await page.locator("input[name=branch]").first().check(); await page.click("button:has-text('Continue')"); await page.waitForSelector("#f-fullName");
     await ctx.setOffline(true); await page.fill("#f-fullName", "Offline Tester"); await page.waitForTimeout(1500);
     expect(await page.inputValue("#f-fullName")).toBe("Offline Tester"); const status = (await page.locator(".saved, [aria-live]").allInnerTexts()).join(" ");

@@ -27,7 +27,7 @@ export type Apply = { course?: string; branch?: string; session?: string; start?
 export async function signIn(request: APIRequestContext, email: string) {
   const before = readMail().length;
   const r = await request.post("/api/otp/request", { data: { email } }); expect(r.status(), await r.text()).toBe(200);
-  let code = ""; for (let i = 0; i < 60 && !code; i++) { const m = readMail().slice(before).reverse().find((x) => x.rcpt.some((a) => a.includes(email))); const mm = m?.text.match(/verification code is (\d{6})/); if (mm) code = mm[1]; else await new Promise((res) => setTimeout(res, 150)); }
+  let code = ""; for (let i = 0; i < 60 && !code; i++) { const m = readMail().slice(before).reverse().find((x) => x.rcpt.some((a) => a.includes(email))); const mm = m?.text.split(/\r?\n\r?\n/).slice(1).join("\n").match(/\b(\d{6})\b/); if (mm) code = mm[1]; else await new Promise((res) => setTimeout(res, 150)); }
   expect(code, "verification email arrived").toMatch(/^\d{6}$/);
   const v = await request.post("/api/otp/verify", { data: { email, code } }); expect(v.status(), await v.text()).toBe(200); return code;
 }

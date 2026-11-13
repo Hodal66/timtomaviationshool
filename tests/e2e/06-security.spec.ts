@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { SignJWT } from "jose";
-import { db, loginStaff, staff, uniquePhone, FIX } from "./helpers";
+import { db, loginStaff, staff, uniquePhone, FIX, signIn, uniqueEmail, apiApply } from "./helpers";
 import fs from "node:fs";
 
 const STAFF_ROUTES = ["/dashboard", "/admissions", "/payments", "/certificates", "/admin/courses", "/enquiries", "/messages", "/executive", "/timetable", "/attendance"];
@@ -48,7 +48,7 @@ test.describe("Security (NFT-07, OWASP ASVS L2 selection)", () => {
     const xss = `<img src=x onerror="window.__xss=1">"><script>window.__xss=1</script>`; const sqli = `Robert'); DROP TABLE "Applicant";--`;
     const phone = uniquePhone();
     const slug = (await db.programme.findFirstOrThrow({ where: { status: "PUBLISHED", slug: { not: null } } })).slug!; const branch = (await db.branch.findFirstOrThrow()).id;
-    const start = await page.goto("/apply?course=" + slug).then(() => page.locator("#f-start option").evaluateAll((o) => (o as HTMLOptionElement[]).map((x) => x.value).filter(Boolean)[0]));
+    await signIn(page.request, uniqueEmail()); await signIn(request, uniqueEmail()); const start = await page.goto("/apply?course=" + slug).then(() => page.locator("#f-start option").evaluateAll((o) => (o as HTMLOptionElement[]).map((x) => x.value).filter(Boolean)[0]));
     const dr = await (await request.post("/api/apply/draft", { data: { step: 5, data: { course: slug, fullName: xss, email: "", phone, dob: "2000-01-01", branch, start, session: "WEEKDAY", educationLevel: "A-level", institution: sqli, completionYear: "2020" } } })).json();
     const res = await request.post("/api/apply/submit", { data: { token: dr.token } }); const SKIP = { data: { course: (await db.programme.findFirstOrThrow({ where: { status: "PUBLISHED", slug: { not: null } } })).slug, fullName: xss, email: "", phone, dob: "2000-01-01", branch: (await db.branch.findFirstOrThrow()).id, start: "", session: "WEEKDAY", educationLevel: "A-level", institution: sqli, completionYear: "2020", consent: true } };
     test.info().annotations.push({ type: "note", description: `submit status ${res.status()} ${(await res.text()).slice(0, 120)}` });
@@ -63,7 +63,7 @@ test.describe("Security (NFT-07, OWASP ASVS L2 selection)", () => {
   test("SEC-07 Uploads cannot be attached to someone else's application or draft; stored files are served inert", async ({ request }) => {
     const png = fs.readFileSync(FIX("photo.png")); const mk = (extra: Record<string, string>) => ({ multipart: { kind: "Passport-size photo", ...extra, file: { name: "../../evil.png", mimeType: "image/png", buffer: png } } });
     expect((await request.post("/api/apply/upload", mk({ token: "no-such-draft" }))).status()).toBe(404);
-    const a = await db.applicant.findFirstOrThrow({ where: { email: { not: null } } });
+    const seed = await apiApply(request, { fullName: "Upload Victim" }); const a = await db.applicant.findFirstOrThrow({ where: { reference: seed.body.reference } });
     expect((await request.post("/api/apply/upload", mk({ reference: a.reference!, who: "attacker@example.com" }))).status()).toBe(403);
     const d = await (await request.post("/api/apply/draft", { data: { data: {}, step: 0 } })).json();
     const ok = await request.post("/api/apply/upload", mk({ token: d.token })); expect(ok.status()).toBe(200); expect((await ok.json()).filename).not.toContain("/");

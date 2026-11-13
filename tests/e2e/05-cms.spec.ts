@@ -5,6 +5,7 @@ import { adminCourseLifecycle, apiApply, clickAction, db, FIX, getState, loginSt
 const S = () => getState("cms", () => ({ NAME: "QA Test Programme " + Date.now(), id: "", slug: "" })) as { NAME: string; id: string; slug: string };
 
 test.describe("Course lifecycle and CMS connectivity", () => {
+  test.beforeEach(async ({ page }) => { await signIn(page.request, uniqueEmail()); });
   test("FT-029 Administrator creates a draft programme; a valid central record exists and is not public", async ({ page, request }) => {
     const { NAME } = S(); await loginStaff(page); const id = await adminCourseLifecycle(page, NAME, { fee: "123456" }); const p = await db.programme.findUniqueOrThrow({ where: { id } }); const slug = p.slug!; setState("cms", { id, slug });
     expect([p.status, p.name, p.feeRwf, p.visualTheme]).toEqual(["DRAFT", NAME, 123456, "cargo"]); expect(slug).toMatch(/^qa-test-programme-\d+(-[a-z0-9]+)?$/);

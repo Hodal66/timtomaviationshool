@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getT } from "@/lib/i18n/server";
 import { dictFor } from "@/lib/i18n/server";
 import { I18nProvider } from "@/lib/i18n/client";
+import { AutoTranslate } from "@/lib/i18n/AutoTranslate";
 
 const csp = "Timtom Aviation School";
 export const metadata: Metadata = {
@@ -16,5 +17,5 @@ export default async function Root({ children }: { children: React.ReactNode }) 
     <script dangerouslySetInnerHTML={{ __html: THEME }} />
     <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap" />
-  </head><body><I18nProvider lang={lang} dict={dictFor(lang)}>{children}</I18nProvider></body></html>);
+  </head><body><I18nProvider lang={lang} dict={dictFor(lang)}><AutoTranslate />{children}</I18nProvider></body></html>);
 }

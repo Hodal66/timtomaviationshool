@@ -5,14 +5,14 @@ import { useT } from "@/lib/i18n/client";
 
 export type Col = { key: string; label: string; sortable?: boolean; filter?: boolean; hidden?: boolean; align?: "right" };
 export type Row = { id: string; v: Record<string, string | number | null | undefined>; c?: Record<string, React.ReactNode> };
-export type Bulk = { label: string; danger?: boolean; confirm?: string; run: (ids: string[]) => Promise<void> };
+export type Bulk = { label: string; danger?: boolean; confirm?: string; run: (ids: string[]) => Promise<string | void> };
 const norm = (x: unknown) => String(x ?? "").toLowerCase();
 const csvCell = (x: unknown) => `"${String(x ?? "").replace(/"/g, '""')}"`;
 
 export function DataTable({ id, cols, rows, exportName = "export", bulk, toolbar, empty }: { id: string; cols: Col[]; rows: Row[]; exportName?: string; bulk?: Bulk[]; toolbar?: React.ReactNode; empty?: string }) {
   const t = useT(); const [q, setQ] = useState(""); const [sort, setSort] = useState<{ k: string; d: 1 | -1 } | null>(null); const [page, setPage] = useState(1); const [size, setSize] = useState(10);
   const [hidden, setHidden] = useState<string[]>(cols.filter((c) => c.hidden).map((c) => c.key)); const [filters, setFilters] = useState<Record<string, string>>({}); const [colMenu, setColMenu] = useState(false);
-  const [sel, setSel] = useState<Set<string>>(new Set()); const [pending, start] = useTransition(); const menuRef = useRef<HTMLDivElement>(null);
+  const [sel, setSel] = useState<Set<string>>(new Set()); const [note, setNote] = useState(""); const [pending, start] = useTransition(); const menuRef = useRef<HTMLDivElement>(null);
   useEffect(() => { try { const s = JSON.parse(localStorage.getItem("dt:" + id) ?? "null"); if (s) { if (Array.isArray(s.hidden)) setHidden(s.hidden); if (s.size) setSize(s.size); } } catch { /* ignore */ } }, [id]);
   useEffect(() => { try { localStorage.setItem("dt:" + id, JSON.stringify({ hidden, size })); } catch { /* ignore */ } }, [id, hidden, size]);
   useEffect(() => { const f = (e: MouseEvent) => { if (menuRef.current && !menuRef.current.contains(e.target as Node)) setColMenu(false); }; document.addEventListener("mousedown", f); return () => document.removeEventListener("mousedown", f); }, []);
@@ -44,7 +44,8 @@ export function DataTable({ id, cols, rows, exportName = "export", bulk, toolbar
       <button className="s" style={{ minHeight: 38, display: "flex", gap: 6, alignItems: "center" }} onClick={download}><Icon n="down" size={16} />{t("Download CSV")}</button>
       {toolbar}
     </div>
-    {bulk && sel.size > 0 && <div className="bulk" role="region" aria-label={t("Selected rows")}>{t("{n} selected", { n: sel.size })}{bulk.map((b) => <button key={b.label} className={"s" + (b.danger ? " danger" : "")} disabled={pending} onClick={() => { if (b.confirm && !confirm(b.confirm)) return; start(async () => { await b.run([...sel]); setSel(new Set()); }); }}>{b.label}</button>)}<button className="s" onClick={() => setSel(new Set())}>{t("Clear")}</button></div>}
+    {note && <div className="bulk" role="status">{note}<button className="s" onClick={() => setNote("")}>{t("Clear")}</button></div>}
+    {bulk && sel.size > 0 && <div className="bulk" role="region" aria-label={t("Selected rows")}>{t("{n} selected", { n: sel.size })}{bulk.map((b) => <button key={b.label} className={"s" + (b.danger ? " danger" : "")} disabled={pending} onClick={() => { if (b.confirm && !confirm(b.confirm)) return; start(async () => { const m = await b.run([...sel]); setNote(m || ""); setSel(new Set()); }); }}>{b.label}</button>)}<button className="s" onClick={() => setSel(new Set())}>{t("Clear")}</button></div>}
     <div className="tbl"><table><thead><tr>
       {bulk && <th style={{ width: 36 }}><input className="dt-sel" type="checkbox" aria-label={t("Select all on this page")} checked={allOn} onChange={(e) => flip(slice.map((r) => r.id), e.target.checked)} /></th>}
       {vis.map((c) => <th key={c.key} className={c.sortable !== false ? "sort" : ""} style={{ textAlign: c.align }} aria-sort={sort?.k === c.key ? (sort.d === 1 ? "ascending" : "descending") : undefined} onClick={() => c.sortable !== false && toggleSort(c.key)}>{c.label}{sort?.k === c.key ? (sort.d === 1 ? " ▲" : " ▼") : ""}</th>)}
