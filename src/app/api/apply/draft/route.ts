@@ -20,6 +20,8 @@ export async function POST(req: Request) {
   if (typeof b.token === "string" && b.token) {
     const row = await db.applicationDraft.updateMany({ where: { token: b.token }, data: { data, step } });
     if (row.count) return json({ token: b.token });
+    // The draft was submitted (or expired). Never recreate it from a late autosave: the client must ask for a new draft explicitly.
+    return json({ gone: true, error: "This draft no longer exists." }, 410);
   }
   const token = randomBytes(18).toString("base64url");
   await db.applicationDraft.create({ data: { token, data, step } });

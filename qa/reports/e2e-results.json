@@ -4,9 +4,9 @@
       "/opt/node22/bin/node",
       "/home/user/timtomaviationshool/node_modules/.bin/playwright",
       "test",
-      "tests/e2e/10-ui-i18n.spec.ts",
-      "-g",
-      "SHELL-01"
+      "tests/e2e/03-apply.spec.ts",
+      "tests/e2e/08-lowbw-misc.spec.ts",
+      "tests/e2e/09-otp-dashboard.spec.ts"
     ],
     "configFile": "/home/user/timtomaviationshool/playwright.config.ts",
     "rootDir": "/home/user/timtomaviationshool/tests/e2e",
@@ -81,20 +81,20 @@
   },
   "suites": [
     {
-      "title": "10-ui-i18n.spec.ts",
-      "file": "10-ui-i18n.spec.ts",
+      "title": "03-apply.spec.ts",
+      "file": "03-apply.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Languages, theme and dashboard components",
-          "file": "10-ui-i18n.spec.ts",
-          "line": 5,
+          "title": "Application journey",
+          "file": "03-apply.spec.ts",
+          "line": 6,
           "column": 6,
           "specs": [
             {
-              "title": "SHELL-01 Staff navigation shows only the modules a role may use; the menu collapses and survives reload",
+              "title": "FT-017 One central application route works without extra navigation",
               "ok": true,
               "tags": [],
               "tests": [
@@ -109,12 +109,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2340,
+                      "duration": 1038,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T06:36:20.597Z",
+                      "startTime": "2026-11-13T07:02:19.099Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -122,9 +122,840 @@
                   "status": "expected"
                 }
               ],
-              "id": "1d3438990a49f36a30ad-8826b20d87e943ef0d38",
-              "file": "10-ui-i18n.spec.ts",
-              "line": 49,
+              "id": "f97bfb9311732518896a-7729e626fd6f3809c01e",
+              "file": "03-apply.spec.ts",
+              "line": 8,
+              "column": 7
+            },
+            {
+              "title": "FT-018 Manual selection and Apply Now from a course use the same wizard and the same programme value",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 949,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:20.264Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-89ee83dea6b567fc5a3e",
+              "file": "03-apply.spec.ts",
+              "line": 11,
+              "column": 7
+            },
+            {
+              "title": "FT-019 Validation: empty form, invalid email, invalid phone, missing fields, invalid dates",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3840,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:21.227Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-ffd16ec26e51bec5a687",
+              "file": "03-apply.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "FT-020 Valid application through the UI creates exactly one correct record (with FT-022, FT-023, FT-024, FT-025)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7754,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:25.082Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-adcae1edf18aae0e4700",
+              "file": "03-apply.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "FT-021a Rapid repeated clicks on Submit create only one application",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4002,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:32.845Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-63bfe0ef642dd874e743",
+              "file": "03-apply.spec.ts",
+              "line": 54,
+              "column": 7
+            },
+            {
+              "title": "FT-021b Retrying the same submission token and double POSTs create only one application",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 773,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:36.857Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-7ef55a4607184d47d6de",
+              "file": "03-apply.spec.ts",
+              "line": 62,
+              "column": 7
+            },
+            {
+              "title": "FT-023 Document upload: oversized, unsupported, corrupted, empty and disguised files are rejected safely",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 309,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:37.641Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-704de9967233e2cbeb6d",
+              "file": "03-apply.spec.ts",
+              "line": 69,
+              "column": 7
+            },
+            {
+              "title": "FT-025b Confirmation survives a refresh and the reference works for tracking",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 526,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:37.962Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-f0ac39118e6f90302623",
+              "file": "03-apply.spec.ts",
+              "line": 83,
+              "column": 7
+            },
+            {
+              "title": "FT-026 The application appears in the admissions dashboard with programme, applicant, intake, branch, source and submission details",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1712,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:38.498Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-f44bf4c6a11ac298fd09",
+              "file": "03-apply.spec.ts",
+              "line": 86,
+              "column": 7
+            },
+            {
+              "title": "FT-027 Staff status changes reach the applicant, with email and WhatsApp messages",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2173,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:40.220Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-cf51ee63f8c917ca89b2",
+              "file": "03-apply.spec.ts",
+              "line": 93,
+              "column": 7
+            },
+            {
+              "title": "FT-028 Applicants cannot reach other applicants' records",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 622,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:42.406Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f97bfb9311732518896a-37969ddf5d1bd944f8de",
+              "file": "03-apply.spec.ts",
+              "line": 102,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "08-lowbw-misc.spec.ts",
+      "file": "08-lowbw-misc.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Low bandwidth (NFT-06) and remaining requirements",
+          "file": "08-lowbw-misc.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "NFT-06a Home and course pages render usable content on emulated Slow 3G",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "Slow 3G (400 kbps, 400 ms RTT): /: headline visible 1601 ms, 23 KB so far | /courses/personnel-licensing: headline visible 1357 ms, 9 KB so far | /apply?course=personnel-licensing: headline visible 966 ms, 8 KB so far"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8337,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:43.044Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "Slow 3G (400 kbps, 400 ms RTT): /: headline visible 1601 ms, 23 KB so far | /courses/personnel-licensing: headline visible 1357 ms, 9 KB so far | /apply?course=personnel-licensing: headline visible 966 ms, 8 KB so far"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-ea38a1ba78b56e402fc4",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 7,
+              "column": 7
+            },
+            {
+              "title": "NFT-06b Going offline during the application: the form keeps the typed data and reports the failure; resumes when back online",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "save indicator while offline: Not saved. Check your connection. "
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3900,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:51.389Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "save indicator while offline: Not saved. Check your connection. "
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-116b4376ce736cd920bc",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 18,
+              "column": 7
+            },
+            {
+              "title": "NFT-06c Page weight budget: home <= 500 KB transferred, course page <= 400 KB (images lazy)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "note",
+                      "description": "/: 275 KB"
+                    },
+                    {
+                      "type": "note",
+                      "description": "/courses/personnel-licensing: 16 KB"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2019,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:55.299Z",
+                      "annotations": [
+                        {
+                          "type": "note",
+                          "description": "/: 275 KB"
+                        },
+                        {
+                          "type": "note",
+                          "description": "/courses/personnel-licensing: 16 KB"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-2f489469132a304cef3a",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "ML-01 Multilingual EN/FR/RW (SRS: language selector)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 496,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:57.328Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-94dcb0835f4191cabd3c",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 30,
+              "column": 7
+            },
+            {
+              "title": "PRV-01 Privacy notice, cookie/consent notice and data-protection contact (Law 058/2021) are published",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [
+                    {
+                      "type": "status",
+                      "description": "NOT IMPLEMENTED: no privacy policy page or footer link; legal adequacy is for management/DPO to determine"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 485,
+                      "error": {
+                        "message": "Error: NOT IMPLEMENTED: no privacy policy\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m",
+                        "stack": "Error: NOT IMPLEMENTED: no privacy policy\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n    at /home/user/timtomaviationshool/tests/e2e/08-lowbw-misc.spec.ts:36:273",
+                        "location": {
+                          "file": "/home/user/timtomaviationshool/tests/e2e/08-lowbw-misc.spec.ts",
+                          "column": 273,
+                          "line": 36
+                        },
+                        "snippet": "  34 |   test(\"PRV-01 Privacy notice, cookie/consent notice and data-protection contact (Law 058/2021) are published\", async ({ page }) => {\n  35 |     await page.goto(\"/\"); const text = (await page.locator(\"body\").innerText()).toLowerCase(); const links = await page.locator(\"a[href*='privacy'], a[href*='terms']\").count();\n> 36 |     test.info().annotations.push({ type: \"status\", description: \"NOT IMPLEMENTED: no privacy policy page or footer link; legal adequacy is for management/DPO to determine\" }); expect(links + (text.includes(\"privacy policy\") ? 1 : 0), \"NOT IMPLEMENTED: no privacy policy\").toBeGreaterThan(0);\n     |                                                                                                                                                                                                                                                                                 ^\n  37 |   });\n  38 |   test(\"NFT-10 Animation: every auto-moving element can be paused or respects reduced motion; no content hidden after load\", async ({ page }) => {\n  39 |     await page.goto(\"/\", { waitUntil: \"networkidle\" }); await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); } });"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/user/timtomaviationshool/tests/e2e/08-lowbw-misc.spec.ts",
+                            "column": 273,
+                            "line": 36
+                          },
+                          "message": "Error: NOT IMPLEMENTED: no privacy policy\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\n  34 |   test(\"PRV-01 Privacy notice, cookie/consent notice and data-protection contact (Law 058/2021) are published\", async ({ page }) => {\n  35 |     await page.goto(\"/\"); const text = (await page.locator(\"body\").innerText()).toLowerCase(); const links = await page.locator(\"a[href*='privacy'], a[href*='terms']\").count();\n> 36 |     test.info().annotations.push({ type: \"status\", description: \"NOT IMPLEMENTED: no privacy policy page or footer link; legal adequacy is for management/DPO to determine\" }); expect(links + (text.includes(\"privacy policy\") ? 1 : 0), \"NOT IMPLEMENTED: no privacy policy\").toBeGreaterThan(0);\n     |                                                                                                                                                                                                                                                                                 ^\n  37 |   });\n  38 |   test(\"NFT-10 Animation: every auto-moving element can be paused or respects reduced motion; no content hidden after load\", async ({ page }) => {\n  39 |     await page.goto(\"/\", { waitUntil: \"networkidle\" }); await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); } });\n    at /home/user/timtomaviationshool/tests/e2e/08-lowbw-misc.spec.ts:36:273"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:57.834Z",
+                      "annotations": [
+                        {
+                          "type": "status",
+                          "description": "NOT IMPLEMENTED: no privacy policy page or footer link; legal adequacy is for management/DPO to determine"
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/user/timtomaviationshool/test-results/08-lowbw-misc-Low-bandwidt-b0630--Law-058-2021-are-published/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/user/timtomaviationshool/test-results/08-lowbw-misc-Low-bandwidt-b0630--Law-058-2021-are-published/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/user/timtomaviationshool/tests/e2e/08-lowbw-misc.spec.ts",
+                        "column": 273,
+                        "line": 36
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-771de2caf31ad230a6a0",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 34,
+              "column": 7
+            },
+            {
+              "title": "NFT-10 Animation: every auto-moving element can be paused or respects reduced motion; no content hidden after load",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2991,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:02:58.817Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a700360ea272ae5bdfd4-7243a3b73adcd877e974",
+              "file": "08-lowbw-misc.spec.ts",
+              "line": 38,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "09-otp-dashboard.spec.ts",
+      "file": "09-otp-dashboard.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Email verification (OTP) and applicant dashboard",
+          "file": "09-otp-dashboard.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "OTP-01 Applying requires a verified email: /apply redirects to /start, the code arrives by email, the wizard then opens with the email locked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1146,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:03:01.956Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ada82de007f78f68dd4f-8513e3fb3e7046b651d6",
+              "file": "09-otp-dashboard.spec.ts",
+              "line": 7,
+              "column": 7
+            },
+            {
+              "title": "OTP-02 Magic link from the email pre-fills the code; open redirects are refused",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 736,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:03:03.112Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ada82de007f78f68dd4f-db80d1c9df8a57d3178b",
+              "file": "09-otp-dashboard.spec.ts",
+              "line": 19,
+              "column": 7
+            },
+            {
+              "title": "OTP-03 Abuse controls: wrong codes lock after 5 tries, sending is rate limited per email, submitting without verification is refused",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 435,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:03:03.862Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ada82de007f78f68dd4f-aa26f9111483b970fdb5",
+              "file": "09-otp-dashboard.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "DASH-01 Applicant dashboard shows the whole process: progress, documents (upload and download), invoices and activity; nobody else's data",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2152,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:03:04.307Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ada82de007f78f68dd4f-bcd046d8b17b60954638",
+              "file": "09-otp-dashboard.spec.ts",
+              "line": 32,
+              "column": 7
+            },
+            {
+              "title": "DASH-02 Status changes made by staff show on the applicant's dashboard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 895,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T07:03:06.472Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ada82de007f78f68dd4f-2e6f247819e822e0329c",
+              "file": "09-otp-dashboard.spec.ts",
+              "line": 50,
               "column": 7
             }
           ]
@@ -134,11 +965,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-13T06:36:19.738Z",
-    "duration": 3377.091,
-    "expected": 1,
+    "startTime": "2026-11-13T07:02:18.545Z",
+    "duration": 48909.008,
+    "expected": 21,
     "skipped": 0,
-    "unexpected": 0,
+    "unexpected": 1,
     "flaky": 0
   }
 }

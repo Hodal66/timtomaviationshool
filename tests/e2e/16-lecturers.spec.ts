@@ -1,0 +1,50 @@
+import { test, expect } from "@playwright/test";
+import { db, loginStaff, staff, getState, setState } from "./helpers";
+
+type St = { email: string; id: string; slot: string }; const PW = "lecturer-pass-123";
+const S = () => getState("lec", () => ({ email: `new.lect.${Date.now()}@test.local`, id: "", slot: "" })) as St;
+test.describe("Lecturer management (LEC-01..06, 12..16)", () => {
+  test("LEC-01/02 Academic staff add a lecturer; the directory lists them with hours and status", async ({ page }) => {
+    const { email } = S(); await loginStaff(page, await staff("ACADEMIC")); await page.goto("/lecturers"); const f = page.locator("form", { has: page.getByRole("button", { name: "Add lecturer" }) });
+    await f.locator("input[name=name]").fill("Jeanne QA Lecturer"); await f.locator("input[name=email]").fill(email); await f.locator("input[name=subjects]").fill("Air law, Ticketing"); await f.locator("input[name=rate]").fill("15000"); await f.locator("input[name=password]").fill(PW); await f.getByRole("button", { name: "Add lecturer" }).click();
+    await page.waitForURL(/\/lecturers\/[^/?]+\?ok=/); const id = page.url().split("/lecturers/")[1].split("?")[0]; setState("lec", { id }); await expect(page.locator("h1")).toContainText("Jeanne QA Lecturer");
+    await page.goto("/lecturers"); await page.locator(".dt-search input").fill("Jeanne QA"); await expect(page.locator("tbody tr")).toHaveCount(1); await expect(page.locator("tbody tr")).toContainText("Air law, Ticketing"); await expect(page.locator("tbody tr")).toContainText("Active");
+  });
+  test("LEC-03 A rate change waits for Finance; the requester cannot approve it; Finance approves and the history shows both names", async ({ page, browser }) => {
+    const { id } = S(); await loginStaff(page, await staff("ACADEMIC")); await page.goto(`/lecturers/${id}`); await page.fill("input[name=rate]", "18000"); await page.fill("input[name=phone]", "0788123456"); await page.getByRole("button", { name: "Save", exact: true }).click(); await expect(page.locator("[role=status]")).toContainText("waits for approval");
+    let p = await db.lecturerProfile.findUniqueOrThrow({ where: { userId: id } }); expect([p.rate, p.phone]).toEqual([15000, "0788123456"]); await page.goto("/lecturers"); await expect(page.locator("[data-change]")).toContainText("rate: 18000"); await expect(page.locator("[data-change]").getByRole("button", { name: "Approve" })).toHaveCount(0);
+    const ctx = await browser.newContext(); const fp = await ctx.newPage(); await loginStaff(fp, await staff("FINANCE")); await fp.goto("/lecturers"); await fp.locator("[data-change]", { hasText: "Jeanne QA Lecturer" }).getByRole("button", { name: "Approve" }).click(); await fp.waitForURL(/ok=/); await ctx.close();
+    p = await db.lecturerProfile.findUniqueOrThrow({ where: { userId: id } }); expect(p.rate).toBe(18000); await page.goto(`/lecturers/${id}`); await expect(page.locator(".panel", { hasText: "Change history" })).toContainText(/QA ACADEMIC → QA FINANCE/);
+  });
+  test("LEC-12/06/13 The lecturer sees their class, sets availability, and reports a lesson in under a minute", async ({ page }) => {
+    const { id, email } = S(); const { kigaliDow, ensureGroup } = await import("../../src/lib/teaching"); const prog = await db.programme.findFirstOrThrow({ where: { slug: "personnel-licensing" } }); const br = await db.branch.findFirstOrThrow(); const it = await db.intake.findFirstOrThrow({ orderBy: { startsOn: "asc" } });
+    const g = await ensureGroup({ programmeId: prog.id, branchId: br.id, intakeId: it.id, session: "WEEKDAY" }); const room = await db.room.create({ data: { name: "LEC Room " + Date.now(), branchId: br.id } }); const slot = await db.timetableSlot.create({ data: { groupId: g.id, roomId: room.id, lecturerId: id, dayOfWeek: kigaliDow(), startMin: 1, endMin: 121, subject: "Air law" } }); setState("lec", { slot: slot.id });
+    await loginStaff(page, { email, password: PW }); await expect(page.locator(".ds-nav")).toContainText("My teaching"); await page.goto("/teach"); const lesson = page.locator("[data-lesson]").first(); await expect(lesson).toContainText("Air law"); await expect(lesson.locator("input[name=topicOther]"), "the first unreported lesson opens by itself").toBeVisible();
+    await lesson.locator("input[name=topicOther]").fill("Chicago Convention, chapters 1 to 3"); await lesson.locator("input[name=notes]").fill("Good participation"); await lesson.getByRole("button", { name: "Save report" }).click(); await expect(page.locator("#lr-msg")).toContainText("Lesson report saved"); await expect(lesson).toContainText("Reported: Chicago Convention");
+    expect((await db.lessonReport.findFirstOrThrow({ where: { slotId: slot.id } })).onTime).toBe(true); await page.fill("input[name=d1]", "8:00-12:00, 14:00-17:00"); await page.fill("input[name=d2]", "noon"); await page.getByRole("button", { name: "Save availability" }).click(); await expect(page.locator("#av-msg")).toContainText("08:00-12:00");
+    await page.fill("input[name=d2]", ""); await page.getByRole("button", { name: "Save availability" }).click(); await expect(page.locator("#av-msg")).toContainText("Saved"); expect((await db.lecturerProfile.findUniqueOrThrow({ where: { userId: id } })).availability).toEqual({ "1": ["08:00-12:00", "14:00-17:00"] });
+    await expect(page.locator(".kpi", { hasText: "Lessons reported this month" })).toContainText(/1 \//); expect((await page.request.get("/lecturers")).url()).toContain("/dashboard");
+  });
+  test("LEC-13 offline: a lesson report made without a connection is kept and sent when the connection returns", async ({ page, context }) => {
+    const { email, slot } = S(); await db.lessonReport.deleteMany({ where: { slotId: slot } }); await loginStaff(page, { email, password: PW }); await page.goto("/teach"); const lesson = page.locator("[data-lesson]").first(); await lesson.locator("input[name=topicOther]").fill("Offline topic");
+    await context.setOffline(true); await lesson.getByRole("button", { name: "Save report" }).click(); await expect(page.locator("#lr-msg")).toContainText("saved on this device"); expect(await db.lessonReport.count({ where: { slotId: slot } })).toBe(0);
+    await context.setOffline(false); await expect.poll(async () => (await db.lessonReport.findFirst({ where: { slotId: slot } }))?.topic, { timeout: 15000 }).toBe("Offline topic");
+  });
+  test("LEC-16 The lecturer asks for a substitute; academic staff approve with a free lecturer", async ({ page, browser }) => {
+    const { email, slot } = S(); await loginStaff(page, { email, password: PW }); await page.goto("/teach"); await page.selectOption("#sb-s", slot); await page.fill("#sb-r", "Airport night shift"); await page.getByRole("button", { name: "Ask for a substitute" }).click(); await expect(page.locator("#sb-msg")).toContainText("Request sent");
+    const ctx = await browser.newContext(); const ap = await ctx.newPage(); await loginStaff(ap, await staff("ACADEMIC")); await ap.goto("/lecturers"); const req = ap.locator("[data-sub]", { hasText: "Jeanne QA Lecturer" }); await expect(req).toContainText("Airport night shift");
+    const subId = (await db.user.findFirstOrThrow({ where: { email: "mukeshimana@lecturers.tas.invalid" } })).id; await req.locator("select[name=substituteId]").selectOption(subId); await req.getByRole("button", { name: "Approve" }).click(); await ap.waitForURL(/ok=/); await ctx.close();
+    await page.reload(); await expect(page.locator(".panel", { hasText: "My substitute requests" })).toContainText("Approved");
+  });
+  test("LEC-04 Archiving is refused while classes remain; once reassigned, the lecturer is archived, cannot sign in, and is reactivated in one click", async ({ page, browser }) => {
+    const { id, email, slot } = S(); await loginStaff(page, await staff("ACADEMIC")); await page.goto(`/lecturers/${id}`); await page.getByRole("button", { name: "Archive lecturer" }).click(); await expect(page.locator(".err")).toContainText("still has classes");
+    await db.timetableSlot.update({ where: { id: slot }, data: { lecturerId: (await db.user.findFirstOrThrow({ where: { email: "kamali@lecturers.tas.invalid" } })).id } }); await page.goto(`/lecturers/${id}`); await page.getByRole("button", { name: "Archive lecturer" }).click(); await expect(page.locator("[role=status]")).toContainText("Archived");
+    const ctx = await browser.newContext(); const lp = await ctx.newPage(); await lp.goto("/login"); await lp.fill("#email", email); await lp.fill("#password", PW); await lp.click("button[type=submit]"); await expect(lp.locator(".err")).toContainText("incorrect"); await ctx.close();
+    await page.getByRole("button", { name: "Reactivate" }).click(); await expect(page.locator("[role=status]")).toContainText("Reactivated"); expect((await db.user.findUniqueOrThrow({ where: { id } })).active).toBe(true);
+  });
+  test("LEC-05 Export has no pay or bank columns; import refuses a bad file and saves nothing", async ({ page }) => {
+    await loginStaff(page, await staff("ACADEMIC")); const csv = await (await page.request.get("/api/lecturers/export")).text(); expect(csv.split("\n")[0]).toContain("name,email"); expect(csv.split("\n")[0]).not.toMatch(/rate|bank|account/i); expect(csv).toContain("Jeanne QA Lecturer");
+    await page.goto("/lecturers"); const bad = `name,email\nBad Row,not-an-email`; await page.locator("input[name=file]").setInputFiles({ name: "l.csv", mimeType: "text/csv", buffer: Buffer.from(bad) }); await page.getByRole("button", { name: "Import", exact: true }).click(); await expect(page.locator(".err")).toContainText("Nothing was imported");
+    const e = `csv.${Date.now()}@test.local`; await page.locator("input[name=file]").setInputFiles({ name: "l.csv", mimeType: "text/csv", buffer: Buffer.from(`name,email,subjects\nCsv Person,${e},Cargo`) }); await page.getByRole("button", { name: "Import", exact: true }).click(); await expect(page.locator("[role=status]")).toContainText("1 added"); expect(await db.user.count({ where: { email: e, role: "LECTURER" } })).toBe(1);
+  });
+});

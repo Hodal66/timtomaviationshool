@@ -12,7 +12,7 @@ async function login(fd: FormData) {
   const ip = "login-ip:" + clientIp(await headers()), who = "login-user:" + email;
   if (exhausted(ip, 30) || exhausted(who, 10)) redirect("/login?e=2");
   const user = await db.user.findUnique({ where: { email } });
-  const ok = user && (await bcrypt.compare(String(fd.get("password") ?? ""), user.passwordHash));
+  const ok = user && (await bcrypt.compare(String(fd.get("password") ?? ""), user.passwordHash)) && user.active; // archived accounts cannot sign in (LEC-04)
   if (!ok) { limited(ip, 30, 15 * 60e3); limited(who, 10, 15 * 60e3); redirect("/login?e=1"); }
   await createSession({ uid: user.id, name: user.name, role: user.role });
   redirect("/dashboard");

@@ -38,7 +38,8 @@ export function Wizard({ programmes, branches, starts, initial, verifiedEmail }:
   const [ref, setRef] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const head = useRef<HTMLHeadingElement>(null);
-  const touched = useRef(new Set<string>()); // fields the person has edited; a late draft restore never overwrites these
+  const touched = useRef(new Set<string>());
+  const submittedRef = useRef(false); // fields the person has edited; a late draft restore never overwrites these
   const tokenRef = useRef<string | null>(null); tokenRef.current = token;
 
   // Restore a saved draft (link or this browser), but let the URL choose the programme.
@@ -62,9 +63,11 @@ export function Wizard({ programmes, branches, starts, initial, verifiedEmail }:
   useEffect(() => { if (ready && verifiedEmail) setData((d) => (d.email === verifiedEmail ? d : { ...d, email: verifiedEmail })); }, [ready, verifiedEmail]);
 
   const persist = useCallback(async (d: ApplyData, s: number) => {
+    if (submittedRef.current) return null; // never autosave after submission: that would recreate personal data in a draft
     setSave("saving");
     try {
-      const r = await fetch("/api/apply/draft", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token: tokenRef.current, data: d, step: s }) });
+      let r = await fetch("/api/apply/draft", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token: tokenRef.current, data: d, step: s }) });
+      if (r.status === 410) { if (submittedRef.current) return null; tokenRef.current = null; r = await fetch("/api/apply/draft", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ data: d, step: s }) }); } // the old draft expired: start a new one
       if (!r.ok) throw new Error();
       const { token: t } = await r.json(); setToken(t); tokenRef.current = t; try { localStorage.setItem("tas_draft", t); } catch { /* ignore */ }
       setSave("saved"); return t as string;
@@ -110,11 +113,12 @@ export function Wizard({ programmes, branches, starts, initial, verifiedEmail }:
     setSubmitting(true); setSubmitErr("");
     const t = await persist(data, step);
     if (!t) { setSubmitting(false); return setSubmitErr("Could not save your application. Check your connection and try again."); }
+    submittedRef.current = true; // from here on, no autosave may run
     const r = await fetch("/api/apply/submit", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token: t }) });
     const j = await r.json().catch(() => ({ ok: false, error: "Something went wrong. Please try again." }));
     setSubmitting(false);
     if (j.ok) { try { localStorage.removeItem("tas_draft"); } catch { /* ignore */ } setRef(j.reference); setTimeout(() => { head.current?.focus(); scrollTo({ top: 0, behavior: "smooth" }); }, 30); return; }
-    setSubmitErr(j.error || "Something went wrong.");
+    submittedRef.current = false; setSubmitErr(j.error || "Something went wrong.");
     if (j.field) go(STEP_OF[j.field as keyof ApplyData] ?? 0);
   }
 

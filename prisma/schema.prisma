@@ -85,16 +85,21 @@ model Branch {
 }
 
 model User {
-  id           String          @id @default(cuid())
-  email        String          @unique
-  name         String
-  passwordHash String
-  role         Role
-  branchId     String?
-  branch       Branch?         @relation(fields: [branchId], references: [id])
-  createdAt    DateTime        @default(now())
-  slots        TimetableSlot[]
-  assigned     Applicant[]     @relation("Assigned")
+  active         Boolean             @default(true)
+  lecturer       LecturerProfile?
+  profileChanges ProfileChange[]
+  lessonReports  LessonReport[]
+  substituteAsks SubstituteRequest[]
+  id             String              @id @default(cuid())
+  email          String              @unique
+  name           String
+  passwordHash   String
+  role           Role
+  branchId       String?
+  branch         Branch?             @relation(fields: [branchId], references: [id])
+  createdAt      DateTime            @default(now())
+  slots          TimetableSlot[]
+  assigned       Applicant[]         @relation("Assigned")
 }
 
 model Programme {
@@ -257,18 +262,20 @@ model ClassGroup {
 }
 
 model TimetableSlot {
-  id         String         @id @default(cuid())
-  groupId    String
-  group      ClassGroup     @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  roomId     String
-  room       Room           @relation(fields: [roomId], references: [id])
-  lecturerId String
-  lecturer   User           @relation(fields: [lecturerId], references: [id])
-  dayOfWeek  Int
-  startMin   Int
-  endMin     Int
-  subject    String
-  sessions   ClassSession[]
+  lessonReports  LessonReport[]
+  substituteAsks SubstituteRequest[]
+  id             String              @id @default(cuid())
+  groupId        String
+  group          ClassGroup          @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  roomId         String
+  room           Room                @relation(fields: [roomId], references: [id])
+  lecturerId     String
+  lecturer       User                @relation(fields: [lecturerId], references: [id])
+  dayOfWeek      Int
+  startMin       Int
+  endMin         Int
+  subject        String
+  sessions       ClassSession[]
 
   @@index([dayOfWeek])
 }
@@ -641,4 +648,78 @@ model ExternalExam {
   updatedBy             String?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @default(now())
+}
+
+/// Teaching staff record (LEC-01). Bank details and rate are sensitive: changes need a second approver (LEC-03).
+model LecturerProfile {
+  userId         String    @id
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone          String?
+  nationalId     String?
+  qualifications String?
+  licences       String?
+  industryRole   String?
+  subjects       String[]  @default([])
+  languages      String[]  @default([])
+  branchIds      String[]  @default([])
+  payModel       String    @default("HOUR")
+  rate           Int       @default(0)
+  currency       String    @default("RWF")
+  payChannel     String    @default("BANK")
+  bankName       String?
+  accountNumber  String?
+  taxStatus      String?
+  contractStart  DateTime?
+  contractEnd    DateTime?
+  maxHoursWeek   Int       @default(20)
+  availability   Json      @default("{}")
+  onboarding     Json      @default("{}")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now())
+}
+
+model ProfileChange {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fields        Json
+  previous      Json
+  requestedBy   String
+  requestedById String?
+  status        String    @default("PENDING")
+  decidedBy     String?
+  decidedAt     DateTime?
+  createdAt     DateTime  @default(now())
+}
+
+/// One per class session (LEC-13). onTime = submitted within 24 hours of the class.
+model LessonReport {
+  id         String        @id @default(cuid())
+  slotId     String
+  slot       TimetableSlot @relation(fields: [slotId], references: [id], onDelete: Cascade)
+  date       DateTime      @db.Date
+  lecturerId String
+  lecturer   User          @relation(fields: [lecturerId], references: [id], onDelete: Cascade)
+  topic      String
+  notes      String?
+  issues     String?
+  onTime     Boolean       @default(true)
+  createdAt  DateTime      @default(now())
+
+  @@unique([slotId, date])
+}
+
+model SubstituteRequest {
+  id           String        @id @default(cuid())
+  slotId       String
+  slot         TimetableSlot @relation(fields: [slotId], references: [id], onDelete: Cascade)
+  date         DateTime      @db.Date
+  lecturerId   String
+  lecturer     User          @relation(fields: [lecturerId], references: [id], onDelete: Cascade)
+  substituteId String?
+  reason       String
+  status       String        @default("PENDING")
+  decidedBy    String?
+  note         String?
+  createdAt    DateTime      @default(now())
 }
