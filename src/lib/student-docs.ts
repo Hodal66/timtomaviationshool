@@ -49,6 +49,7 @@ export async function allStudentDocs(applicantId: string): Promise<DocFile[]> {
 }
 /** For /verify: what a document code confirms. */
 export async function describeDoc(docId: string): Promise<string | null> {
+  const o = docId.match(/^OFFER-(TAS-J-[0-9A-F]+)$/); if (o) { const j = await db.jobApplication.findUnique({ where: { reference: o[1] }, include: { vacancy: true } }); return j?.offer ? `Offer of engagement to ${j.fullName} as ${j.vacancy.title}${j.status === "WITHDRAWN" ? " (withdrawn)" : ""}.` : null; }
   const m = docId.match(/^(ENR|STM|LTR|TRN)-(.+)$/); if (!m) return null;
   if (m[1] === "LTR") { const r = await db.studentRequest.findUnique({ where: { id: m[2] }, include: { applicant: { include: { programme: true } } } }); if (!r || r.status !== "APPROVED" || r.type !== "LETTER") return null; return `${LETTER_TYPES[(r.detail as { letter: LetterType }).letter] ?? "Letter"} issued for ${r.applicant.fullName}, student of ${r.applicant.programme.name}, approved on ${day(r.decidedAt ?? r.createdAt)}.`; }
   const a = await db.applicant.findUnique({ where: { reference: m[2] }, include: { programme: true, branch: true } }); if (!a) return null;

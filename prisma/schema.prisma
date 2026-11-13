@@ -74,6 +74,7 @@ enum CertificateStatus {
 }
 
 model Branch {
+  vacancies  Vacancy[]
   id         String       @id @default(cuid())
   code       String       @unique
   name       String
@@ -85,6 +86,8 @@ model Branch {
 }
 
 model User {
+  resources      Resource[]
+  claims         PaymentClaim[]
   active         Boolean             @default(true)
   lecturer       LecturerProfile?
   profileChanges ProfileChange[]
@@ -103,6 +106,7 @@ model User {
 }
 
 model Programme {
+  resources          Resource[]
   gradingScheme      Json?
   id                 String           @id @default(cuid())
   code               String           @unique
@@ -722,4 +726,125 @@ model SubstituteRequest {
   decidedBy    String?
   note         String?
   createdAt    DateTime      @default(now())
+}
+
+/// A lecturer's claim for one month, built from delivered sessions (LEC-18). Approval chain: coordinator, Head of Academics, Finance (LEC-20).
+model PaymentClaim {
+  id         String    @id @default(cuid())
+  lecturerId String
+  lecturer   User      @relation(fields: [lecturerId], references: [id], onDelete: Cascade)
+  period     String
+  payModel   String
+  rate       Int
+  currency   String
+  units      Float
+  amount     Int
+  lines      Json
+  clearance  Json
+  status     String    @default("SUBMITTED")
+  history    Json      @default("[]")
+  paidRef    String?
+  paidAt     DateTime?
+  openQuery  Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now())
+
+  @@unique([lecturerId, period])
+}
+
+/// LEC-07: a lecturer vacancy shown on the website while PUBLISHED and not past closesOn.
+model Vacancy {
+  id           String           @id @default(cuid())
+  slug         String           @unique
+  title        String
+  subjects     String[]         @default([])
+  description  String
+  requirements String[]         @default([])
+  branchId     String?
+  branch       Branch?          @relation(fields: [branchId], references: [id])
+  payModel     String           @default("HOUR")
+  closesOn     DateTime?        @db.Date
+  status       String           @default("DRAFT")
+  createdBy    String
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @default(now())
+  applications JobApplication[]
+}
+
+/// LEC-08, LEC-10: an application with CV, screening answers, pipeline status, offer and onboarding checklist.
+model JobApplication {
+  id         String   @id @default(cuid())
+  vacancyId  String
+  vacancy    Vacancy  @relation(fields: [vacancyId], references: [id], onDelete: Cascade)
+  reference  String   @unique
+  fullName   String
+  email      String
+  phone      String
+  coverNote  String?
+  answers    Json     @default("{}")
+  cvName     String
+  cvMime     String
+  cvSize     Int
+  cv         Bytes
+  status     String   @default("NEW")
+  score      Int?
+  history    Json     @default("[]")
+  offer      Json?
+  onboarding Json?
+  userId     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+
+  @@unique([vacancyId, email])
+}
+
+/// RES: a learning resource. Students see it only when APPROVED, visible to students, released, not expired and not in the recycle bin.
+model Resource {
+  id          String            @id @default(cuid())
+  title       String
+  description String?
+  programmeId String?
+  programme   Programme?        @relation(fields: [programmeId], references: [id])
+  module      String?
+  topic       String?
+  kind        String            @default("NOTES")
+  tags        String[]          @default([])
+  language    String            @default("en")
+  ownerId     String
+  owner       User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  status      String            @default("IN_REVIEW")
+  visibility  String            @default("STUDENTS")
+  releaseAt   DateTime?
+  expiresAt   DateTime?
+  licence     String            @default("School copyright")
+  viewOnly    Boolean           @default(false)
+  reviewedBy  String?
+  reviewNote  String?
+  version     Int               @default(1)
+  views       Int               @default(0)
+  downloads   Int               @default(0)
+  deletedAt   DateTime?
+  deletedBy   String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @default(now())
+  versions    ResourceVersion[]
+
+  @@index([programmeId, module])
+}
+
+model ResourceVersion {
+  id         String   @id @default(cuid())
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  version    Int
+  filename   String?
+  mime       String?
+  size       Int?
+  data       Bytes?
+  url        String?
+  note       String?
+  uploadedBy String
+  createdAt  DateTime @default(now())
+
+  @@unique([resourceId, version])
 }

@@ -84,8 +84,8 @@ test.describe("SEO (NFT-09, WEB-01)", () => {
   });
   test("NFT-09b Home, sitemap and robots", async ({ request }) => {
     const home = await (await request.get("/")).text(); expect(home).toContain("EducationalOrganization"); expect(home).toContain("<h1");
-    const sm = await (await request.get("/sitemap.xml")).text(); const pub = await db.programme.count({ where: { status: "PUBLISHED" } });
-    expect((sm.match(/<loc>/g) ?? []).length).toBe(pub + 5); expect(sm).not.toMatch(/\/(admin|apply|track|login|dashboard)/);
+    const sm = await (await request.get("/sitemap.xml")).text(); const pub = await db.programme.count({ where: { status: "PUBLISHED" } }), jobs = await db.vacancy.count({ where: { status: "PUBLISHED" } });
+    expect((sm.match(/<loc>/g) ?? []).length).toBe(pub + jobs + 6); expect(sm).toContain("/careers</loc>"); expect(sm).not.toMatch(/\/(admin|apply|track|login|dashboard)/);
     const robots = await (await request.get("/robots.txt")).text(); for (const p of ["/api/", "/admin/", "/apply", "/track", "/preview/", "/login"]) expect(robots).toContain("Disallow: " + p); expect(robots).toContain("Sitemap:");
   });
   test("NFT-09c Private and unpublished pages are not indexable and absent from the sitemap", async ({ request }) => {

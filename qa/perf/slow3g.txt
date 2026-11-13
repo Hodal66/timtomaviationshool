@@ -1,3 +1,3 @@
-/: headline visible 1601 ms, 23 KB so far
-/courses/personnel-licensing: headline visible 1357 ms, 9 KB so far
-/apply?course=personnel-licensing: headline visible 966 ms, 8 KB so far
+/: headline visible 1610 ms, 24 KB so far
+/courses/personnel-licensing: headline visible 1350 ms, 9 KB so far
+/apply?course=personnel-licensing: headline visible 957 ms, 8 KB so far

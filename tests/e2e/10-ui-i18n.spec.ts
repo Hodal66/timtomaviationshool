@@ -47,8 +47,8 @@ test.describe("Languages, theme and dashboard components", () => {
     expect((await db.applicant.findFirstOrThrow({ where: { reference: a.body.reference } })).status).toBe("DOCUMENTS_VERIFIED"); expect((await db.applicant.findFirstOrThrow({ where: { reference: b.body.reference } })).status).toBe("SUBMITTED");
   });
   test("SHELL-01 Staff navigation shows only the modules a role may use; the menu collapses and survives reload", async ({ page, browser }) => {
-    await loginStaff(page); await expect(page.locator(".ds-nav a")).toHaveCount(17); await page.getByRole("button", { name: "Collapse menu" }).click(); await expect(page.locator(".ds")).toHaveAttribute("data-collapsed", "true"); await page.reload(); await expect(page.locator(".ds")).toHaveAttribute("data-collapsed", "true");
-    const ctx = await browser.newContext(); const l = await ctx.newPage(); await loginStaff(l, await staff("LECTURER")); const labels = await l.locator(".ds-nav a").allInnerTexts(); expect(labels.map((x) => x.trim())).toEqual(["Dashboard", "Assessments", "My teaching", "Timetable", "Attendance"]); await ctx.close();
+    await loginStaff(page); await expect(page.locator(".ds-nav a")).toHaveCount(20); await page.getByRole("button", { name: "Collapse menu" }).click(); await expect(page.locator(".ds")).toHaveAttribute("data-collapsed", "true"); await page.reload(); await expect(page.locator(".ds")).toHaveAttribute("data-collapsed", "true");
+    const ctx = await browser.newContext(); const l = await ctx.newPage(); await loginStaff(l, await staff("LECTURER")); const labels = await l.locator(".ds-nav a").allInnerTexts(); expect(labels.map((x) => x.trim())).toEqual(["Dashboard", "Assessments", "My teaching", "Resources", "Timetable", "Attendance"]); await ctx.close();
   });
   test("SHELL-02 Mobile: the menu is a drawer that opens, closes with Escape and the page does not scroll sideways", async ({ browser }) => {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } }); const p = await ctx.newPage(); await loginStaff(p);

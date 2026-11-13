@@ -14,7 +14,7 @@ export default function Site({ children }: { children: React.ReactNode }) {
           <p style={{ maxWidth: "36ch" }}>{SITE.mission}</p>
           {SITE.socials.length > 0 && <div className="soc" aria-label="Social media">{SITE.socials.map(([n, u]) => <a key={n} href={u} target="_blank" rel="noopener noreferrer">{n}</a>)}</div>}</div>
         <div><h4>Explore</h4><ul>{NAV.map((n) => <li key={n.href}><a href={n.href}>{n.label}</a></li>)}</ul></div>
-        <div><h4>Students</h4><ul><li><a href="/courses">Discover courses</a></li><li><a href="/apply">Apply online</a></li><li><a href="/track">Track your application</a></li><li><a href="/verify">Verify a certificate</a></li></ul></div>
+        <div><h4>Students</h4><ul><li><a href="/courses">Discover courses</a></li><li><a href="/apply">Apply online</a></li><li><a href="/track">Track your application</a></li><li><a href="/verify">Verify a certificate</a></li><li><a href="/careers">Teach with us</a></li></ul></div>
         <div><h4>Contact</h4><address>
           <a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a><a href={`mailto:${SITE.email}`}>{SITE.email}</a><span>{SITE.address}</span>
           {SITE.whatsapp && <a href={`https://wa.me/${SITE.whatsapp}`}>WhatsApp admissions</a>}</address></div>

@@ -1,5 +1,6 @@
 // Boots the QA environment: fresh test database, fake SMTP server, production build, production server.
 import { execSync, spawn } from "node:child_process";
+import { rmSync } from "node:fs";
 import { startSmtpSink } from "./smtp-sink.mjs";
 
 const url = process.env.DATABASE_URL ?? "";
@@ -8,7 +9,8 @@ const env = { ...process.env, RATE_LIMIT_SCALE: "50", AUTH_SECRET: process.env.A
 execSync(`psql "${url.split("?")[0]}" -q -c "DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;"`, { stdio: "inherit", env });
 execSync("npx prisma migrate deploy", { stdio: "ignore", env });
 execSync("npx prisma db seed", { stdio: "ignore", env });
-import("node:fs").then((f) => { f.rmSync("tests/.tmp/state.json", { force: true }); f.rmSync("qa/evidence/axe-results.jsonl", { force: true }); f.rmSync(".next/cache", { recursive: true, force: true }); /* cached catalogue data must not outlive the database reset */ });
+/* Synchronous on purpose: the build below must not see cached catalogue data from an earlier run (it would pre-render stale pages). */
+for (const p of ["tests/.tmp/state.json", "qa/evidence/axe-results.jsonl", ".next/cache"]) rmSync(p, { recursive: true, force: true });
 startSmtpSink(2526, "tests/.tmp/mail.jsonl");
 execSync("npx next build", { stdio: "ignore", env });
 const srv = spawn("npx", ["next", "start", "-p", String(process.env.QA_PORT ?? 3100)], { stdio: "inherit", env });

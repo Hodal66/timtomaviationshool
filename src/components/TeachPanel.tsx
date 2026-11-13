@@ -42,3 +42,20 @@ export function Substitute({ classes }: { classes: { slotId: string; label: stri
     <label htmlFor="sb-d">{t("Date")}</label><input id="sb-d" name="date" type="date" required defaultValue={classes[0].next} /><label htmlFor="sb-r">{t("Reason")}</label><input id="sb-r" name="reason" required minLength={5} />
     {msg && <p role="status" id="sb-msg">{msg}</p>}<button type="submit" style={{ justifySelf: "start" }}>{t("Ask for a substitute")}</button></form>);
 }
+export type ClaimRow = { id: string; period: string; amount: string; status: string; statusLabel: string; openQuery: boolean; last: string; paid: string; preview?: { sessions: number; paid: number; amount: string; missing: string[] } };
+/** LEC-18, LEC-22: submit the month's claim, follow its status and ask a question about it. */
+export function MyClaims({ claims, months, preview }: { claims: ClaimRow[]; months: string[]; preview: Record<string, { sessions: number; paid: number; amount: string; missing: string[] }> }) {
+  const t = useT(); const router = useRouter(); const [msg, setMsg] = useState(""); const [period, setPeriod] = useState(months[0]); const [ask, setAsk] = useState<string | null>(null); const pv = preview[period];
+  const go = async (body: object, ok: string) => { setMsg(""); const r = await post(body); const j = await r.json().catch(() => ({})); setMsg(r.ok ? ok : j.error ?? t("Something went wrong. Try again.")); if (r.ok) { setAsk(null); router.refresh(); } };
+  return (<div className="panel" style={{ marginBottom: 16 }} id="claims"><h2>{t("My pay claims")}</h2>
+    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "end" }}><label htmlFor="cl-p">{t("Month")}<br /><select id="cl-p" value={period} onChange={(e) => setPeriod(e.target.value)}>{months.map((m) => <option key={m}>{m}</option>)}</select></label>
+      <button className="p" onClick={() => go({ action: "claim", period }, t("Claim submitted."))}>{t("Submit claim")}</button></div>
+    {pv && <p style={{ margin: "8px 0", color: "var(--muted)" }} id="cl-preview">{t("{a} of {b} sessions can be paid", { a: pv.paid, b: pv.sessions })} · <b>{pv.amount}</b>{pv.missing.length > 0 && <><br />{t("Missing")}: {pv.missing.join("; ")}</>}</p>}
+    {msg && <p role="status" id="cl-msg">{msg}</p>}
+    {claims.length === 0 ? <p className="empty">{t("No claims yet.")}</p> : <ul style={{ listStyle: "none", padding: 0, margin: "8px 0 0", display: "grid", gap: 8 }}>{claims.map((c) => <li key={c.id} data-myclaim={c.period} style={{ border: "1px solid var(--line)", borderRadius: 12, padding: 10 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}><span><b>{c.period}</b> · {c.amount}</span><span>{c.openQuery && <span className="pill warn" style={{ marginRight: 6 }}>{t("Query sent")}</span>}<span className={`pill ${c.status === "PAID" ? "ok" : c.status === "RETURNED" ? "bad" : "warn"}`}>{c.statusLabel}</span></span></div>
+      <small style={{ color: "var(--muted)" }}>{c.last}{c.paid ? ` · ${c.paid}` : ""}</small>
+      {c.status === "RETURNED" && <div><button className="s" onClick={() => go({ action: "claim", period: c.period }, t("Claim submitted."))}>{t("Resubmit")}</button></div>}
+      {c.status !== "PAID" && (ask === c.id ? <form style={{ display: "flex", gap: 8, marginTop: 6, flexWrap: "wrap" }} onSubmit={(e) => { e.preventDefault(); go({ action: "query", id: c.id, note: new FormData(e.currentTarget).get("note") }, t("Your question was sent.")); }}><input name="note" required minLength={5} aria-label={t("Your question")} placeholder={t("Your question")} style={{ flex: 1, minWidth: 200 }} /><button type="submit">{t("Send")}</button></form>
+        : <button className="s" onClick={() => setAsk(c.id)}>{t("Ask about this claim")}</button>)}</li>)}</ul>}</div>);
+}
