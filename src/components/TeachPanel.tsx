@@ -59,3 +59,11 @@ export function MyClaims({ claims, months, preview }: { claims: ClaimRow[]; mont
       {c.status !== "PAID" && (ask === c.id ? <form style={{ display: "flex", gap: 8, marginTop: 6, flexWrap: "wrap" }} onSubmit={(e) => { e.preventDefault(); go({ action: "query", id: c.id, note: new FormData(e.currentTarget).get("note") }, t("Your question was sent.")); }}><input name="note" required minLength={5} aria-label={t("Your question")} placeholder={t("Your question")} style={{ flex: 1, minWidth: 200 }} /><button type="submit">{t("Send")}</button></form>
         : <button className="s" onClick={() => setAsk(c.id)}>{t("Ask about this claim")}</button>)}</li>)}</ul>}</div>);
 }
+/** LMS-01: the lecturer posts an announcement to the course space of one of their classes. */
+export function Announce({ groups }: { groups: { id: string; name: string }[] }) {
+  const t = useT(); const [msg, setMsg] = useState(""); if (!groups.length) return null;
+  return (<form className="panel" style={{ display: "grid", gap: 8 }} id="announce-form" onSubmit={async (e) => { e.preventDefault(); const form = e.currentTarget; const f = new FormData(form); const r = await post({ action: "announce", groupId: f.get("groupId"), title: f.get("title"), body: f.get("body") }); const j = await r.json().catch(() => ({})); setMsg(r.ok ? t("Announcement posted to the class.") : j.error ?? t("Something went wrong. Try again.")); if (r.ok) form.reset(); }}>
+    <h2 style={{ marginBottom: 0 }}>{t("Announce to my class")}</h2><label htmlFor="an-g">{t("Class")}</label><select id="an-g" name="groupId">{groups.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}</select>
+    <label htmlFor="an-t">{t("Title")}</label><input id="an-t" name="title" required minLength={3} /><label htmlFor="an-b">{t("Message")}</label><textarea id="an-b" name="body" rows={3} required minLength={3} />
+    {msg && <p role="status" id="an-msg">{msg}</p>}<button type="submit" style={{ justifySelf: "start" }}>{t("Post announcement")}</button></form>);
+}

@@ -18,11 +18,12 @@ export function readIdToken(token: string): string | null { const [id, s] = (tok
 
 /* ---------- STU-02: profile ---------- */
 /** Contact details change at once. Name and date of birth are identity data, so they go through a request that staff approve. */
-export async function updateProfile(applicantId: string, d: { phone?: string; emergencyName?: string; emergencyPhone?: string }): Promise<string | null> {
+export async function updateProfile(applicantId: string, d: { phone?: string; emergencyName?: string; emergencyPhone?: string; schoolEmail?: string }): Promise<string | null> {
   const phone = cleanPhone(d.phone), ePhone = cleanPhone(d.emergencyPhone), eName = (d.emergencyName ?? "").trim().slice(0, 120);
   if (phone && phone.replace(/\D/g, "").length < 9) return "That phone number looks too short."; if (ePhone && ePhone.replace(/\D/g, "").length < 9) return "The emergency contact phone number looks too short.";
   if ((eName && !ePhone) || (!eName && ePhone)) return "Give both the name and the phone number of your emergency contact.";
-  await db.applicant.update({ where: { id: applicantId }, data: { ...(phone ? { phone } : {}), emergencyName: eName || null, emergencyPhone: ePhone || null, events: { create: { type: "SYSTEM", actorName: "Student", message: "Updated contact details." } } } });
+  const school = d.schoolEmail === undefined ? undefined : d.schoolEmail.trim().toLowerCase().slice(0, 160); if (school && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(school)) return "The School Google account is not a valid email address.";
+  await db.applicant.update({ where: { id: applicantId }, data: { ...(phone ? { phone } : {}), emergencyName: eName || null, emergencyPhone: ePhone || null, ...(school === undefined ? {} : { schoolEmail: school || null }), events: { create: { type: "SYSTEM", actorName: "Student", message: "Updated contact details." } } } });
   return null;
 }
 

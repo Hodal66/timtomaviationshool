@@ -64,7 +64,7 @@ export const calToken = (kind: "g" | "l", id: string) => `${kind}-${id}-${sign(`
 export function readCalToken(token: string): { kind: "g" | "l"; id: string } | null { const m = token.match(/^(g|l)-([a-z0-9]+)-([0-9a-f]{20})$/i); if (!m) return null; return same(token, calToken(m[1] as "g", m[2])) ? { kind: m[1] as "g" | "l", id: m[2] } : null; }
 const esc = (s: string) => s.replace(/\\/g, "\\\\").replace(/;/g, "\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
 const BYDAY = ["", "MO", "TU", "WE", "TH", "FR", "SA", "SU"]; const pad = (n: number) => String(n).padStart(2, "0");
-export type CalSlot = { id: string; subject: string; dayOfWeek: number; startMin: number; endMin: number; room: string; lecturer: string; group: string; from: Date; months: number };
+export type CalSlot = { id: string; subject: string; dayOfWeek: number; startMin: number; endMin: number; room: string; lecturer: string; group: string; from: Date; months: number; join?: string };
 /** A subscribable iCalendar feed: one weekly repeating event per class, in Kigali time, for the length of the programme. */
 export function buildIcs(name: string, slots: CalSlot[], now = new Date()) {
   const stamp = now.toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
@@ -74,7 +74,7 @@ export function buildIcs(name: string, slots: CalSlot[], now = new Date()) {
     const until = new Date(Date.UTC(s.from.getUTCFullYear(), s.from.getUTCMonth() + Math.max(1, s.months), s.from.getUTCDate()));
     const d = `${first.getUTCFullYear()}${pad(first.getUTCMonth() + 1)}${pad(first.getUTCDate())}`; const t = (m: number) => `${pad(Math.floor(m / 60))}${pad(m % 60)}00`;
     L.push("BEGIN:VEVENT", `UID:${s.id}@tas-one`, `DTSTAMP:${stamp}`, `DTSTART;TZID=Africa/Kigali:${d}T${t(s.startMin)}`, `DTEND;TZID=Africa/Kigali:${d}T${t(s.endMin)}`,
-      `RRULE:FREQ=WEEKLY;BYDAY=${BYDAY[s.dayOfWeek]};UNTIL=${until.getUTCFullYear()}${pad(until.getUTCMonth() + 1)}${pad(until.getUTCDate())}T215959Z`, `SUMMARY:${esc(s.subject)}`, `LOCATION:${esc(s.room)}`, `DESCRIPTION:${esc(`${s.group}. Lecturer: ${s.lecturer}.`)}`, "END:VEVENT");
+      `RRULE:FREQ=WEEKLY;BYDAY=${BYDAY[s.dayOfWeek]};UNTIL=${until.getUTCFullYear()}${pad(until.getUTCMonth() + 1)}${pad(until.getUTCDate())}T215959Z`, `SUMMARY:${esc(s.subject)}`, `LOCATION:${esc(s.room)}`, `DESCRIPTION:${esc(`${s.group}. Lecturer: ${s.lecturer}.${s.join ? ` Join online: ${s.join}` : ""}`)}`, ...(s.join ? [`URL:${s.join}`] : []), "END:VEVENT");
   }
   L.push("END:VCALENDAR"); return L.join("\r\n") + "\r\n";
 }

@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/session";
 import { getApplicantEmail } from "@/lib/otp";
-import { staffCanSee, studentProgrammes, studentWhere, AUTHORS } from "@/lib/resources";
+import { staffCanSee, studentScopes, studentWhere, AUTHORS } from "@/lib/resources";
 const ext: Record<string, string> = { "application/pdf": "pdf", "image/png": "png", "image/jpeg": "jpg", "video/mp4": "mp4", "audio/mpeg": "mp3" };
 /** RES: open a resource in the browser (inline) or download it. View-only resources are never sent as a download to students. Links redirect. */
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -9,7 +9,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   const r = await db.resource.findUnique({ where: { id } }); if (!r) return new Response("Not found", { status: 404 });
   const s = await getSession(); let staff = false;
   if (s && AUTHORS.includes(s.role)) { if (!staffCanSee({ uid: s.uid, name: s.name, role: s.role }, r)) return new Response("Not allowed", { status: 403 }); staff = true; }
-  else { const email = await getApplicantEmail(); const progs = email ? await studentProgrammes(email) : []; const ok = r.programmeId && progs.includes(r.programmeId) && (await db.resource.count({ where: { id, ...studentWhere(r.programmeId) } })) > 0; if (!ok) return new Response("Not available", { status: 403 }); }
+  else { const email = await getApplicantEmail(); const sc = (email ? await studentScopes(email) : []).filter((x) => x.programmeId === r.programmeId); let ok = false; for (const x of sc) if ((await db.resource.count({ where: { id, ...studentWhere(x.programmeId, new Date(), x.classGroupId) } })) > 0) ok = true; if (!ok) return new Response("Not available", { status: 403 }); }
   if (dl && r.viewOnly && !staff) return new Response("This resource is view-only.", { status: 403 });
   const vn = staff && q.get("v") ? Number(q.get("v")) : r.version; const v = await db.resourceVersion.findUnique({ where: { resourceId_version: { resourceId: id, version: vn } } }); if (!v) return new Response("Not found", { status: 404 });
   await db.resource.update({ where: { id }, data: dl ? { downloads: { increment: 1 } } : { views: { increment: 1 } } });

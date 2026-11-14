@@ -75,13 +75,14 @@ export async function copyModule(a: Actor, from: { programmeId: string; module: 
     await db.resource.create({ data: { ...rest, programmeId: to.programmeId, module: to.module.trim(), version: 1, versions: { create: { version: 1, filename: last.filename, mime: last.mime, size: last.size, data: last.data, url: last.url, uploadedBy: a.name, note: "Copied from another module" } } } }); }
   return { copied: src.length };
 }
-/** What a student may see right now. */
-export const studentWhere = (programmeId: string, now = new Date()) => ({ programmeId, status: "APPROVED", visibility: "STUDENTS", deletedAt: null, AND: [{ OR: [{ releaseAt: null }, { releaseAt: { lte: now } }] }, { OR: [{ expiresAt: null }, { expiresAt: { gt: now } }] }] });
+/** What a student may see right now. Items tied to a class group (recordings) are only for that group. */
+export const studentWhere = (programmeId: string, now = new Date(), groupId: string | null = null) => ({ programmeId, status: "APPROVED", visibility: "STUDENTS", deletedAt: null, AND: [{ OR: [{ releaseAt: null }, { releaseAt: { lte: now } }] }, { OR: [{ expiresAt: null }, { expiresAt: { gt: now } }] }, { OR: [{ groupId: null }, ...(groupId ? [{ groupId }] : [])] }] });
 /** Staff can open everything that is not someone else's unapproved draft; lecturers see their own plus approved items. */
 export const staffCanSee = (a: Actor, r: { ownerId: string; status: string }) => isReviewer(a) || (isAuthor(a) && (r.ownerId === a.uid || r.status === "APPROVED"));
-/** The programmes an applicant is enrolled in, used to open resources. */
-export async function studentProgrammes(email: string) { return (await db.applicant.findMany({ where: { email, status: "ENROLLED" }, select: { programmeId: true } })).map((x) => x.programmeId); }
+/** The programmes (and class groups) an applicant is enrolled in, used to open resources. */
+export async function studentScopes(email: string) { return db.applicant.findMany({ where: { email, status: "ENROLLED" }, select: { programmeId: true, classGroupId: true } }); }
+export async function studentProgrammes(email: string) { return (await studentScopes(email)).map((x) => x.programmeId); }
 export async function studentResources(email: string, now = new Date()) {
-  const progs = await studentProgrammes(email); if (!progs.length) return [];
-  return db.resource.findMany({ where: { OR: progs.map((p) => studentWhere(p, now)) }, select: { id: true, programmeId: true, title: true, description: true, module: true, topic: true, kind: true, licence: true, viewOnly: true, version: true, updatedAt: true, programme: { select: { name: true } }, versions: { select: { version: true, mime: true, url: true, size: true, filename: true } } }, orderBy: [{ module: "asc" }, { title: "asc" }] });
+  const sc = await studentScopes(email); if (!sc.length) return [];
+  return db.resource.findMany({ where: { OR: sc.map((p) => studentWhere(p.programmeId, now, p.classGroupId)) }, select: { id: true, programmeId: true, title: true, description: true, module: true, topic: true, kind: true, licence: true, viewOnly: true, version: true, updatedAt: true, programme: { select: { name: true } }, versions: { select: { version: true, mime: true, url: true, size: true, filename: true } } }, orderBy: [{ module: "asc" }, { title: "asc" }] });
 }

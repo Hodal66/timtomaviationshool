@@ -5,7 +5,7 @@ import { getT } from "@/lib/i18n/server";
 import { DAYS, hhmm, label } from "@/lib/format";
 import { kigaliDate } from "@/lib/teaching";
 import { syllabusOf, teachingReport, workload, sessionDates } from "@/lib/lecturers";
-import { LessonReports, Availability, Substitute, MyClaims, type Due, type ClaimRow } from "@/components/TeachPanel";
+import { LessonReports, Availability, Substitute, MyClaims, Announce, type Due, type ClaimRow } from "@/components/TeachPanel";
 import { buildClaim, amountFor, type Hist } from "@/lib/claims";
 export const dynamic = "force-dynamic";
 
@@ -27,7 +27,7 @@ export default async function Teach() {
     <LessonReports due={due} />
     <MyClaims claims={rows} months={[...months].reverse()} preview={preview} />
     <div className="grid2" style={{ marginBottom: 16 }}><Availability days={DAYS.map((d) => t(d))} initial={(p?.availability ?? {}) as Record<string, string[]>} />
-      <div style={{ display: "grid", gap: 16, alignContent: "start" }}><Substitute classes={slots.map((s) => ({ slotId: s.id, label: `${t(DAYS[s.dayOfWeek])} ${hhmm(s.startMin)} · ${s.subject} · ${s.group.name}`, next: next(s.dayOfWeek) }))} />
+      <div style={{ display: "grid", gap: 16, alignContent: "start" }}><Announce groups={[...new Map(slots.map((s) => [s.groupId, { id: s.groupId, name: s.group.name }])).values()]} /><Substitute classes={slots.map((s) => ({ slotId: s.id, label: `${t(DAYS[s.dayOfWeek])} ${hhmm(s.startMin)} · ${s.subject} · ${s.group.name}`, next: next(s.dayOfWeek) }))} />
         <div className="panel"><h2>{t("My substitute requests")}</h2>{subs.length === 0 ? <p className="empty">{t("Nothing yet.")}</p> : <ul className="tl">{subs.map((r) => <li key={r.id}>{r.date.toISOString().slice(0, 10)} · {r.slot.subject} <span className={`pill ${r.status === "APPROVED" ? "ok" : r.status === "REJECTED" ? "bad" : "warn"}`}>{t(label(r.status))}</span>{r.note && <small> · {r.note}</small>}</li>)}</ul>}</div>
         <div className="panel"><h2>{t("My contract")}</h2><p style={{ margin: 0 }}>{t("Pay model")}: <b>{p ? t(label(p.payModel)) : "-"}</b> · {t("Rate")}: <b>{p ? `${p.currency} ${p.rate.toLocaleString("en-US")}` : "-"}</b><br />{t("Contract")}: {p?.contractStart?.toISOString().slice(0, 10) ?? "-"} → {p?.contractEnd?.toISOString().slice(0, 10) ?? "-"}</p></div></div></div></>);
 }
